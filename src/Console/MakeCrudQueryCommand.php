@@ -13,6 +13,8 @@ class MakeCrudQueryCommand extends Command
 
     public function handle()
     {
+        $this->alert('Add query...');
+
         $name = $this->argument('table_name');
         $model = $this->argument('model');
 
@@ -23,6 +25,8 @@ class MakeCrudQueryCommand extends Command
         $this->addDataToService($model);
         $this->addDataToRepo($model);
         $this->addDataToController($model);
+
+        $this->info('Query added successfully');
     }
 
     /**
@@ -148,6 +152,9 @@ use App\Models\{$model};
     private function addUseToRepo($model)
     {
         $filename = "App/Repositories/{$model}Repo.php";
+        if (!\Illuminate\Support\Facades\File::exists($filename)) {
+            $this->error('Repository not found!');
+        }
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = "
