@@ -1,0 +1,38 @@
+{
+  "name": "milwad/laravel-crod",
+  "description": "Make easy & fast crud",
+  "keywords": [
+      "milwad",
+      "laravel-crod",
+      "easy crud"
+  ],
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "milwad khosravi",
+          "email": "milwad.dev@gmail.com",
+          "homepage": "https://milwad.ir",
+          "role": "Developer"
+      }
+  ],
+  "require": {
+      "php": "^8.0|^8.1",
+      "doctrine/dbal": "^3.3"
+  },
+  "autoload": {
+      "psr-4": {
+          "Milwad\\LaravelCrod\\": "src/"
+      }
+  },
+   "config": {
+      "sort-packages": true
+   },
+   "extra": {
+       "laravel": {
+           "providers": [
+               "Milwad\\LaravelCrod\\LaravelCrodServiceProvider"
+           ]
+       }
+   }
+}
