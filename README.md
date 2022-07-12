@@ -63,3 +63,5 @@ php artisan crud:query products Product
 
 # License 
 * This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a> for Laravel >= 9 and is released under the MIT License.
+# laravel-crod
+Make easy &amp; fast crud
