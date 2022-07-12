@@ -4,6 +4,7 @@ namespace Milwad\LaravelCrod\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\File;
 
 class MakeCrudQueryCommand extends Command
 {
@@ -22,9 +23,17 @@ class MakeCrudQueryCommand extends Command
         $items = $this->addDBCulumnsToString($itemsDB);
 
         $this->addDataToModel($model, $items);
-        $this->addDataToService($model);
-        $this->addDataToRepo($model);
         $this->addDataToController($model);
+
+        $filename = "App/Services/{$model}Service.php";
+        if (File::exists($filename)) {
+            $this->addDataToService($model);
+        }
+
+        $filename = "App/Repositories/{$model}Repo.php";
+        if (File::exists($filename)) {
+            $this->addDataToRepo($model);
+        }
 
         $this->info('Query added successfully');
     }
@@ -70,9 +79,6 @@ class MakeCrudQueryCommand extends Command
     private function addDataToService(string $model)
     {
         $filename = "App/Services/{$model}Service.php";
-        if (!\Illuminate\Support\Facades\File::exists($filename)) {
-            $this->error('Service not found!');
-        }
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $request = '$request';
@@ -99,9 +105,6 @@ class MakeCrudQueryCommand extends Command
     private function addUseToService($model)
     {
         $filename = "App/Services/{$model}Service.php";
-        if (!\Illuminate\Support\Facades\File::exists($filename)) {
-            $this->error('Service not found!');
-        }
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = "
@@ -119,9 +122,6 @@ use App\Models\{$model};
     private function addDataToRepo(string $model)
     {
         $filename = "App/Repositories/{$model}Repo.php";
-        if (!\Illuminate\Support\Facades\File::exists($filename)) {
-            $this->error('Repository not found!');
-        }
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $id = '$id';
@@ -152,9 +152,6 @@ use App\Models\{$model};
     private function addUseToRepo($model)
     {
         $filename = "App/Repositories/{$model}Repo.php";
-        if (!\Illuminate\Support\Facades\File::exists($filename)) {
-            $this->error('Repository not found!');
-        }
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = "
