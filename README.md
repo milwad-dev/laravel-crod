@@ -30,15 +30,18 @@ You must see this command in cmd or terminal.
 <font color="succe">This command create crud files.</font> <br>
 Run the command in cmd or terminal. <br>
 ```
-php artisan crud:make {name} {--service} {--repo}
+php artisan crud:make {name} {--service} {--repo} {--test}
 ``` 
 <br>
 
 For example <br>
 ```
-php artisan crud:make Product --service --repo
+php artisan crud:make Product --service --repo --test
 ```
 <br>
+When write service option add service file. <br>
+When write repo option add repository file. <br>
+When write test option add tests file.
 
 <font color="info">After you can see crod create files for crud.</font>
 
@@ -49,7 +52,7 @@ php artisan crud:make Product --service --repo
 
 Run the command in cmd or terminal. <br>
 ```
-php artisan crud:query {table_name} {model}
+php artisan crud:query {table_name} {model} {--id-controller}
 ```
 <br>
 
@@ -58,10 +61,9 @@ For example <br>
 php artisan crud:query products Product
 ```
 <br>
+When write --id-controller option add function without route model binding.
 
 <font color="info">After you can see add query to service, repository, controller, model, etc.</font>
 
 # License 
 * This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a> for Laravel >= 9 and is released under the MIT License.
-# laravel-crod
-Make easy &amp; fast crud
