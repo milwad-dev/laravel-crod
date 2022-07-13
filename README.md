@@ -1,8 +1,8 @@
 # Laravel crod
 ***
-Laravel crod is a package for help to make crud fast & easy.
-You can make controller model migration services repositories views request fast.
-You can make automatically fillable for model, query for repositories & services, make resources function for controllers.
+Laravel crod is a package for implementing CRUD faster & easier.
+You can create controllers, models, migrations, services, repositories, views and requests quickly.
+You can make automatically fillable for models, query for repositories & services, make resource functions for controllers.
 
 # Requirements
 ***
@@ -11,7 +11,6 @@ You can make automatically fillable for model, query for repositories & services
 
 # Installation
 ***
-Run the Composer update command. <br>
 ```
 composer require milwad/laravel-crod
 ```
@@ -23,12 +22,12 @@ php artisan
 ```
 <br>
 
-You must see this command in cmd or terminal.
+You must see this command in the terminal.
 ![Crod commands](https://s6.uupload.ir/files/carbon_(1)_on5l.png "Crod commands")
 
-# Make crud files
-<font color="succe">This command create crud files.</font> <br>
-Run the command in cmd or terminal. <br>
+# Make CRUD files
+<font color="succe">This command creates CRUD files.</font> <br>
+Run this command in the terminal. <br>
 ```
 php artisan crud:make {name} {--service} {--repo}
 ``` 
@@ -40,14 +39,14 @@ php artisan crud:make Product --service --repo
 ```
 <br>
 
-<font color="info">After you can see crod create files for crud.</font>
+<font color="info">After you can see crod creates files for crud.</font>
 
 # Crud query
-<font color="succe">This command add query & date to crud files.</font> <br>
+<font color="succe">This command adds query & date to CRUD files.</font> <br>
 
-<font color="yellow">** You must migrate your migration file. ** </font> <br>
+<font color="yellow">** You must run your migration file. ** </font> <br>
 
-Run the command in cmd or terminal. <br>
+Run this command in the terminal. <br>
 ```
 php artisan crud:query {table_name} {model}
 ```
@@ -64,4 +63,4 @@ php artisan crud:query products Product
 # License 
 * This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a> for Laravel >= 9 and is released under the MIT License.
 # laravel-crod
-Make easy &amp; fast crud
+Make easy &amp; fast CRUD
