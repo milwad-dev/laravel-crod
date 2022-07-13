@@ -8,7 +8,7 @@ use Illuminate\Support\Pluralizer;
 
 class MakeCrudPackage extends Command
 {
-    protected $signature = 'crud:make {name} {--service} {--repo}';
+    protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
 
     protected $description = 'Make crud fast';
 
@@ -39,6 +39,9 @@ class MakeCrudPackage extends Command
         }
         if ($this->option('repo')) {
             $this->makeRepository($name_uc);
+        }
+        if ($this->option('test')) {
+            $this->makeTest($name_uc);
         }
 
         $this->info('Crud successfully generate...');
@@ -125,6 +128,18 @@ class MakeCrudPackage extends Command
     private function makeRepository(string $name)
     {
         $this->makeStubFile('App\\Repositories', $name, 'Repo', '/../Stubs/repo.stub');
+    }
+
+    /**
+     * Build feature & unit test.
+     *
+     * @param string $name
+     * @return void
+     */
+    private function makeTest(string $name)
+    {
+        $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
+        $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
     }
 
     /**

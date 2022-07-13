@@ -3,12 +3,12 @@
 namespace Milwad\LaravelCrod\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class MakeCrudQueryCommand extends Command
 {
-    protected $signature = 'crud:query {table_name} {model}';
+    protected $signature = 'crud:query {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
 
@@ -25,6 +25,10 @@ class MakeCrudQueryCommand extends Command
         $this->addDataToModel($model, $items);
         $this->addDataToController($model);
 
+        if (!$this->option('id-controller')) {
+            $this->addUseToControllerForRouteModelBinding($model);
+        }
+
         $filename = "App/Services/{$model}Service.php";
         if (File::exists($filename)) {
             $this->addDataToService($model);
@@ -36,22 +40,6 @@ class MakeCrudQueryCommand extends Command
         }
 
         $this->info('Query added successfully');
-    }
-
-    /**
-     * Add data to model.
-     *
-     * @param string $model
-     * @param $items
-     * @return void
-     */
-    private function addDataToModel(string $model, $items)
-    {
-        $filename = "App/Models/$model.php";
-        $line_i_am_looking_for = 10;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
-        file_put_contents($filename, implode("\n", $lines));
     }
 
     /**
@@ -68,6 +56,22 @@ class MakeCrudQueryCommand extends Command
         }
 
         return $columns;
+    }
+
+    /**
+     * Add data to model.
+     *
+     * @param string $model
+     * @param $items
+     * @return void
+     */
+    private function addDataToModel(string $model, $items)
+    {
+        $filename = "App/Models/$model.php";
+        $line_i_am_looking_for = 10;
+        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        $lines[$line_i_am_looking_for] = PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
+        file_put_contents($filename, implode("\n", $lines));
     }
 
     /**
@@ -172,9 +176,26 @@ use App\Models\{$model};
         $line_i_am_looking_for = 8;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $comment = '// Start code - milwad-dev';
-        $id = '$id';
         $request = '$request';
-        $lines[$line_i_am_looking_for] = "    public function index()
+        if (!$this->option('id-controller')) {
+            $lines[$line_i_am_looking_for] = $this->controllerRouteModelBinding($comment, $request, $model);
+        } else {
+            $lines[$line_i_am_looking_for] = $this->controllerId($comment, $request, '$id');
+        }
+        file_put_contents($filename, implode("\n", $lines));
+    }
+
+    /**
+     * Add data to controller with $id.
+     *
+     * @param string $comment
+     * @param string $request
+     * @param string $id
+     * @return string
+     */
+    private function controllerId(string $comment, string $request, string $id): string
+    {
+        return "    public function index()
     {
         $comment
     }
@@ -203,6 +224,65 @@ use App\Models\{$model};
     {
         $comment
     }";
+    }
+
+    /**
+     * Add data to controller with route model binding.
+     *
+     * @param string $comment
+     * @param string $request
+     * @param string $name
+     * @return string
+     */
+    private function controllerRouteModelBinding(string $comment, string $request, string $name): string
+    {
+        $lowerName = strtolower($name);
+
+        return "    public function index()
+    {
+        $comment
+    }
+
+    public function create()
+    {
+        $comment
+    }
+
+    public function store(Request $request)
+    {
+        $comment
+    }
+
+    public function edit($name $$lowerName)
+    {
+        $comment
+    }
+
+    public function update(Request $request, $name $$lowerName)
+    {
+        $comment
+    }
+
+    public function destroy($name $$lowerName)
+    {
+        $comment
+    }";
+    }
+
+    /**
+     * Add use to controller route model binding.
+     *
+     * @param $model
+     * @return void
+     */
+    private function addUseToControllerForRouteModelBinding($model)
+    {
+        $filename = "App/Http/Controllers/{$model}Controller.php";
+        $line_i_am_looking_for = 5;
+        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        $lines[$line_i_am_looking_for] = "
+use App\Models\\$model;
+";
         file_put_contents($filename, implode("\n", $lines));
     }
 }
