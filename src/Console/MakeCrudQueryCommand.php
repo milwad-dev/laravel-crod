@@ -3,8 +3,8 @@
 namespace Milwad\LaravelCrod\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class MakeCrudQueryCommand extends Command
 {
