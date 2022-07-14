@@ -22,6 +22,11 @@ php artisan
 ```
 <br>
 
+After publish config files.<br>
+```
+php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="config"
+```
+
 You must see this command in the terminal.
 ![Crod commands](https://s6.uupload.ir/files/carbon_(1)_tqmq.png "Crod commands")
 
