@@ -14,6 +14,10 @@ You can make automatically fillable for models, query for repositories & service
 ```
 composer require milwad/laravel-crod
 ```
+After publish config files.<br>
+```
+php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="config"
+```
 
 # Check active commands
 Run the command in cmd or terminal. <br>
@@ -21,11 +25,6 @@ Run the command in cmd or terminal. <br>
 php artisan
 ```
 <br>
-
-After publish config files.<br>
-```
-php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="config"
-```
 
 You must see this command in the terminal.
 ![Crod commands](https://s6.uupload.ir/files/carbon_(1)_tqmq.png "Crod commands")
