@@ -1,12 +1,12 @@
 <?php
 
-namespace Milwad\LaravelCrod\Console;
+namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Pluralizer;
 
-class MakeCrudPackage extends Command
+class MakeCrudCommand extends Command
 {
     protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
 
@@ -77,7 +77,7 @@ class MakeCrudPackage extends Command
      */
     private function makeController(string $name)
     {
-        $this->call('make:controller', ['name' => "{$name}Controller", '-r']);
+        $this->call('make:controller', ['name' => "{$name}Controller"]);
     }
 
     /**
@@ -88,7 +88,7 @@ class MakeCrudPackage extends Command
      */
     private function makeRequest(string $name)
     {
-        $this->call('make:request', ['name' => "{$name}Request", '-r']);
+        $this->call('make:request', ['name' => "{$name}Request"]);
     }
 
     /**
@@ -206,6 +206,7 @@ class MakeCrudPackage extends Command
         if (!$singular) {
             return base_path($path) .'\\' . $name . "$latest.php";
         }
+
         return base_path($path) .'\\' .$this->getSingularClassName($name) . "$latest.php";
     }
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Milwad\LaravelCrod\Console;
+namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
-class MakeCrudQueryCommand extends Command
+class MakeQueryModuleCommand extends Command
 {
-    protected $signature = 'crud:query {table_name} {model} {--id-controller}';
+    protected $signature = 'crud:query-module {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
 
@@ -29,12 +29,12 @@ class MakeCrudQueryCommand extends Command
             $this->addUseToControllerForRouteModelBinding($model);
         }
 
-        $filename = "App/Services/{$model}Service.php";
+        $filename = "$this->module_name_space/$model/Services/{$model}Service.php";
         if (File::exists($filename)) {
             $this->addDataToService($model);
         }
 
-        $filename = "App/Repositories/{$model}Repo.php";
+        $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
         if (File::exists($filename)) {
             $this->addDataToRepo($model);
         }
@@ -42,8 +42,16 @@ class MakeCrudQueryCommand extends Command
         $this->info('Query added successfully');
     }
 
+    public string $module_name_space;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->module_name_space = config('laravel-crod.module_namespace');
+    }
+
     /**
-     * Add db column to string.
+     * Add db column to string for module.
      *
      * @param array $itemsDB
      * @return string
@@ -59,7 +67,7 @@ class MakeCrudQueryCommand extends Command
     }
 
     /**
-     * Add data to model.
+     * Add data to model for module.
      *
      * @param string $model
      * @param $items
@@ -67,7 +75,7 @@ class MakeCrudQueryCommand extends Command
      */
     private function addDataToModel(string $model, $items)
     {
-        $filename = "App/Models/$model.php";
+        $filename = "$this->module_name_space/$model/Entities/$model.php";
         $line_i_am_looking_for = 10;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
@@ -75,14 +83,14 @@ class MakeCrudQueryCommand extends Command
     }
 
     /**
-     * Add data to service.
+     * Add data to service for module.
      *
      * @param string $model
      * @return void
      */
     private function addDataToService(string $model)
     {
-        $filename = "App/Services/{$model}Service.php";
+        $filename = "$this->module_name_space/$model/Services/{$model}Service.php";
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $request = '$request';
@@ -101,31 +109,31 @@ class MakeCrudQueryCommand extends Command
     }
 
     /**
-     * Add use to Service.
+     * Add use to Service for module.
      *
      * @param $model
      * @return void
      */
     private function addUseToService($model)
     {
-        $filename = "App/Services/{$model}Service.php";
+        $filename = "$this->module_name_space/$model/Services/{$model}Service.php";
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = "
-use App\Models\{$model};
+use $this->module_name_space\\$model\Entities\\$model;
 ";
         file_put_contents($filename, implode("\n", $lines));
     }
 
     /**
-     * Add data to repository.
+     * Add data to repository for module.
      *
      * @param string $model
      * @return void
      */
     private function addDataToRepo(string $model)
     {
-        $filename = "App/Repositories/{$model}Repo.php";
+        $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $id = '$id';
@@ -148,31 +156,31 @@ use App\Models\{$model};
     }
 
     /**
-     * Add use to repository.
+     * Add use to repository for module.
      *
      * @param $model
      * @return void
      */
     private function addUseToRepo($model)
     {
-        $filename = "App/Repositories/{$model}Repo.php";
+        $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = "
-use App\Models\{$model};
+use $this->module_name_space\\$model\Entities\\$model;
 ";
         file_put_contents($filename, implode("\n", $lines));
     }
 
     /**
-     * Add data to controller.
+     * Add data to controller for module.
      *
      * @param string $model
      * @return void
      */
     private function addDataToController(string $model)
     {
-        $filename = "App/Http/Controllers/{$model}Controller.php";
+        $filename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
         $line_i_am_looking_for = 8;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $comment = '// Start code - milwad-dev';
@@ -186,7 +194,7 @@ use App\Models\{$model};
     }
 
     /**
-     * Add data to controller with $id.
+     * Add data to controller with $id for module.
      *
      * @param string $comment
      * @param string $request
@@ -227,7 +235,7 @@ use App\Models\{$model};
     }
 
     /**
-     * Add data to controller with route model binding.
+     * Add data to controller with route model binding for module.
      *
      * @param string $comment
      * @param string $request
@@ -270,18 +278,19 @@ use App\Models\{$model};
     }
 
     /**
-     * Add use to controller route model binding.
+     * Add use to controller route model binding for module.
      *
      * @param $model
      * @return void
      */
     private function addUseToControllerForRouteModelBinding($model)
     {
-        $filename = "App/Http/Controllers/{$model}Controller.php";
+        $filename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
         $line_i_am_looking_for = 5;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $lines[$line_i_am_looking_for] = "
-use App\Models\\$model;
+use $this->module_name_space\\$model\Entities\\$model;
+use App\Http\Controllers\Controller;
 ";
         file_put_contents($filename, implode("\n", $lines));
     }
