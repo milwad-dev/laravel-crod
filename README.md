@@ -23,7 +23,7 @@ php artisan
 <br>
 
 You must see this command in the terminal.
-![Crod commands](https://s6.uupload.ir/files/carbon_(1)_on5l.png "Crod commands")
+![Crod commands](https://s6.uupload.ir/files/carbon_(1)_tqmq.png "Crod commands")
 
 # Make CRUD files
 <font color="succe">This command creates CRUD files.</font> <br>
@@ -44,7 +44,7 @@ When write test option add tests file.
 
 <font color="info">After you can see crod creates files for crud.</font>
 
-# Crud query
+# CRUD query
 <font color="succe">This command adds query & date to CRUD files.</font> <br>
 
 <font color="yellow">** You must run your migration file. ** </font> <br>
@@ -63,6 +63,38 @@ php artisan crud:query products Product
 When write --id-controller option add function without route model binding.
 
 <font color="info">After you can see add query to service, repository, controller, model, etc.</font>
+
+# CRUD for module
+Run this command in the terminal. <br>
+This command created CRUD file for module.
+```
+php artisan crud:make-module {module_name} {--service} {--repo} {--test}
+```
+
+For example
+```
+php artisan crud:make-module Product --service --repo --test
+```
+
+# CRUD query from module
+<font color="succe">This command adds query & date to CRUD files for module.</font> <br>
+
+<font color="yellow">** You must run your migration file. ** </font> <br>
+```
+php artisan crud:query-module {table_name} {model} {--id-controller}
+```
+
+For example
+```
+php artisan crud:query-module products Product
+```
+OR
+```
+php artisan crud:query-module products Product --id-controller
+```
+When write --id-controller option add function without route model binding.
+
+<font color="info">After you can see add query to service, repository, controller, model, etc for module.</font>
 
 # License 
 * This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a> for Laravel >= 9 and is released under the MIT License.
