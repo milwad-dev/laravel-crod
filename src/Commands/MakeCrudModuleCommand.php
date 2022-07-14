@@ -43,7 +43,7 @@ class MakeCrudModuleCommand extends Command
     {
         parent::__construct();
         $this->files = $files;
-        $this->module_name_space = config('laravel-crod.module_namespace');
+        $this->module_name_space = config('laravel-crod.module_namespace') ?? 'Modules';
     }
 
     /**
