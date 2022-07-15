@@ -47,7 +47,7 @@ class MakeQueryModuleCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->module_name_space = config('laravel-crod.module_namespace');
+        $this->module_name_space = config('laravel-crod.module_namespace') ?? 'Modules';
     }
 
     /**
