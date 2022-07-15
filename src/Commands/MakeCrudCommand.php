@@ -69,7 +69,7 @@ class MakeCrudCommand extends Command
         if (!substr($name, -1) === 'y') {
             $this->call('make:migration', ['name' => "create_{$name}s_table", '--create']);
         }
-        
+
         $this->call('make:migration', ['name' => "create_{$name}ies_table", '--create']);
     }
 
