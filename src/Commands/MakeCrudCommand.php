@@ -66,7 +66,7 @@ class MakeCrudCommand extends Command
      */
     private function makeMigration(string $name)
     {
-        if (!substr($name, -1) === 'y') {
+        if (!str_ends_with($name, 'y')) {
             $this->call('make:migration', ['name' => "create_{$name}s_table", '--create']);
         }
 
