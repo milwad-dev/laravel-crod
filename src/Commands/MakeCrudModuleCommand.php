@@ -19,6 +19,7 @@ class MakeCrudModuleCommand extends Command
         $name = $this->argument('module_name');
 
         $this->makeModel($name);
+        $this->makeMigration($name);
         $this->makeController($name);
         $this->makeRequest($name);
         $this->makeView($name);
@@ -60,6 +61,30 @@ class MakeCrudModuleCommand extends Command
             '',
             '/../Stubs/module/model.stub'
         );
+    }
+
+    /**
+     * Build migration file with call command.
+     *
+     * @param string $name
+     * @return void
+     */
+    private function makeMigration(string $name)
+    {
+        if (!str_ends_with($name, 'y')) {
+            $this->call('make:migration', [
+                'name' => "create_{$name}s_table",
+                '--create',
+                "--path=/$this->module_name_space/$name/Database/Migrations"
+            ]);
+        } else {
+            $name = substr_replace($name ,"", -1);
+            $this->call('make:migration', [
+                'name' => "create_{$name}ies_table",
+                '--create',
+                "--path=/$this->module_name_space/$name/Database/Migrations"
+            ]);
+        }
     }
 
     /**
