@@ -100,5 +100,21 @@ When write --id-controller option add function without route model binding.
 
 <font color="info">After you can see add query to service, repository, controller, model, etc for module.</font>
 
-# License 
-* This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a> for Laravel >= 9 and is released under the MIT License.
+## License 
+* This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a> for Laravel >= 5 and is released under the MIT License.
+
+## Testing
+
+Run the tests with:
+
+``` bash
+vendor/bin/phpunit
+```
+
+## Contributing
+
+This project exists thanks to all the people who contribute. [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md)
+
+## Security
+
+If you've found a bug regarding security please mail [milwad.dev@gmail.com](mailto:milwad.dev@gmail.com) instead of using the issue tracker.
