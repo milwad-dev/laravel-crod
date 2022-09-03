@@ -55,8 +55,9 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeModel(string $name)
     {
+        $model = config('laravel-crod.modules.model_path');
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Entities",
+            $this->module_name_space . "\\$name\\$model",
             $name,
             '',
             '/../Stubs/module/model.stub'
@@ -71,18 +72,20 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeMigration(string $name)
     {
+        $migrationPath = config('laravel-crod.modules.migration_path');
+
         if (!str_ends_with($name, 'y')) {
             $this->call('make:migration', [
                 'name' => "create_{$name}s_table",
                 '--create',
-                "--path=$this->module_name_space/$name/Database/Migrations"
+                "--path=$this->module_name_space/$name/$migrationPath"
             ]);
         } else {
             $name = substr_replace($name ,"", -1);
             $this->call('make:migration', [
                 'name' => "create_{$name}ies_table",
                 '--create',
-                "--path=$this->module_name_space/$name/Database/Migrations"
+                "--path=$this->module_name_space/$name/$migrationPath"
             ]);
         }
     }
@@ -95,8 +98,10 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeController(string $name)
     {
+        $controllerPath = config('laravel-crod.modules.controller_path');
+
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Http\\Controllers",
+            $this->module_name_space . "\\$name\\$controllerPath",
             $name,
             'Controller',
             '/../Stubs/module/controller.stub'
@@ -111,8 +116,10 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeRequest(string $name)
     {
+        $requestPath = config('laravel-crod.modules.request_path');
+
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Http\\Requests",
+            $this->module_name_space . "\\$name\\$requestPath",
             $name,
             'Request',
             '/../Stubs/module/request.stub'
@@ -128,8 +135,10 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeView(string $name)
     {
+        $viewPath = config('laravel-crod.modules.view_path');
+
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Resources\\views",
+            $this->module_name_space . "\\$name\\$viewPath",
             strtolower($name) . 's',
             '.blade',
             '/../Stubs/module/blade.stub',
@@ -145,8 +154,10 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeService(string $name)
     {
+        $servicePath = config('laravel-crod.modules.service_path');
+
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Services",
+            $this->module_name_space . "\\$name\\$servicePath",
             $name,
             'Service',
             '/../Stubs/module/service.stub'
@@ -161,8 +172,10 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeRepository(string $name)
     {
+        $repositoryPath = config('laravel-crod.modules.repository_path');
+
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Repositories",
+            $this->module_name_space . "\\$name\\$repositoryPath",
             $name,
             'Repo',
             '/../Stubs/module/repo.stub'
@@ -177,14 +190,17 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeTest(string $name)
     {
+        $featureTestPath = config('laravel-crod.modules.feature_test_path');
+        $unitTestPath = config('laravel-crod.modules.unit_test_path');
+
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Tests\\Feature",
+            $this->module_name_space . "\\$name\\$featureTestPath",
             $name,
             'Test',
             '/../Stubs/module/feature-test.stub'
         );
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\Tests\\Unit",
+            $this->module_name_space . "\\$name\\$unitTestPath",
             $name,
             'Test',
             '/../Stubs/module/unit-test.stub'
@@ -303,9 +319,9 @@ class MakeCrudModuleCommand extends Command
 
         if (!$this->files->exists($path)) {
             $this->files->put($path, $contents);
-            $this->info("File : {$path} created");
+            $this->info("File : $path created");
         } else {
-            $this->info("File : {$path} already exits");
+            $this->info("File : $path already exits");
         }
     }
 }
