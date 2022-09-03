@@ -37,6 +37,25 @@ class MakeCrudCommandTest extends BaseTest
         $this->checkViewExists();
     }
 
+
+    /**
+     * Test call command & make crud files with service, repository & tests successfully.
+     *
+     * @test
+     * @return void
+     */
+    public function make_crud_with_command_with_service_repository_tests()
+    {
+        $this->artisan("crud:make $this->name --service --repo --test");
+
+        $this->checkModelExists();
+        $this->checkMigrationExists();
+        $this->checkControllerExists();
+        $this->checkRequestValidationExists();
+        $this->checkViewExists();
+        $this->checkServiceExists();
+    }
+
     /**
      * Check model is exists.
      *
@@ -112,7 +131,6 @@ class MakeCrudCommandTest extends BaseTest
         );
     }
 
-
     /**
      * Check view file exists.
      *
@@ -124,6 +142,19 @@ class MakeCrudCommandTest extends BaseTest
         $this->assertEquals(
             1,
             file_exists(base_path("Resources\Views\\{$this->name}s.blade.php"))
+        );
+    }
+
+    /**
+     * Check service file exists.
+     *
+     * @return void
+     */
+    private function checkServiceExists()
+    {
+        $this->assertEquals(
+            1,
+            file_exists(base_path("App\Services\\{$this->name}Service.php"))
         );
     }
 }
