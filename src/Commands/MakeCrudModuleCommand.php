@@ -75,14 +75,14 @@ class MakeCrudModuleCommand extends Command
             $this->call('make:migration', [
                 'name' => "create_{$name}s_table",
                 '--create',
-                "--path=/$this->module_name_space/$name/Database/Migrations"
+                "--path=$this->module_name_space/$name/Database/Migrations"
             ]);
         } else {
             $name = substr_replace($name ,"", -1);
             $this->call('make:migration', [
                 'name' => "create_{$name}ies_table",
                 '--create',
-                "--path=/$this->module_name_space/$name/Database/Migrations"
+                "--path=$this->module_name_space/$name/Database/Migrations"
             ]);
         }
     }
