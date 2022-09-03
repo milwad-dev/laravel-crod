@@ -55,6 +55,7 @@ class MakeCrudCommandTest extends BaseTest
         $this->checkViewExists();
         $this->checkServiceExists();
         $this->checkRepositoryExists();
+        $this->checkTestExists();
     }
 
     /**
@@ -169,6 +170,23 @@ class MakeCrudCommandTest extends BaseTest
         $this->assertEquals(
             1,
             file_exists(base_path("App\Repositories\\{$this->name}Repo.php"))
+        );
+    }
+
+    /**
+     * Check test file exists.
+     *
+     * @return void
+     */
+    private function checkTestExists()
+    {
+        $this->assertEquals(
+            1,
+            file_exists(base_path("Tests\Feature\\{$this->name}Test.php"))
+        );
+        $this->assertEquals(
+            1,
+            file_exists(base_path("Tests\Unit\\{$this->name}Test.php"))
         );
     }
 }
