@@ -33,6 +33,7 @@ class MakeCrudCommandTest extends BaseTest
         $this->checkModelExists();
         $this->checkMigrationExists();
         $this->checkControllerExists();
+        $this->checkRequestValidationExists();
     }
 
     /**
@@ -94,6 +95,19 @@ class MakeCrudCommandTest extends BaseTest
         $this->assertEquals(
             1,
             file_exists(base_path("App\Http\Controllers\\{$this->name}Controller.php"))
+        );
+    }
+
+    /**
+     * Check request validation file exists.
+     *
+     * @return void
+     */
+    private function checkRequestValidationExists()
+    {
+        $this->assertEquals(
+            1,
+            file_exists(base_path("App\Http\Requests\\{$this->name}Request.php"))
         );
     }
 }
