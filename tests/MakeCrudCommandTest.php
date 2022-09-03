@@ -2,21 +2,44 @@
 
 namespace Milwad\LaravelCrod\Commands;
 
-use Milwad\LaravelCrod\LaravelCrodServiceProvider;
-
-class MakeCrudCommandTest extends \Orchestra\Testbench\TestCase
+class MakeCrudCommandTest extends BaseTest
 {
     /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return array<int, string>
+     * @var string
      */
-    protected function getPackageProviders($app)
+    private string $name = 'Crod';
+
+    /**
+     * Set up.
+     *
+     * @return void
+     */
+    public function setUp(): void
     {
-        return [
-            LaravelCrodServiceProvider::class
-        ];
+        parent::setUp();
+        $this->withoutMockingConsoleOutput();
+    }
+
+    /**
+     * Test call command & make crud files successfully.
+     *
+     * @test
+     * @return void
+     */
+    public function make_crud_with_command()
+    {
+        $this->artisan("crud:make $this->name");
+
+        $this->checkModelExitst();
+    }
+
+    /**
+     * Check model is exists.
+     *
+     * @return void
+     */
+    private function checkModelExitst()
+    {
+        $this->assertEquals(1, file_exists(base_path("App\Models\\$this->name.php")));
     }
 }
