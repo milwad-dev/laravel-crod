@@ -32,6 +32,7 @@ class MakeCrudCommandTest extends BaseTest
 
         $this->checkModelExists();
         $this->checkMigrationExists();
+        $this->checkControllerExists();
     }
 
     /**
@@ -52,7 +53,7 @@ class MakeCrudCommandTest extends BaseTest
     private function checkMigrationExists()
     {
         $this->name = strtolower($this->name);
-        
+
         if (!str_ends_with($this->name, 'y')) {
             $file = $this->migrationExists("create_{$this->name}s_table");
         } else {
@@ -65,10 +66,10 @@ class MakeCrudCommandTest extends BaseTest
     /**
      * Check migration file is exists.
      *
-     * @param  $mgr
+     * @param  string $mgr
      * @return bool
      */
-    private function migrationExists($mgr)
+    private function migrationExists(string $mgr)
     {
         $path = database_path('migrations/');
         $files = scandir($path);
@@ -81,5 +82,18 @@ class MakeCrudCommandTest extends BaseTest
         }
 
         return false;
+    }
+
+    /**
+     * Check controller exists.
+     *
+     * @return void
+     */
+    private function checkControllerExists()
+    {
+        $this->assertEquals(
+            1,
+            file_exists(base_path("App\Http\Controllers\\{$this->name}Controller.php"))
+        );
     }
 }
