@@ -12,17 +12,17 @@ You can make automatically fillable for models, query for repositories & service
 
 # Installation
 ***
-```
+```bash
 composer require milwad/laravel-crod
 ```
 After publish config files.<br>
-```
+```bash
 php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="config"
 ```
 
 # Check active commands
 Run the command in cmd or terminal. <br>
-```
+```bash
 php artisan
 ```
 <br>
@@ -33,13 +33,13 @@ You must see this command in the terminal.
 # Make CRUD files
 <font color="succe">This command creates CRUD files.</font> <br>
 Run this command in the terminal. <br>
-```
+```bash
 php artisan crud:make {name} {--service} {--repo} {--test}
 ``` 
 <br>
 
 For example <br>
-```
+```bash
 php artisan crud:make Product --service --repo --test
 ```
 <br>
@@ -55,13 +55,13 @@ When write test option add tests file.
 <font color="yellow">** You must run your migration file. ** </font> <br>
 
 Run this command in the terminal. <br>
-```
+```bash
 php artisan crud:query {table_name} {model} {--id-controller}
 ```
 <br>
 
 For example <br>
-```
+```bash
 php artisan crud:query products Product
 ```
 <br>
@@ -72,12 +72,12 @@ When write --id-controller option add function without route model binding.
 # CRUD for module
 Run this command in the terminal. <br>
 This command created CRUD file for module.
-```
+```bash
 php artisan crud:make-module {module_name} {--service} {--repo} {--test}
 ```
 
 For example
-```
+```bash
 php artisan crud:make-module Product --service --repo --test
 ```
 
@@ -90,11 +90,11 @@ php artisan crud:query-module {table_name} {model} {--id-controller}
 ```
 
 For example
-```
+```bash
 php artisan crud:query-module products Product
 ```
 OR
-```
+```bash
 php artisan crud:query-module products Product --id-controller
 ```
 When write --id-controller option add function without route model binding.
