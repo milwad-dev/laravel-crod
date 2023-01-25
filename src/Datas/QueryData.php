@@ -27,4 +27,11 @@ class QueryData
     }";
     }
 
+    public static function getUseServiceData(string $model)
+    {
+        return "
+use App\Models\{$model};
+";
+    }
+
 }

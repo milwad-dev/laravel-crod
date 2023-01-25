@@ -103,17 +103,15 @@ class MakeQueryCommand extends Command
     /**
      * Add use to Service.
      *
-     * @param $model
+     * @param string $model
      * @return void
      */
-    private function addUseToService($model)
+    private function addUseToService(string $model)
     {
         $filename = "App/Services/{$model}Service.php";
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use App\Models\{$model};
-";
+        $lines[$line_i_am_looking_for] = QueryData::getUseServiceData($model);
         file_put_contents($filename, implode("\n", $lines));
     }
 
