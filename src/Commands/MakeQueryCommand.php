@@ -157,12 +157,10 @@ class MakeQueryCommand extends Command
         $filename = "App/Http/Controllers/{$model}Controller.php";
         $line_i_am_looking_for = 8;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $comment = '// Start code - milwad-dev';
-        $request = '$request';
         if (!$this->option('id-controller')) {
-            $lines[$line_i_am_looking_for] = $this->controllerRouteModelBinding($comment, $request, $model);
+            $lines[$line_i_am_looking_for] = $this->controllerRouteModelBinding($model);
         } else {
-            $lines[$line_i_am_looking_for] = $this->controllerId($comment, $request, '$id');
+            $lines[$line_i_am_looking_for] = $this->controllerId();
         }
         file_put_contents($filename, implode("\n", $lines));
     }
@@ -170,42 +168,11 @@ class MakeQueryCommand extends Command
     /**
      * Add data to controller with $id.
      *
-     * @param string $comment
-     * @param string $request
-     * @param string $id
      * @return string
      */
-    private function controllerId(string $comment, string $request, string $id): string
+    private function controllerId(): string
     {
-        return "    public function index()
-    {
-        $comment
-    }
-
-    public function create()
-    {
-        $comment
-    }
-
-    public function store(Request $request)
-    {
-        $comment
-    }
-
-    public function edit($id)
-    {
-        $comment
-    }
-
-    public function update(Request $request, $id)
-    {
-        $comment
-    }
-
-    public function destroy($id)
-    {
-        $comment
-    }";
+        return QueryData::getControllerIdData("// Start code - milwad-dev", '$request', '$id');
     }
 
     /**
