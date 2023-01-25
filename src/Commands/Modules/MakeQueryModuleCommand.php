@@ -5,6 +5,7 @@ namespace Milwad\LaravelCrod\Commands\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Milwad\LaravelCrod\Datas\QueryModuleData;
 use Milwad\LaravelCrod\Traits\QueryTrait;
 
 class MakeQueryModuleCommand extends Command
@@ -55,42 +56,15 @@ class MakeQueryModuleCommand extends Command
     /**
      * Add data to controller with $id for module.
      *
-     * @param string $comment
-     * @param string $request
-     * @param string $id
      * @return string
      */
-    private function controllerId(string $comment, string $request, string $id): string
+    private function controllerId(): string
     {
-        return "    public function index()
-    {
-        $comment
-    }
-
-    public function create()
-    {
-        $comment
-    }
-
-    public function store(Request $request)
-    {
-        $comment
-    }
-
-    public function edit($id)
-    {
-        $comment
-    }
-
-    public function update(Request $request, $id)
-    {
-        $comment
-    }
-
-    public function destroy($id)
-    {
-        $comment
-    }";
+        return QueryModuleData::getControllerIdData(
+            '// Start code - milwad-dev',
+            '$request',
+            '$id'
+        );
     }
 
     /**
