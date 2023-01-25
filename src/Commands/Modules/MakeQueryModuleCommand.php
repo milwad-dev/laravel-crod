@@ -1,6 +1,6 @@
 <?php
 
-namespace Milwad\LaravelCrod\Commands;
+namespace Milwad\LaravelCrod\Commands\Modules;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;

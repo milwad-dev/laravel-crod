@@ -3,6 +3,7 @@
 namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
@@ -12,6 +13,9 @@ class MakeQueryCommand extends Command
 
     protected $description = 'Add query & data fast';
 
+    /**
+     * @throws \Exception
+     */
     public function handle()
     {
         $this->alert('Add query...');
@@ -25,18 +29,11 @@ class MakeQueryCommand extends Command
         $this->addDataToModel($model, $items);
         $this->addDataToController($model);
 
-        if (!$this->option('id-controller')) {
-            $this->addUseToControllerForRouteModelBinding($model);
+        if (File::exists($filename = "App/Services/{$model}Service.php")) {
+            $this->addDataToService($model, $filename);
         }
-
-        $filename = "App/Services/{$model}Service.php";
-        if (File::exists($filename)) {
-            $this->addDataToService($model);
-        }
-
-        $filename = "App/Repositories/{$model}Repo.php";
-        if (File::exists($filename)) {
-            $this->addDataToRepo($model);
+        if (File::exists($filename = "App/Repositories/{$model}Repo.php")) {
+            $this->addDataToRepo($model, $filename);
         }
 
         $this->info('Query added successfully');
@@ -47,10 +44,22 @@ class MakeQueryCommand extends Command
      *
      * @param array $itemsDB
      * @return string
+     * @throws \Exception
      */
     private function addDBCulumnsToString(array $itemsDB)
     {
         $columns = '';
+        $excepts = config('laravel-crod.queries.except_columns_in_fillable');
+
+        if (! is_array($excepts)) {
+            throw new \RuntimeException("Except columns is not an array");
+        }
+
+        foreach ($excepts as $except) {
+            if (Arr::exists($itemsDB, $except)) {
+                Arr::forget($itemsDB, $except);
+            }
+        }
         foreach ($itemsDB as $db) {
             $columns .= "'$db', ";
         }
@@ -62,10 +71,10 @@ class MakeQueryCommand extends Command
      * Add data to model.
      *
      * @param string $model
-     * @param $items
+     * @param mixed $items
      * @return void
      */
-    private function addDataToModel(string $model, $items)
+    private function addDataToModel(string $model, mixed $items)
     {
         $filename = "App/Models/$model.php";
         $line_i_am_looking_for = 10;
@@ -78,11 +87,11 @@ class MakeQueryCommand extends Command
      * Add data to service.
      *
      * @param string $model
+     * @param string $filename
      * @return void
      */
-    private function addDataToService(string $model)
+    private function addDataToService(string $model, string $filename)
     {
-        $filename = "App/Services/{$model}Service.php";
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $request = '$request';
@@ -121,11 +130,11 @@ use App\Models\{$model};
      * Add data to repository.
      *
      * @param string $model
+     * @param string $filename
      * @return void
      */
-    private function addDataToRepo(string $model)
+    private function addDataToRepo(string $model, string $filename)
     {
-        $filename = "App/Repositories/{$model}Repo.php";
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         $id = '$id';
@@ -267,22 +276,5 @@ use App\Models\{$model};
     {
         $comment
     }";
-    }
-
-    /**
-     * Add use to controller route model binding.
-     *
-     * @param $model
-     * @return void
-     */
-    private function addUseToControllerForRouteModelBinding($model)
-    {
-        $filename = "App/Http/Controllers/{$model}Controller.php";
-        $line_i_am_looking_for = 5;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use App\Models\\$model;
-";
-        file_put_contents($filename, implode("\n", $lines));
     }
 }

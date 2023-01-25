@@ -1,10 +1,11 @@
 <?php
 
-namespace Milwad\LaravelCrod\Commands;
+namespace Milwad\LaravelCrod\Commands\Modules;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Traits\StubTrait;
+use function Milwad\LaravelCrod\Commands\str_ends_with;
 
 class MakeCrudModuleCommand extends Command
 {

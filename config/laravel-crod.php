@@ -2,7 +2,7 @@
 
 return [
     /**
-     * Module namespace
+     * Module namespace.
      */
     'module_namespace' => 'Modules',
 
@@ -20,4 +20,13 @@ return [
         'feature_test_path' => 'Tests\Feature',
         'unit_test_path' => 'Tests\Unit',
     ],
+
+    /**
+     * Queries.
+     */
+    'queries' => [
+        'except_columns_in_fillable' => [
+            'id', 'updated_at', 'created_at'
+        ]
+    ]
 ];
