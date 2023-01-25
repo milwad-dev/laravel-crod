@@ -14,6 +14,14 @@ class MakeQueryModuleCommand extends Command
     protected $signature = 'crud:query-module {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
+    
+    public string $module_name_space;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? 'Modules';
+    }
 
     /**
      * @throws \Exception
@@ -39,20 +47,11 @@ class MakeQueryModuleCommand extends Command
             $this->addDataToService($model, $filename);
         }
 
-        $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
-        if (File::exists($filename)) {
-            $this->addDataToRepo($model);
+        if (File::exists($filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php")) {
+            $this->addDataToRepo($model, $filename);
         }
 
         $this->info('Query added successfully');
-    }
-
-    public string $module_name_space;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? 'Modules';
     }
 
     /**
@@ -70,36 +69,6 @@ class MakeQueryModuleCommand extends Command
 use $this->module_name_space\\$model\Entities\\$model;
 ";
         file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to repository for module.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToRepo(string $model)
-    {
-        $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
-        $line_i_am_looking_for = 6;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $id = '$id';
-        $lines[$line_i_am_looking_for] = "    public function index()
-    {
-        return $model::query()->latest();
-    }
-
-    public function findById($id)
-    {
-        return $model::query()->findOrFail($id);
-    }
-
-     public function delete($id)
-    {
-        return $model::query()->where('id', $id)->delete();
-    }";
-        file_put_contents($filename, implode("\n", $lines));
-        $this->addUseToRepo($model);
     }
 
     /**
