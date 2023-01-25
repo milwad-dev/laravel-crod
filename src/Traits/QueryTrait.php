@@ -80,7 +80,23 @@ trait QueryTrait
         $lines[$line_i_am_looking_for] = QueryData::getServiceData($model, '$request', '$id');
 
         file_put_contents($filename, implode("\n", $lines));
-        $this->addUseToService($model);
+        $this->addUseToService($model, $filename);
+    }
+
+    /**
+     * Add use to Service for module.
+     *
+     * @param string $model
+     * @param string $filename
+     * @return void
+     */
+    private function addUseToService(string $model, string $filename)
+    {
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
+        $lines[$line_i_am_looking_for] = "
+use $this->module_name_space\\$model\Entities\\$model;
+";
+        file_put_contents($filename, implode("\n", $lines));
     }
 
     /**
@@ -97,5 +113,18 @@ trait QueryTrait
 
         file_put_contents($filename, implode("\n", $lines));
         $this->addUseToRepo($model);
+    }
+
+    /**
+     * @param string $filename
+     * @param int $looking_for
+     * @return array
+     */
+    private function lookingLinesWithIgnoreLines(string $filename, int $looking_for = 8): array
+    {
+        return [
+            $looking_for,
+            file($filename, FILE_IGNORE_NEW_LINES)
+        ];
     }
 }

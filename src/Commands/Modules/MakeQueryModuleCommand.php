@@ -14,7 +14,7 @@ class MakeQueryModuleCommand extends Command
     protected $signature = 'crud:query-module {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
-    
+
     public string $module_name_space;
 
     public function __construct()
@@ -42,33 +42,14 @@ class MakeQueryModuleCommand extends Command
         if (!$this->option('id-controller')) {
             $this->addUseToControllerForRouteModelBinding($model);
         }
-
         if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {
             $this->addDataToService($model, $filename);
         }
-
         if (File::exists($filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php")) {
             $this->addDataToRepo($model, $filename);
         }
 
         $this->info('Query added successfully');
-    }
-
-    /**
-     * Add use to Service for module.
-     *
-     * @param $model
-     * @return void
-     */
-    private function addUseToService($model)
-    {
-        $filename = "$this->module_name_space/$model/Services/{$model}Service.php";
-        $line_i_am_looking_for = 3;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use $this->module_name_space\\$model\Entities\\$model;
-";
-        file_put_contents($filename, implode("\n", $lines));
     }
 
     /**

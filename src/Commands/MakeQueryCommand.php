@@ -73,23 +73,6 @@ class MakeQueryCommand extends Command
         );
     }
 
-
-    /**
-     * Add use to Service.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addUseToService(string $model)
-    {
-        $filename = "App/Services/{$model}Service.php";
-
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
-        $lines[$line_i_am_looking_for] = QueryData::getUseServiceData($model);
-
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
     /**
      * Add use to repository.
      *
@@ -104,18 +87,5 @@ class MakeQueryCommand extends Command
         $lines[$line_i_am_looking_for] = QueryData::getUseRepoData($model);
 
         file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * @param string $filename
-     * @param int $looking_for
-     * @return array
-     */
-    public function lookingLinesWithIgnoreLines(string $filename, int $looking_for = 8): array
-    {
-        return [
-            $looking_for,
-            file($filename, FILE_IGNORE_NEW_LINES)
-        ];
     }
 }
