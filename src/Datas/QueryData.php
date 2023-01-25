@@ -13,4 +13,18 @@ class QueryData
     {
         return PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
     }
+
+    public static function getServiceData(string $model, string $request, string $id)
+    {
+        return "    public function store($id)
+    {
+        return $model::query()->create(" . '$request->all()' . ");
+    }
+
+    public function update($request, $id)
+    {
+        return $model::query()->where('id', $id)->update(" . '$request->all()' . ");
+    }";
+    }
+
 }

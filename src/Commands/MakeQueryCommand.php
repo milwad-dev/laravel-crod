@@ -95,17 +95,7 @@ class MakeQueryCommand extends Command
     {
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $request = '$request';
-        $id = '$id';
-        $lines[$line_i_am_looking_for] = "    public function store($request)
-    {
-        return $model::query()->create(" . '$request->all()' . ");
-    }
-
-    public function update($request, $id)
-    {
-        return $model::query()->where('id', $id)->update(" . '$request->all()' . ");
-    }";
+        $lines[$line_i_am_looking_for] = QueryData::getServiceData($model, '$request', '$id');
         file_put_contents($filename, implode("\n", $lines));
         $this->addUseToService($model);
     }
