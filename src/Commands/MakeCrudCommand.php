@@ -5,9 +5,12 @@ namespace Milwad\LaravelCrod\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Pluralizer;
+use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
+    use StubTrait;
+
     protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
 
     protected $description = 'Make crud fast';
@@ -145,100 +148,6 @@ class MakeCrudCommand extends Command
     {
         $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
         $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
-    }
-
-    /**
-     * Return the stub file path.
-     *
-     * @return string
-     */
-    public function getStubPath($path)
-    {
-        return __DIR__ . $path;
-    }
-
-    /**
-     * Map the stub variables present in stub to its value.
-     *
-     * @return array
-     */
-    public function getStubVariables($namespace, $name)
-    {
-        return [
-            'NAMESPACE'         => $namespace,
-            'CLASS_NAME'        => $this->getSingularClassName($name),
-        ];
-    }
-
-    /**
-     * Get the stub path and the stub variables.
-     *
-     * @return array|false|string|string[]
-     */
-    public function getSourceFile($path, $namespace, $name)
-    {
-        return $this->getStubContents(
-            $this->getStubPath($path),
-            $this->getStubVariables($namespace, $name)
-        );
-    }
-
-    /**
-     * Replace the stub variables(key) with the desire value.
-     *
-     * @param $stub
-     * @param array $stubVariables
-     * @return array|false|string|string[]
-     */
-    public function getStubContents($stub , $stubVariables = [])
-    {
-        $contents = file_get_contents($stub);
-
-        foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$' , $replace, $contents);
-        }
-
-        return $contents;
-    }
-
-    /**
-     * Get the full path of generate class.
-     *
-     * @return string
-     */
-    public function getSourceFilePath($path, $name, $latest, $singular = true)
-    {
-        if (!$singular) {
-            return base_path($path) .'\\' . $name . "$latest.php";
-        }
-
-        return base_path($path) .'\\' .$this->getSingularClassName($name) . "$latest.php";
-    }
-
-    /**
-     * Return the singular capitalize name.
-     *
-     * @param $name
-     * @return string
-     */
-    public function getSingularClassName($name)
-    {
-        return ucwords(Pluralizer::singular($name));
-    }
-
-    /**
-     * Build the directory for the class if necessary.
-     *
-     * @param string $path
-     * @return string
-     */
-    public function makeDirectory(string $path)
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
     }
 
     /**
