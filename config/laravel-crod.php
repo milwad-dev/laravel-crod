@@ -11,7 +11,7 @@ return [
      */
     'modules' => [
         'model_path' => 'Entities',
-        'migration_path' => 'Database/Migrations',
+        'migration_path' => 'Database\Migrations',
         'controller_path' => 'Http\Controllers',
         'request_path' => 'Http\Requests',
         'view_path' => 'Resources\Views',

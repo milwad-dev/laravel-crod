@@ -4,13 +4,25 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Pluralizer;
+use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudModuleCommand extends Command
 {
+    use StubTrait;
+
     protected $signature = 'crud:make-module {module_name} {--service} {--repo} {--test}';
 
     protected $description = 'Command description';
+
+    public string $module_name_space;
+    public Filesystem $files;
+
+    public function __construct(Filesystem $files)
+    {
+        parent::__construct();
+        $this->files = $files;
+        $this->module_name_space = config('laravel-crod.module_namespace');
+    }
 
     public function handle()
     {
@@ -37,16 +49,6 @@ class MakeCrudModuleCommand extends Command
         $this->info('Crud successfully generate...');
     }
 
-    public string $module_name_space;
-    public Filesystem $files;
-
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-        $this->files = $files;
-        $this->module_name_space = config('laravel-crod.module_namespace') ?? 'Modules';
-    }
-
     /**
      *  Build model file with call command for module.
      *
@@ -56,6 +58,7 @@ class MakeCrudModuleCommand extends Command
     private function makeModel(string $name)
     {
         $model = config('laravel-crod.modules.model_path');
+
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$model",
             $name,
@@ -73,21 +76,17 @@ class MakeCrudModuleCommand extends Command
     private function makeMigration(string $name)
     {
         $migrationPath = config('laravel-crod.modules.migration_path');
+        $dir = "Modules/$name/Database";
 
-        if (!str_ends_with($name, 'y')) {
-            $this->call('make:migration', [
-                'name' => "create_{$name}s_table",
-                '--create',
-                "--path=$this->module_name_space/$name/$migrationPath"
-            ]);
-        } else {
-            $name = substr_replace($name ,"", -1);
-            $this->call('make:migration', [
-                'name' => "create_{$name}ies_table",
-                '--create',
-                "--path=$this->module_name_space/$name/$migrationPath"
-            ]);
+        if (!is_dir($dir) && !mkdir($dir) && !is_dir($dir)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
+
+        $this->call('make:migration', [
+            'name' => $this->getRealNameForMigration($name),
+            '--path' => "$this->module_name_space/$name/$migrationPath",
+            '--create'
+        ]);
     }
 
     /**
@@ -208,120 +207,18 @@ class MakeCrudModuleCommand extends Command
     }
 
     /**
-     * Return the stub file path.
+     * Get real name of migration.
      *
-     * @return string
-     */
-    public function getStubPath($path)
-    {
-        return __DIR__ . $path;
-    }
-
-    /**
-     * Map the stub variables present in stub to its value.
-     *
-     * @return array
-     */
-    public function getStubVariables($namespace, $name)
-    {
-        return [
-            'NAMESPACE'         => $namespace,
-            'CLASS_NAME'        => $this->getSingularClassName($name),
-        ];
-    }
-
-    /**
-     * Get the stub path and the stub variables.
-     *
-     * @return array|false|string|string[]
-     */
-    public function getSourceFile($path, $namespace, $name)
-    {
-        return $this->getStubContents(
-            $this->getStubPath($path),
-            $this->getStubVariables($namespace, $name)
-        );
-    }
-
-    /**
-     * Replace the stub variables(key) with the desire value.
-     *
-     * @param $stub
-     * @param array $stubVariables
-     * @return array|false|string|string[]
-     */
-    public function getStubContents($stub , $stubVariables = [])
-    {
-        $contents = file_get_contents($stub);
-
-        foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$' , $replace, $contents);
-        }
-
-        return $contents;
-    }
-
-    /**
-     * Get the full path of generate class.
-     *
-     * @return string
-     */
-    public function getSourceFilePath($path, $name, $latest, $singular = true)
-    {
-        if (!$singular) {
-            return base_path($path) .'\\' . $name . "$latest.php";
-        }
-
-        return base_path($path) .'\\' .$this->getSingularClassName($name) . "$latest.php";
-    }
-
-    /**
-     * Return the singular capitalize name.
-     *
-     * @param $name
-     * @return string
-     */
-    public function getSingularClassName($name)
-    {
-        return ucwords(Pluralizer::singular($name));
-    }
-
-    /**
-     * Build the directory for the class if necessary.
-     *
-     * @param string $path
-     * @return string
-     */
-    public function makeDirectory(string $path)
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
-    }
-
-    /**
-     * Build stub & check exists.
-     *
-     * @param $pathSource
      * @param string $name
-     * @param string $latest
-     * @param $pathStub
-     * @param bool $singular
-     * @return void
+     * @return string
      */
-    private function makeStubFile($pathSource, string $name, string $latest, $pathStub, bool $singular = true): void
+    private function getRealNameForMigration(string $name): string
     {
-        $path = $this->getSourceFilePath($pathSource, $name, $latest, $singular);
-        $this->makeDirectory(dirname($path));
-        $contents = $this->getSourceFile($pathStub, $pathSource, $name);
-
-        if (!$this->files->exists($path)) {
-            $this->files->put($path, $contents);
-            $this->info("File : $path created");
-        } else {
-            $this->info("File : $path already exits");
+        if (str_ends_with($name, 'y')) {
+            $name = substr_replace($name ,"", -1);
+            return "create{$name}ies_table";
         }
+
+        return "create_{$name}s_table";
     }
 }
