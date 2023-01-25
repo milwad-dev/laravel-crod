@@ -177,7 +177,7 @@ class MakeCrudModuleCommand extends Command
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$repositoryPath",
             $name,
-            'Repo',
+            config('laravel-crod.modules.repository_namespace'),
             '/../Stubs/module/repo.stub'
         );
     }
