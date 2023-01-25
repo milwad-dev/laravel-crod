@@ -3,7 +3,6 @@
 namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Milwad\LaravelCrod\Datas\QueryData;
@@ -71,21 +70,5 @@ class MakeQueryCommand extends Command
             $name,
             strtolower($name)
         );
-    }
-
-    /**
-     * Add use to repository.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addUseToRepo(string $model)
-    {
-        $filename = "App/Repositories/{$model}Repo.php";
-
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
-        $lines[$line_i_am_looking_for] = QueryData::getUseRepoData($model);
-
-        file_put_contents($filename, implode("\n", $lines));
     }
 }
