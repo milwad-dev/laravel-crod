@@ -5,13 +5,19 @@ namespace Milwad\LaravelCrod\Commands\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Milwad\LaravelCrod\Traits\QueryTrait;
 
 class MakeQueryModuleCommand extends Command
 {
+    use QueryTrait;
+
     protected $signature = 'crud:query-module {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
 
+    /**
+     * @throws \Exception
+     */
     public function handle()
     {
         $this->alert('Add query...');
@@ -48,22 +54,6 @@ class MakeQueryModuleCommand extends Command
     {
         parent::__construct();
         $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? 'Modules';
-    }
-
-    /**
-     * Add db column to string for module.
-     *
-     * @param array $itemsDB
-     * @return string
-     */
-    private function addDBCulumnsToString(array $itemsDB)
-    {
-        $columns = '';
-        foreach ($itemsDB as $db) {
-            $columns .= "'$db', ";
-        }
-
-        return $columns;
     }
 
     /**
