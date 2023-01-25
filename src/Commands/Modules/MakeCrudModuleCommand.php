@@ -215,7 +215,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function getRealNameForMigration(string $name): string
     {
-        if (str_ends_with($name, 'y')) {
+        if (\str_ends_with($name, 'y')) {
             $name = substr_replace($name ,"", -1);
             return "create{$name}ies_table";
         }
