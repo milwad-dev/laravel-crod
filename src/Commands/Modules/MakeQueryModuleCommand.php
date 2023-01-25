@@ -51,7 +51,7 @@ class MakeQueryModuleCommand extends Command
 
         $this->info('Query added successfully');
     }
-    
+
     /**
      * Add data to controller with $id for module.
      *
