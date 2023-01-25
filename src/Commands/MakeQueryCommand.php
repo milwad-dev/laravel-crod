@@ -172,49 +172,26 @@ class MakeQueryCommand extends Command
      */
     private function controllerId(): string
     {
-        return QueryData::getControllerIdData("// Start code - milwad-dev", '$request', '$id');
+        return QueryData::getControllerIdData(
+            '// Start code - milwad-dev',
+            '$request',
+            '$id'
+        );
     }
 
     /**
      * Add data to controller with route model binding.
      *
-     * @param string $comment
-     * @param string $request
      * @param string $name
      * @return string
      */
-    private function controllerRouteModelBinding(string $comment, string $request, string $name): string
+    private function controllerRouteModelBinding(string $name): string
     {
-        $lowerName = strtolower($name);
-
-        return "    public function index()
-    {
-        $comment
-    }
-
-    public function create()
-    {
-        $comment
-    }
-
-    public function store(Request $request)
-    {
-        $comment
-    }
-
-    public function edit($name $$lowerName)
-    {
-        $comment
-    }
-
-    public function update(Request $request, $name $$lowerName)
-    {
-        $comment
-    }
-
-    public function destroy($name $$lowerName)
-    {
-        $comment
-    }";
+        return QueryData::getControllerRouteModelBinding(
+            '// Start code - milwad-dev',
+            '$request',
+            $name,
+            strtolower($name)
+        );
     }
 }
