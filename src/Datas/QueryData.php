@@ -34,4 +34,22 @@ use App\Models\{$model};
 ";
     }
 
+    public static function getRepoData(string $model, string $id)
+    {
+        return "    public function index()
+    {
+        return $model::query()->latest();
+    }
+
+    public function findById($id)
+    {
+        return $model::query()->findOrFail($id);
+    }
+
+     public function delete($id)
+    {
+        return $model::query()->where('id', $id)->delete();
+    }";
+    }
+
 }

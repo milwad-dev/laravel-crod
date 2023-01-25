@@ -126,21 +126,7 @@ class MakeQueryCommand extends Command
     {
         $line_i_am_looking_for = 6;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $id = '$id';
-        $lines[$line_i_am_looking_for] = "    public function index()
-    {
-        return $model::query()->latest();
-    }
-
-    public function findById($id)
-    {
-        return $model::query()->findOrFail($id);
-    }
-
-     public function delete($id)
-    {
-        return $model::query()->where('id', $id)->delete();
-    }";
+        $lines[$line_i_am_looking_for] = QueryData::getRepoData($model, '$id');
         file_put_contents($filename, implode("\n", $lines));
         $this->addUseToRepo($model);
     }
