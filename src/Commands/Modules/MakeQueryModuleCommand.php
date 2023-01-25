@@ -37,11 +37,13 @@ class MakeQueryModuleCommand extends Command
         $itemsDB = Schema::getColumnListing($name);
         $items = $this->addDBCulumnsToString($itemsDB);
 
+        $controllerFilename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
+
         $this->addDataToModel($items, "$this->module_name_space/$model/Entities/$model.php");
-        $this->addDataToController($model, "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php");
+        $this->addDataToController($model, $controllerFilename);
 
         if (!$this->option('id-controller')) {
-            $this->addUseToControllerForRouteModelBinding($model);
+            $this->addUseToControllerForRouteModelBinding($model, $controllerFilename);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {
             $this->addDataToService($model, $filename);
@@ -87,13 +89,12 @@ class MakeQueryModuleCommand extends Command
      * Add use to controller route model binding for module.
      *
      * @param string $model
+     * @param string $filename
      * @return void
      */
-    private function addUseToControllerForRouteModelBinding(string $model)
+    private function addUseToControllerForRouteModelBinding(string $model, string $filename)
     {
-        $filename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
-        $line_i_am_looking_for = 5;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 5);
         $lines[$line_i_am_looking_for] = "
 use $this->module_name_space\\$model\Entities\\$model;
 use App\Http\Controllers\Controller;
