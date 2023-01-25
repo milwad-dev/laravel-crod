@@ -155,13 +155,12 @@ class MakeQueryCommand extends Command
     private function addDataToController(string $model)
     {
         $filename = "App/Http/Controllers/{$model}Controller.php";
-        $line_i_am_looking_for = 8;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        if (!$this->option('id-controller')) {
-            $lines[$line_i_am_looking_for] = $this->controllerRouteModelBinding($model);
-        } else {
-            $lines[$line_i_am_looking_for] = $this->controllerId();
-        }
+
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename);
+        $lines[$line_i_am_looking_for] = $this->option('id-controller')
+            ? $this->controllerId()
+            : $this->controllerRouteModelBinding($model);
+
         file_put_contents($filename, implode("\n", $lines));
     }
 
@@ -193,5 +192,18 @@ class MakeQueryCommand extends Command
             $name,
             strtolower($name)
         );
+    }
+
+    /**
+     * @param string $filename
+     * @param int $looking_for
+     * @return array
+     */
+    public function lookingLinesWithIgnoreLines(string $filename, int $looking_for = 8): array
+    {
+        return [
+            $looking_for,
+            file($filename, FILE_IGNORE_NEW_LINES)
+        ];
     }
 }
