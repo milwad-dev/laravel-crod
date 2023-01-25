@@ -51,24 +51,7 @@ class MakeQueryModuleCommand extends Command
 
         $this->info('Query added successfully');
     }
-
-    /**
-     * Add use to repository for module.
-     *
-     * @param $model
-     * @return void
-     */
-    private function addUseToRepo($model)
-    {
-        $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
-        $line_i_am_looking_for = 3;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use $this->module_name_space\\$model\Entities\\$model;
-";
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
+    
     /**
      * Add data to controller with $id for module.
      *
