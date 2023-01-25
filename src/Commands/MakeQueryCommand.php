@@ -134,17 +134,15 @@ class MakeQueryCommand extends Command
     /**
      * Add use to repository.
      *
-     * @param $model
+     * @param string $model
      * @return void
      */
-    private function addUseToRepo($model)
+    private function addUseToRepo(string $model)
     {
         $filename = "App/Repositories/{$model}Repo.php";
         $line_i_am_looking_for = 3;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use App\Models\{$model};
-";
+        $lines[$line_i_am_looking_for] = QueryData::getUseRepoData($model);
         file_put_contents($filename, implode("\n", $lines));
     }
 

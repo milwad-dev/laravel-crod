@@ -52,4 +52,11 @@ use App\Models\{$model};
     }";
     }
 
+    public static function getUseRepoData(string $model)
+    {
+        return "
+use App\Models\{$model};
+";
+    }
+
 }
