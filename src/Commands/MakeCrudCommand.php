@@ -4,7 +4,6 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Pluralizer;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
@@ -47,7 +46,7 @@ class MakeCrudCommand extends Command
             $this->makeTest($name_uc);
         }
 
-        $this->info('Crud successfully generate...');
+        $this->info('Crud successfully generates...');
     }
 
     /**
@@ -107,6 +106,14 @@ class MakeCrudCommand extends Command
      */
     private function makeView(string $name)
     {
+        $name = strtolower($name);
+
+        if (!str_ends_with($name, 'y')) {
+            $name .= "s";
+        } else {
+            $name .= "ies";
+        }
+
         $this->makeStubFile(
             'Resources\\Views',
             strtolower($name) . 's',
@@ -148,29 +155,5 @@ class MakeCrudCommand extends Command
     {
         $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
         $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
-    }
-
-    /**
-     * Build stub & check exists.
-     *
-     * @param $pathSource
-     * @param string $name
-     * @param string $latest
-     * @param $pathStub
-     * @param bool $singular
-     * @return void
-     */
-    private function makeStubFile($pathSource, string $name, string $latest, $pathStub, bool $singular = true): void
-    {
-        $path = $this->getSourceFilePath($pathSource, $name, $latest, $singular);
-        $this->makeDirectory(dirname($path));
-        $contents = $this->getSourceFile($pathStub, $pathSource, $name);
-
-        if (!$this->files->exists($path)) {
-            $this->files->put($path, $contents);
-            $this->info("File : {$path} created");
-        } else {
-            $this->info("File : {$path} already exits");
-        }
     }
 }

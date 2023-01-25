@@ -7,12 +7,36 @@ use Illuminate\Support\Pluralizer;
 trait StubTrait
 {
     /**
+     * Build stub & check exists.
+     *
+     * @param $pathSource
+     * @param string $name
+     * @param string $latest
+     * @param $pathStub
+     * @param bool $singular
+     * @return void
+     */
+    protected function makeStubFile($pathSource, string $name, string $latest, $pathStub, bool $singular = true): void
+    {
+        $path = $this->getSourceFilePath($pathSource, $name, $latest, $singular);
+        $this->makeDirectory(dirname($path));
+        $contents = $this->getSourceFile($pathStub, $pathSource, $name);
+
+        if (!$this->files->exists($path)) {
+            $this->files->put($path, $contents);
+            $this->info("File : {$path} created");
+        } else {
+            $this->info("File : {$path} already exits");
+        }
+    }
+
+    /**
      * Return the stub file path.
      *
      * @param string $path
      * @return string
      */
-    public function getStubPath(string $path)
+    private function getStubPath(string $path)
     {
         return __DIR__ . $path;
     }
@@ -24,7 +48,7 @@ trait StubTrait
      * @param string $name
      * @return array
      */
-    public function getStubVariables(string $namespace, string $name)
+    private function getStubVariables(string $namespace, string $name)
     {
         return [
             'NAMESPACE'         => $namespace,
@@ -40,7 +64,7 @@ trait StubTrait
      * @param string $name
      * @return array|false|string|string[]
      */
-    public function getSourceFile(string $path, string $namespace, string $name)
+    private function getSourceFile(string $path, string $namespace, string $name)
     {
         return $this->getStubContents(
             $this->getStubPath($path),
@@ -55,7 +79,7 @@ trait StubTrait
      * @param array $stubVariables
      * @return array|false|string|string[]
      */
-    public function getStubContents($stub , $stubVariables = [])
+    private function getStubContents($stub , $stubVariables = [])
     {
         $contents = file_get_contents($stub);
 
@@ -75,7 +99,7 @@ trait StubTrait
      * @param bool $singular
      * @return string
      */
-    public function getSourceFilePath(string $path, string $name, string $latest, bool $singular = true)
+    private function getSourceFilePath(string $path, string $name, string $latest, bool $singular = true)
     {
         if (!$singular) {
             return base_path($path) .'\\' . $name . "$latest.php";
@@ -90,7 +114,7 @@ trait StubTrait
      * @param string $name
      * @return string
      */
-    public function getSingularClassName(string $name)
+    private function getSingularClassName(string $name)
     {
         return ucwords(Pluralizer::singular($name));
     }
@@ -101,7 +125,7 @@ trait StubTrait
      * @param string $path
      * @return string
      */
-    public function makeDirectory(string $path)
+    private function makeDirectory(string $path)
     {
         if (! $this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
