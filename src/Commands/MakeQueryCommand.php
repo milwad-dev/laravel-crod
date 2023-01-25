@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Milwad\LaravelCrod\Datas\QueryData;
 
 class MakeQueryCommand extends Command
 {
@@ -79,7 +80,7 @@ class MakeQueryCommand extends Command
         $filename = "App/Models/$model.php";
         $line_i_am_looking_for = 10;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
+        $lines[$line_i_am_looking_for] = QueryData::getModelData($items);
         file_put_contents($filename, implode("\n", $lines));
     }
 

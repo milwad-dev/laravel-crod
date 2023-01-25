@@ -9,5 +9,8 @@ namespace Milwad\LaravelCrod\Datas;
  */
 class QueryData
 {
-
+    public static function getModelData(mixed $items)
+    {
+        return PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
+    }
 }
