@@ -7,9 +7,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Milwad\LaravelCrod\Datas\QueryData;
+use Milwad\LaravelCrod\Traits\QueryTrait;
 
 class MakeQueryCommand extends Command
 {
+    use QueryTrait;
+
     protected $signature = 'crud:query {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
@@ -38,34 +41,6 @@ class MakeQueryCommand extends Command
         }
 
         $this->info('Query added successfully');
-    }
-
-    /**
-     * Add db column to string.
-     *
-     * @param array $itemsDB
-     * @return string
-     * @throws \Exception
-     */
-    private function addDBCulumnsToString(array $itemsDB)
-    {
-        $columns = '';
-        $excepts = config('laravel-crod.queries.except_columns_in_fillable');
-
-        if (! is_array($excepts)) {
-            throw new \RuntimeException("Except columns is not an array");
-        }
-
-        foreach ($excepts as $except) {
-            if (Arr::exists($itemsDB, $except)) {
-                Arr::forget($itemsDB, $except);
-            }
-        }
-        foreach ($itemsDB as $db) {
-            $columns .= "'$db', ";
-        }
-
-        return $columns;
     }
 
     /**
