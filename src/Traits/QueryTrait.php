@@ -66,4 +66,20 @@ trait QueryTrait
 
         file_put_contents($filename, implode("\n", $lines));
     }
+
+    /**
+     * Add data to service.
+     *
+     * @param string $model
+     * @param string $filename
+     * @return void
+     */
+    private function addDataToService(string $model, string $filename)
+    {
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 6);
+        $lines[$line_i_am_looking_for] = QueryData::getServiceData($model, '$request', '$id');
+
+        file_put_contents($filename, implode("\n", $lines));
+        $this->addUseToService($model);
+    }
 }

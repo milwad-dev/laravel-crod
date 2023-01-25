@@ -35,9 +35,8 @@ class MakeQueryModuleCommand extends Command
             $this->addUseToControllerForRouteModelBinding($model);
         }
 
-        $filename = "$this->module_name_space/$model/Services/{$model}Service.php";
-        if (File::exists($filename)) {
-            $this->addDataToService($model);
+        if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {
+            $this->addDataToService($model, $filename);
         }
 
         $filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php";
@@ -54,32 +53,6 @@ class MakeQueryModuleCommand extends Command
     {
         parent::__construct();
         $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? 'Modules';
-    }
-
-    /**
-     * Add data to service for module.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToService(string $model)
-    {
-        $filename = "$this->module_name_space/$model/Services/{$model}Service.php";
-        $line_i_am_looking_for = 6;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $request = '$request';
-        $id = '$id';
-        $lines[$line_i_am_looking_for] = "    public function store($request)
-    {
-        return $model::query()->create(" . '$request->all()' . ");
-    }
-
-    public function update($request, $id)
-    {
-        return $model::query()->where('id', $id)->update(" . '$request->all()' . ");
-    }";
-        file_put_contents($filename, implode("\n", $lines));
-        $this->addUseToService($model);
     }
 
     /**
