@@ -1,6 +1,6 @@
 <?php
 
-namespace Milwad\LaravelCrod\Commands;
+namespace Milwad\LaravelCrod\Tests;
 
 use Milwad\LaravelCrod\LaravelCrodServiceProvider;
 

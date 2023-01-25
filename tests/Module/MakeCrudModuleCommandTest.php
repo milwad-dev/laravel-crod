@@ -1,6 +1,8 @@
 <?php
 
-namespace Milwad\LaravelCrod\Commands;
+namespace Milwad\LaravelCrod\Tests\Module;
+
+use Milwad\LaravelCrod\Test\BaseTest;
 
 class MakeCrudModuleCommandTest extends BaseTest
 {
