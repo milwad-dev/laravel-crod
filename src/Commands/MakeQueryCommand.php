@@ -78,9 +78,10 @@ class MakeQueryCommand extends Command
     private function addDataToModel(string $model, mixed $items)
     {
         $filename = "App/Models/$model.php";
-        $line_i_am_looking_for = 10;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 10);
         $lines[$line_i_am_looking_for] = QueryData::getModelData($items);
+
         file_put_contents($filename, implode("\n", $lines));
     }
 
@@ -93,9 +94,9 @@ class MakeQueryCommand extends Command
      */
     private function addDataToService(string $model, string $filename)
     {
-        $line_i_am_looking_for = 6;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 6);
         $lines[$line_i_am_looking_for] = QueryData::getServiceData($model, '$request', '$id');
+
         file_put_contents($filename, implode("\n", $lines));
         $this->addUseToService($model);
     }
@@ -109,9 +110,10 @@ class MakeQueryCommand extends Command
     private function addUseToService(string $model)
     {
         $filename = "App/Services/{$model}Service.php";
-        $line_i_am_looking_for = 3;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
         $lines[$line_i_am_looking_for] = QueryData::getUseServiceData($model);
+
         file_put_contents($filename, implode("\n", $lines));
     }
 
@@ -124,9 +126,9 @@ class MakeQueryCommand extends Command
      */
     private function addDataToRepo(string $model, string $filename)
     {
-        $line_i_am_looking_for = 6;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 6);
         $lines[$line_i_am_looking_for] = QueryData::getRepoData($model, '$id');
+
         file_put_contents($filename, implode("\n", $lines));
         $this->addUseToRepo($model);
     }
@@ -140,9 +142,10 @@ class MakeQueryCommand extends Command
     private function addUseToRepo(string $model)
     {
         $filename = "App/Repositories/{$model}Repo.php";
-        $line_i_am_looking_for = 3;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
         $lines[$line_i_am_looking_for] = QueryData::getUseRepoData($model);
+
         file_put_contents($filename, implode("\n", $lines));
     }
 
