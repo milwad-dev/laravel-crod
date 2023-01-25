@@ -3,6 +3,7 @@
 namespace Milwad\LaravelCrod\Traits;
 
 use Illuminate\Support\Arr;
+use Milwad\LaravelCrod\Datas\QueryData;
 
 trait QueryTrait
 {
@@ -32,5 +33,20 @@ trait QueryTrait
         }
 
         return $columns;
+    }
+
+    /**
+     * Add data to model.
+     *
+     * @param mixed $items
+     * @param mixed $filename
+     * @return void
+     */
+    private function addDataToModel(mixed $items, string $filename)
+    {
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 10);
+        $lines[$line_i_am_looking_for] = QueryData::getModelData($items);
+
+        file_put_contents($filename, implode("\n", $lines));
     }
 }

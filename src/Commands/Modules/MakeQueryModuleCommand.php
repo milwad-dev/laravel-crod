@@ -28,7 +28,7 @@ class MakeQueryModuleCommand extends Command
         $itemsDB = Schema::getColumnListing($name);
         $items = $this->addDBCulumnsToString($itemsDB);
 
-        $this->addDataToModel($model, $items);
+        $this->addDataToModel($items, "$this->module_name_space/$model/Entities/$model.php");
         $this->addDataToController($model);
 
         if (!$this->option('id-controller')) {
@@ -54,22 +54,6 @@ class MakeQueryModuleCommand extends Command
     {
         parent::__construct();
         $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? 'Modules';
-    }
-
-    /**
-     * Add data to model for module.
-     *
-     * @param string $model
-     * @param $items
-     * @return void
-     */
-    private function addDataToModel(string $model, $items)
-    {
-        $filename = "$this->module_name_space/$model/Entities/$model.php";
-        $line_i_am_looking_for = 10;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
-        file_put_contents($filename, implode("\n", $lines));
     }
 
     /**

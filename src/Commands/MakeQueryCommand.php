@@ -30,7 +30,7 @@ class MakeQueryCommand extends Command
         $itemsDB = Schema::getColumnListing($name);
         $items = $this->addDBCulumnsToString($itemsDB);
 
-        $this->addDataToModel($model, $items);
+        $this->addDataToModel($items, "App/Models/$model.php");
         $this->addDataToController($model);
 
         if (File::exists($filename = "App/Services/{$model}Service.php")) {
@@ -41,23 +41,6 @@ class MakeQueryCommand extends Command
         }
 
         $this->info('Query added successfully');
-    }
-
-    /**
-     * Add data to model.
-     *
-     * @param string $model
-     * @param mixed $items
-     * @return void
-     */
-    private function addDataToModel(string $model, mixed $items)
-    {
-        $filename = "App/Models/$model.php";
-
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 10);
-        $lines[$line_i_am_looking_for] = QueryData::getModelData($items);
-
-        file_put_contents($filename, implode("\n", $lines));
     }
 
     /**
