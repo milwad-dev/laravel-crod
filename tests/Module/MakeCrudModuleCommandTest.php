@@ -223,6 +223,6 @@ class MakeCrudModuleCommandTest extends BaseTest
             return 'Modules';
         }
 
-        return config('laravel-crod.module_namespace');
+        return config('laravel-crod.modules.module_namespace');
     }
 }

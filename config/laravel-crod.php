@@ -1,15 +1,13 @@
 <?php
 
 return [
-    /**
-     * Module namespace.
-     */
-    'module_namespace' => 'Modules',
-
-    /**
+    /*
      * Modules config.
+     *
+     * You can make custom modules with special folders ...
      */
     'modules' => [
+        'module_namespace' => 'Modules',
         'model_path' => 'Entities',
         'migration_path' => 'Database\Migrations',
         'controller_path' => 'Http\Controllers',
