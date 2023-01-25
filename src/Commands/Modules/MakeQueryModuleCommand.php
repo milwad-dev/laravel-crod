@@ -29,7 +29,7 @@ class MakeQueryModuleCommand extends Command
         $items = $this->addDBCulumnsToString($itemsDB);
 
         $this->addDataToModel($items, "$this->module_name_space/$model/Entities/$model.php");
-        $this->addDataToController($model);
+        $this->addDataToController($model, "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php");
 
         if (!$this->option('id-controller')) {
             $this->addUseToControllerForRouteModelBinding($model);
@@ -143,27 +143,6 @@ use $this->module_name_space\\$model\Entities\\$model;
         $lines[$line_i_am_looking_for] = "
 use $this->module_name_space\\$model\Entities\\$model;
 ";
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to controller for module.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToController(string $model)
-    {
-        $filename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
-        $line_i_am_looking_for = 8;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $comment = '// Start code - milwad-dev';
-        $request = '$request';
-        if (!$this->option('id-controller')) {
-            $lines[$line_i_am_looking_for] = $this->controllerRouteModelBinding($comment, $request, $model);
-        } else {
-            $lines[$line_i_am_looking_for] = $this->controllerId($comment, $request, '$id');
-        }
         file_put_contents($filename, implode("\n", $lines));
     }
 

@@ -31,7 +31,7 @@ class MakeQueryCommand extends Command
         $items = $this->addDBCulumnsToString($itemsDB);
 
         $this->addDataToModel($items, "App/Models/$model.php");
-        $this->addDataToController($model);
+        $this->addDataToController($model, "App/Http/Controllers/{$model}Controller.php");
 
         if (File::exists($filename = "App/Services/{$model}Service.php")) {
             $this->addDataToService($model, $filename);
@@ -58,6 +58,37 @@ class MakeQueryCommand extends Command
         file_put_contents($filename, implode("\n", $lines));
         $this->addUseToService($model);
     }
+
+    /**
+     * Add data to controller with $id.
+     *
+     * @return string
+     */
+    private function controllerId(): string
+    {
+        return QueryData::getControllerIdData(
+            '// Start code - milwad-dev',
+            '$request',
+            '$id'
+        );
+    }
+
+    /**
+     * Add data to controller with route model binding.
+     *
+     * @param string $name
+     * @return string
+     */
+    private function controllerRouteModelBinding(string $name): string
+    {
+        return QueryData::getControllerRouteModelBinding(
+            '// Start code - milwad-dev',
+            '$request',
+            $name,
+            strtolower($name)
+        );
+    }
+
 
     /**
      * Add use to Service.
@@ -105,54 +136,6 @@ class MakeQueryCommand extends Command
         $lines[$line_i_am_looking_for] = QueryData::getUseRepoData($model);
 
         file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to controller.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToController(string $model)
-    {
-        $filename = "App/Http/Controllers/{$model}Controller.php";
-
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename);
-        $lines[$line_i_am_looking_for] = $this->option('id-controller')
-            ? $this->controllerId()
-            : $this->controllerRouteModelBinding($model);
-
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to controller with $id.
-     *
-     * @return string
-     */
-    private function controllerId(): string
-    {
-        return QueryData::getControllerIdData(
-            '// Start code - milwad-dev',
-            '$request',
-            '$id'
-        );
-    }
-
-    /**
-     * Add data to controller with route model binding.
-     *
-     * @param string $name
-     * @return string
-     */
-    private function controllerRouteModelBinding(string $name): string
-    {
-        return QueryData::getControllerRouteModelBinding(
-            '// Start code - milwad-dev',
-            '$request',
-            $name,
-            strtolower($name)
-        );
     }
 
     /**

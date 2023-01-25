@@ -49,4 +49,21 @@ trait QueryTrait
 
         file_put_contents($filename, implode("\n", $lines));
     }
+
+    /**
+     * Add data to controller.
+     *
+     * @param string $model
+     * @param string $filename
+     * @return void
+     */
+    private function addDataToController(string $model, string $filename)
+    {
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename);
+        $lines[$line_i_am_looking_for] = $this->option('id-controller')
+            ? $this->controllerId()
+            : $this->controllerRouteModelBinding($model);
+
+        file_put_contents($filename, implode("\n", $lines));
+    }
 }
