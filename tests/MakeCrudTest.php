@@ -188,8 +188,16 @@ class MakeCrudTest extends BaseTest
      */
     private function checkAllToTestsIsCreatedWithOriginalName(): void
     {
+        // Feature test
         $test = ucfirst($this->name) . 'Test';
         $filename = base_path("Tests\\Feature\\$test.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($test, basename($filename, '.php'));
+
+        // Unit test
+        $test = ucfirst($this->name) . 'Test';
+        $filename = base_path("Tests\\Unit\\$test.php");
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($test, basename($filename, '.php'));
