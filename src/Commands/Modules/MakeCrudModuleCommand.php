@@ -93,7 +93,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeController(string $name)
     {
-        $controllerPath = config('laravel-crod.modules.controller_path');
+        $controllerPath = config('laravel-crod.modules.controller_path') ?? 'Http\Controllers';
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$controllerPath",
@@ -215,6 +215,6 @@ class MakeCrudModuleCommand extends Command
             return "create{$name}ies_table";
         }
 
-        return "create_{$name}s_table";
+        return "create{$name}s_table";
     }
 }

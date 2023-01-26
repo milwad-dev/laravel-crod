@@ -2,6 +2,7 @@
 
 namespace Milwad\LaravelCrod\Tests\Modules;
 
+use Carbon\Carbon;
 use Milwad\LaravelCrod\Tests\BaseTest;
 
 class MakeCrudModuleTest extends BaseTest
@@ -40,8 +41,8 @@ class MakeCrudModuleTest extends BaseTest
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
-//        $this->checkAllToMigrationIsCreatedWithOriginalName();
-//        $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
+        $this->checkAllToControllerIsCreatedWithOriginalName();
 //        $this->checkAllToRequestIsCreatedWithOriginalName();
 //        $this->checkAllToViewIsCreatedWithOriginalName();
     }
@@ -56,5 +57,54 @@ class MakeCrudModuleTest extends BaseTest
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($this->name, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToMigrationIsCreatedWithOriginalName(): void
+    {
+//        $name = strtolower($this->name);
+// TODO
+//        $file = !str_ends_with($name, 'y')
+//            ? $this->migrationExists("create_{$name}ies_table")
+//            : $this->migrationExists("create_{$name}s_table");
+//dd(now());
+//        $this->assertEquals(1, $file);
+    }
+
+    /**
+     * Check migration file is exists.
+     *
+     * @param  string $mgr
+     * @return bool
+     */
+    private function migrationExists(string $mgr)
+    {
+        $modelFolderName = config('laravel-crod.modules.migration_path') ?? 'Database\Migrations';
+        $path = base_path("$this->module\\$this->name\\$modelFolderName");
+        $files = scandir($path);
+
+        foreach ($files as &$value) {
+            $pos = strpos($value, $mgr);
+            if ($pos !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToControllerIsCreatedWithOriginalName(): void
+    {
+        $modelFolderName = config('laravel-crod.modules.controller_path') ?? 'Http\Controllers';
+        $name = $this->name . 'Controller';
+        $filename = base_path("$this->module\\$this->name\\$modelFolderName\\$name.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($name, basename($filename, '.php'));
     }
 }
