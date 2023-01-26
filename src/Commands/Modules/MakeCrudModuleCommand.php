@@ -167,12 +167,12 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeRepository(string $name)
     {
-        $repositoryPath = config('laravel-crod.modules.repository_path');
+        $repositoryPath = config('laravel-crod.modules.repository_path', 'Repositories');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$repositoryPath",
             $name,
-            config('laravel-crod.modules.repository_namespace', 'Repositories'),
+            config('laravel-crod.modules.repository_namespace', 'Repo'),
             '/../Stubs/module/repo.stub'
         );
     }
