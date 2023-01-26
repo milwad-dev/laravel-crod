@@ -22,6 +22,7 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();
         $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
     }
 
     /**
@@ -82,5 +83,17 @@ class MakeCrudTest extends BaseTest
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($controller, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToRequestIsCreatedWithOriginalName(): void
+    {
+        $request = $this->name . 'Request';
+        $filename = app_path("Http\\Requests\\$request.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($request, basename($filename, '.php'));
     }
 }
