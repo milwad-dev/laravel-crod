@@ -10,9 +10,9 @@ controllers.
 
 ***
 
-- PHP >= 7.2
+- PHP >= 7.4
 - doctrine/dbal > 3.3
-- Laravel framework >= 6
+- Laravel framework >= 7
 
 # Installation
 
@@ -174,7 +174,7 @@ This config file is very helpful to custom path or latest name file.
 ## License
 
 * This package is created and modified by <a href="https://github.com/milwad-dev" target="_blank">Milwad Khosravi</a>
-  for Laravel >= 6 and is released under the MIT License.
+  for Laravel >= 7 and is released under the MIT License.
 
 ## Testing
 

@@ -17,9 +17,9 @@
     }
   ],
   "require": {
-    "php": "^7.2|^8.0",
+    "php": "^7.4|^8.0",
     "doctrine/dbal": "^3.3",
-    "laravel/framework": "6.*|7.*|8.*|9.*"
+    "laravel/framework": "7.*|8.*|9.*"
   },
   "require-dev": {
     "orchestra/testbench": "7.0",

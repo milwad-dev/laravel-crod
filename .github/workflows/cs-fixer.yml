@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - 'main'
+      - '*.x'
   pull_request:
+    branches:
+      - 'main'
+      - '*.x'
     paths:
       - '**.php'
 
