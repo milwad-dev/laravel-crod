@@ -27,7 +27,7 @@ class MakeCrudTest extends BaseTest
     /**
      * @return void
      */
-    public function checkAllToModelIsCreatedWithOriginalName(): void
+    private function checkAllToModelIsCreatedWithOriginalName(): void
     {
         $filename = app_path("Models\\$this->name.php");
 
@@ -38,7 +38,7 @@ class MakeCrudTest extends BaseTest
     /**
      * @return void
      */
-    public function checkAllToMigrationIsCreatedWithOriginalName(): void
+    private function checkAllToMigrationIsCreatedWithOriginalName(): void
     {
         $this->name = strtolower($this->name);
 
@@ -75,7 +75,7 @@ class MakeCrudTest extends BaseTest
     /**
      * @return void
      */
-    public function checkAllToControllerIsCreatedWithOriginalName(): void
+    private function checkAllToControllerIsCreatedWithOriginalName(): void
     {
         $controller = $this->name . 'Controller';
         $filename = app_path("Http\\Controllers\\$controller.php");
