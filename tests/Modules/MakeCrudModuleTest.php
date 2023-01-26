@@ -48,6 +48,31 @@ class MakeCrudModuleTest extends BaseTest
     }
 
     /**
+     * Test check all files create for module when user run command 'crud:make' with options.
+     *
+     * @test
+     * @return void
+     */
+    public function check_to_create_files_for_module_with_command_crud_make_with_options()
+    {
+        $this->artisan($this->command, [
+            'module_name' => $this->name,
+            '--service' => true,
+            '--test' => true,
+            '--repo' => true
+        ]);
+
+        $this->checkAllToModelIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
+        $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName();
+        $this->checkAllToServiceIsCreatedWithOriginalName();
+//        $this->checkAllToRepositoryIsCreatedWithOriginalName();
+//        $this->checkAllToTestsIsCreatedWithOriginalName();
+    }
+
+    /**
      * @return void
      */
     private function checkAllToModelIsCreatedWithOriginalName(): void
