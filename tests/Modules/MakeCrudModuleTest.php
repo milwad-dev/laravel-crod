@@ -2,7 +2,6 @@
 
 namespace Milwad\LaravelCrod\Tests\Modules;
 
-use Carbon\Carbon;
 use Milwad\LaravelCrod\Tests\BaseTest;
 
 class MakeCrudModuleTest extends BaseTest
@@ -101,7 +100,7 @@ class MakeCrudModuleTest extends BaseTest
     /**
      * Check migration file is exists.
      *
-     * @param  string $mgr
+     * @param string $mgr
      * @return bool
      */
     private function migrationExists(string $mgr)

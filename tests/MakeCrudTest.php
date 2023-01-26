@@ -90,7 +90,7 @@ class MakeCrudTest extends BaseTest
     {
         $this->name = strtolower($this->name);
 
-        if (! str_ends_with($this->name, 'y')) {
+        if (!str_ends_with($this->name, 'y')) {
             $file = $this->migrationExists("create_{$this->name}s_table");
         } else {
             $file = $this->migrationExists("create_{$this->name}ies_table");
@@ -102,7 +102,7 @@ class MakeCrudTest extends BaseTest
     /**
      * Check migration file is exists.
      *
-     * @param  string $mgr
+     * @param string $mgr
      * @return bool
      */
     private function migrationExists(string $mgr)

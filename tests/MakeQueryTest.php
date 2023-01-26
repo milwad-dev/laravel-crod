@@ -2,8 +2,6 @@
 
 namespace Milwad\LaravelCrod\Tests;
 
-use Illuminate\Support\Facades\Schema;
-
 class MakeQueryTest extends BaseTest
 {
     /**
@@ -24,7 +22,7 @@ class MakeQueryTest extends BaseTest
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -32,9 +30,9 @@ class MakeQueryTest extends BaseTest
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
     }
 

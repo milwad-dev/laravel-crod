@@ -71,7 +71,7 @@ class MakeCrudCommand extends Command
         if (!str_ends_with($name, 'y')) {
             $this->call('make:migration', ['name' => "create_{$name}s_table", '--create']);
         } else {
-            $name = substr_replace($name ,"", -1);
+            $name = substr_replace($name, "", -1);
             $this->call('make:migration', ['name' => "create_{$name}ies_table", '--create']);
         }
     }

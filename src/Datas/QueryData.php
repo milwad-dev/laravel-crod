@@ -7,6 +7,7 @@ namespace Milwad\LaravelCrod\Datas;
  *
  * ======================== WARNING ======================== => DO NOT MAKE ANY CHANGES TO THIS FILE
  */
+
 class QueryData
 {
     /**

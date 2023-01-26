@@ -51,8 +51,8 @@ trait StubTrait
     private function getStubVariables(string $namespace, string $name)
     {
         return [
-            'NAMESPACE'         => $namespace,
-            'CLASS_NAME'        => $this->getSingularClassName($name),
+            'NAMESPACE' => $namespace,
+            'CLASS_NAME' => $this->getSingularClassName($name),
         ];
     }
 
@@ -79,12 +79,12 @@ trait StubTrait
      * @param array $stubVariables
      * @return array|false|string|string[]
      */
-    private function getStubContents($stub , $stubVariables = [])
+    private function getStubContents($stub, $stubVariables = [])
     {
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$' , $replace, $contents);
+            $contents = str_replace('$' . $search . '$', $replace, $contents);
         }
 
         return $contents;
@@ -102,10 +102,10 @@ trait StubTrait
     private function getSourceFilePath(string $path, string $name, string $latest, bool $singular = true)
     {
         if (!$singular) {
-            return base_path($path) .'\\' . $name . "$latest.php";
+            return base_path($path) . '\\' . $name . "$latest.php";
         }
 
-        return base_path($path) .'\\' .$this->getSingularClassName($name) . "$latest.php";
+        return base_path($path) . '\\' . $this->getSingularClassName($name) . "$latest.php";
     }
 
     /**
@@ -127,7 +127,7 @@ trait StubTrait
      */
     private function makeDirectory(string $path)
     {
-        if (! $this->files->isDirectory($path)) {
+        if (!$this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
 

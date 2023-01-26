@@ -21,7 +21,7 @@ trait QueryTrait
         $columns = '';
         $excepts = config('laravel-crod.queries.except_columns_in_fillable', ['id', 'updated_at', 'created_at']);
 
-        if (! is_array($excepts)) {
+        if (!is_array($excepts)) {
             throw new \RuntimeException("Except columns is not an array");
         }
 
