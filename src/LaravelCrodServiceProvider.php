@@ -10,6 +10,11 @@ use Milwad\LaravelCrod\Commands\{MakeCrudCommand,
 
 class LaravelCrodServiceProvider extends ServiceProvider
 {
+    /**
+     * Register files.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->commands([
@@ -19,8 +24,8 @@ class LaravelCrodServiceProvider extends ServiceProvider
             MakeQueryModuleCommand::class,
         ]);
 
-        $this->publishes(
-            [__DIR__ . '/../config/laravel-crod.php' => config_path('laravel-crod.php')], 'config'
-        );
+        $this->publishes([
+            __DIR__ . '/../config/laravel-crod.php' => config_path('laravel-crod.php')
+        ], 'config');
     }
 }
