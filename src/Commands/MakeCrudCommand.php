@@ -107,16 +107,11 @@ class MakeCrudCommand extends Command
     private function makeView(string $name)
     {
         $name = strtolower($name);
-
-        if (!str_ends_with($name, 'y')) {
-            $name .= "s";
-        } else {
-            $name .= "ies";
-        }
+        $name .= str_ends_with($name, 'y') ? 'ies' : 's';
 
         $this->makeStubFile(
             'Resources\\Views',
-            strtolower($name) . 's',
+            strtolower($name),
             '.blade',
             '/../Stubs/blade.stub',
             false,

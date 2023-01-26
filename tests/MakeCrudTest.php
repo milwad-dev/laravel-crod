@@ -130,11 +130,13 @@ class MakeCrudTest extends BaseTest
      */
     private function checkAllToViewIsCreatedWithOriginalName(): void
     {
-        $view = strtolower($this->name) . 's.blade';
+        $lowerName = strtolower($this->name);
+        $latest = str_ends_with($lowerName, 'y') ? 'ies' : 's';
+        $view = $lowerName . $latest . '.blade';
         $filename = resource_path("views\\$view.php");
-//
-//        $this->assertEquals(1, file_exists($filename));
-//        $this->assertEquals($view, basename($filename, '.php'));
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($view, basename($filename, '.php'));
     }
 
     /**
