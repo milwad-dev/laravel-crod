@@ -13,9 +13,9 @@
     stopOnFailure="false"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
-    <coverage>
+    <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">./src</directory>
         </include>
     </coverage>
     <testsuites>
