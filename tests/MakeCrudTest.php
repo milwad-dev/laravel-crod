@@ -23,6 +23,7 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToMigrationIsCreatedWithOriginalName();
         $this->checkAllToControllerIsCreatedWithOriginalName();
         $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName();
     }
 
     /**
@@ -95,5 +96,17 @@ class MakeCrudTest extends BaseTest
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($request, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToViewIsCreatedWithOriginalName(): void
+    {
+        $this->name = strtolower($this->name) . '.blade';
+        $filename = resource_path("views\\$this->name.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($this->name, basename($filename, '.php'));
     }
 }
