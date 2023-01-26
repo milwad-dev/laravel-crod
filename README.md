@@ -8,7 +8,7 @@ You can make automatically fillable for models, query for repositories & service
 ***
 - PHP >= 8.0
 - doctrine/dbal > 3.3
-- Laravel framework >= 5
+- Laravel framework >= 6
 
 # Installation
 ***
