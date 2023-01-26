@@ -44,7 +44,7 @@ class MakeCrudModuleTest extends BaseTest
         $this->checkAllToMigrationIsCreatedWithOriginalName();
         $this->checkAllToControllerIsCreatedWithOriginalName();
         $this->checkAllToRequestIsCreatedWithOriginalName();
-//        $this->checkAllToViewIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName();
     }
 
     /**
@@ -119,5 +119,20 @@ class MakeCrudModuleTest extends BaseTest
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($name, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToViewIsCreatedWithOriginalName(): void
+    {
+        $lowerName = strtolower($this->name);
+        $latest = str_ends_with($lowerName, 'y') ? 'ies' : 's';
+        $view = $lowerName . $latest . '.blade';
+        $viewFolderName = config('laravel-crod.modules.view_path', 'Resources\Views');
+        $filename = base_path("$this->module\\$this->name\\$viewFolderName\\$view.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($view, basename($filename, '.php'));
     }
 }

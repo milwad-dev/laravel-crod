@@ -130,7 +130,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeView(string $name)
     {
-        $viewPath = config('laravel-crod.modules.view_path');
+        $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$viewPath",
