@@ -5,7 +5,6 @@ namespace Milwad\LaravelCrod\Commands\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Traits\StubTrait;
-use function Milwad\LaravelCrod\Commands\str_ends_with;
 
 class MakeCrudModuleCommand extends Command
 {
@@ -58,7 +57,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeModel(string $name)
     {
-        $model = config('laravel-crod.modules.model_path');
+        $model = config('laravel-crod.modules.model_path') ?? 'Entities';
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$model",
@@ -76,16 +75,12 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeMigration(string $name)
     {
-        $migrationPath = config('laravel-crod.modules.migration_path');
-        $dir = "Modules/$name/Database";
-
-        if (!is_dir($dir) && !mkdir($dir) && !is_dir($dir)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
-        }
+        $migrationPath = config('laravel-crod.modules.migration_path') ?? 'Database\Migrations';
+        $path = "$this->module_name_space\\$name\\$migrationPath";
 
         $this->call('make:migration', [
             'name' => $this->getRealNameForMigration($name),
-            '--path' => "$this->module_name_space/$name/$migrationPath",
+            '--path' => $path,
             '--create'
         ]);
     }
