@@ -111,7 +111,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeRequest(string $name)
     {
-        $requestPath = config('laravel-crod.modules.request_path');
+        $requestPath = config('laravel-crod.modules.request_path', 'Http\Requests');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$requestPath",

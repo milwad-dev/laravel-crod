@@ -43,7 +43,7 @@ class MakeCrudModuleTest extends BaseTest
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();
         $this->checkAllToControllerIsCreatedWithOriginalName();
-//        $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
 //        $this->checkAllToViewIsCreatedWithOriginalName();
     }
 
@@ -102,6 +102,19 @@ class MakeCrudModuleTest extends BaseTest
     {
         $modelFolderName = config('laravel-crod.modules.controller_path') ?? 'Http\Controllers';
         $name = $this->name . 'Controller';
+        $filename = base_path("$this->module\\$this->name\\$modelFolderName\\$name.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($name, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToRequestIsCreatedWithOriginalName(): void
+    {
+        $modelFolderName = config('laravel-crod.modules.request_path') ?? 'Http\Requests';
+        $name = $this->name . 'Request';
         $filename = base_path("$this->module\\$this->name\\$modelFolderName\\$name.php");
 
         $this->assertEquals(1, file_exists($filename));
