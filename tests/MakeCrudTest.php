@@ -17,8 +17,9 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make()
     {
-        $this->withoutExceptionHandling();
-        $this->artisan("crud:make Product");
+        $this->artisan("crud:make", [
+            'name' => $this->name,
+        ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();
@@ -35,7 +36,6 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_options()
     {
-        $this->withoutExceptionHandling();
         $this->artisan("crud:make", [
             'name' => $this->name,
             '--service' => true,
@@ -51,6 +51,25 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToServiceIsCreatedWithOriginalName();
         $this->checkAllToRepositoryIsCreatedWithOriginalName();
         $this->checkAllToTestsIsCreatedWithOriginalName();
+    }
+
+    /**
+     * Test check all files create when user run command 'crud:make' with ies name.
+     *
+     * @test
+     * @return void
+     */
+    public function check_to_create_files_with_command_crud_make_with_ies_name()
+    {
+        $this->artisan("crud:make", [
+            'name' => "Category",
+        ]);
+
+        $this->checkAllToModelIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
+        $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName();
     }
 
     /**
