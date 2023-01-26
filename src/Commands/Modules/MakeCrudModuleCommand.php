@@ -185,8 +185,8 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeTest(string $name)
     {
-        $featureTestPath = config('laravel-crod.modules.feature_test_path');
-        $unitTestPath = config('laravel-crod.modules.unit_test_path');
+        $featureTestPath = config('laravel-crod.modules.feature_test_path', 'Tests\Feature');
+        $unitTestPath = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$featureTestPath",

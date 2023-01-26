@@ -186,4 +186,26 @@ class MakeCrudModuleTest extends BaseTest
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($repo, basename($filename, '.php'));
     }
+
+    /**
+     * @return void
+     */
+    private function checkAllToTestsIsCreatedWithOriginalName(): void
+    {
+        // Feature test
+        $test = ucfirst($this->name) . 'Test';
+        $repoFolderName = config('laravel-crod.modules.feature_test_path', 'Tests\Feature');
+        $filename = base_path("$this->module\\$this->name\\$repoFolderName\\$test.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($test, basename($filename, '.php'));
+
+        // Unit test
+        $test = ucfirst($this->name) . 'Test';
+        $repoFolderName = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
+        $filename = base_path("$this->module\\$this->name\\$repoFolderName\\$test.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($test, basename($filename, '.php'));
+    }
 }
