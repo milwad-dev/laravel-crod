@@ -33,7 +33,10 @@ class MakeQueryCommand extends Command
         $this->addDataToController($model, "App/Http/Controllers/{$model}Controller.php");
 
         if (File::exists($filename = "App/Services/{$model}Service.php")) {
-            $this->addDataToService($model, $filename);
+            $uses = "
+use App\Models\\$model;
+";
+            $this->addDataToService($model, $filename, $uses);
         }
         if (File::exists($filename = "App/Repositories/{$model}Repo.php")) {
             $this->addDataToRepo($model, $filename);

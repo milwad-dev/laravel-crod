@@ -20,8 +20,4 @@ class BaseTest extends \Orchestra\Testbench\TestCase
         ];
     }
 
-    public function test_success()
-    {
-        $this->assertEquals(1, 1);
-    }
 }

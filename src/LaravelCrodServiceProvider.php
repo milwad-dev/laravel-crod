@@ -3,10 +3,12 @@
 namespace Milwad\LaravelCrod;
 
 use Illuminate\Support\ServiceProvider;
-use Milwad\LaravelCrod\Commands\{MakeCrudCommand,
+use Milwad\LaravelCrod\Commands\{
+    MakeCrudCommand,
     MakeQueryCommand,
     Modules\MakeCrudModuleCommand,
-    Modules\MakeQueryModuleCommand};
+    Modules\MakeQueryModuleCommand
+};
 
 class LaravelCrodServiceProvider extends ServiceProvider
 {

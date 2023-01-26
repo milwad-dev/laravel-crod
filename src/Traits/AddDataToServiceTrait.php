@@ -11,30 +11,29 @@ trait AddDataToServiceTrait
      *
      * @param string $model
      * @param string $filename
+     * @param string $uses
      * @return void
      */
-    private function addDataToService(string $model, string $filename)
+    private function addDataToService(string $model, string $filename, string $uses)
     {
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 6);
         $lines[$line_i_am_looking_for] = QueryData::getServiceData($model, '$request', '$id');
 
         file_put_contents($filename, implode("\n", $lines));
-        $this->addUseToService($model, $filename);
+        $this->addUseToService($uses, $filename);
     }
 
     /**
      * Add use to Service for module.
      *
-     * @param string $model
+     * @param string $uses
      * @param string $filename
      * @return void
      */
-    private function addUseToService(string $model, string $filename)
+    private function addUseToService(string $uses, string $filename)
     {
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
-        $lines[$line_i_am_looking_for] = "
-use $this->module_name_space\\$model\Entities\\$model;
-";
+        $lines[$line_i_am_looking_for] = $uses;
         file_put_contents($filename, implode("\n", $lines));
     }
 }

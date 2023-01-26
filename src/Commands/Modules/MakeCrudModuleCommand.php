@@ -15,14 +15,14 @@ class MakeCrudModuleCommand extends Command
 
     protected $description = 'Command description';
 
-    public string $module_name_space;
+    private string $module_name_space;
     public Filesystem $files;
 
     public function __construct(Filesystem $files)
     {
         parent::__construct();
         $this->files = $files;
-        $this->module_name_space = config('laravel-crod.modules.module_namespace');
+        $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? "Modules";
     }
 
     public function handle()

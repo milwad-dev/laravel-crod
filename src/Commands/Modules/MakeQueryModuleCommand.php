@@ -46,7 +46,10 @@ class MakeQueryModuleCommand extends Command
             $this->addUseToControllerForRouteModelBinding($model, $controllerFilename);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {
-            $this->addDataToService($model, $filename);
+            $uses = "
+use $this->module_name_space\\$model\Services\\$model;
+";
+            $this->addDataToService($model, $filename, $uses);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php")) {
             $this->addDataToRepo($model, $filename);
