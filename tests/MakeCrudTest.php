@@ -20,6 +20,7 @@ class MakeCrudTest extends BaseTest
         $this->artisan("crud:make Product");
 
         $this->checkAllToModelIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
     }
 
     /**
@@ -31,5 +32,43 @@ class MakeCrudTest extends BaseTest
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($this->name, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    public function checkAllToMigrationIsCreatedWithOriginalName(): void
+    {
+        $this->name = strtolower($this->name);
+
+        if (! str_ends_with($this->name, 'y')) {
+            $file = $this->migrationExists("create_{$this->name}s_table");
+        } else {
+            $file = $this->migrationExists("create_{$this->name}ies_table");
+        }
+
+        $this->assertEquals(1, $file);
+    }
+
+
+    /**
+     * Check migration file is exists.
+     *
+     * @param  string $mgr
+     * @return bool
+     */
+    private function migrationExists(string $mgr)
+    {
+        $path = database_path('migrations/');
+        $files = scandir($path);
+
+        foreach ($files as &$value) {
+            $pos = strpos($value, $mgr);
+            if ($pos !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
