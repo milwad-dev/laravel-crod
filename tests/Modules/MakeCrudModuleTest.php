@@ -160,4 +160,17 @@ class MakeCrudModuleTest extends BaseTest
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($view, basename($filename, '.php'));
     }
+
+    /**
+     * @return void
+     */
+    private function checkAllToServiceIsCreatedWithOriginalName(): void
+    {
+        $service = ucfirst($this->name) . 'Service';
+        $serviceFolderName = config('laravel-crod.modules.service_path', 'Services');
+        $filename = base_path("$this->module\\$this->name\\$serviceFolderName\\$service.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($service, basename($filename, '.php'));
+    }
 }

@@ -149,7 +149,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeService(string $name)
     {
-        $servicePath = config('laravel-crod.modules.service_path');
+        $servicePath = config('laravel-crod.modules.service_path', 'Services');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$servicePath",
@@ -172,7 +172,7 @@ class MakeCrudModuleCommand extends Command
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$repositoryPath",
             $name,
-            config('laravel-crod.modules.repository_namespace'),
+            config('laravel-crod.modules.repository_namespace', 'Repositories'),
             '/../Stubs/module/repo.stub'
         );
     }
