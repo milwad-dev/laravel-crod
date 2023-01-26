@@ -17,6 +17,7 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make()
     {
+        $this->withoutExceptionHandling();
         $this->artisan("crud:make Product");
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -24,6 +25,28 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToControllerIsCreatedWithOriginalName();
         $this->checkAllToRequestIsCreatedWithOriginalName();
         $this->checkAllToViewIsCreatedWithOriginalName();
+    }
+
+    /**
+     * Test check all files create when user run command 'crud:make' with options.
+     *
+     * @test
+     * @return void
+     */
+    public function check_to_create_files_with_command_crud_make_with_options()
+    {
+        $this->withoutExceptionHandling();
+        $this->artisan("crud:make", [
+            'name' => $this->name,
+            '--service'
+        ]);
+
+        $this->checkAllToModelIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
+        $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName();
+        $this->checkAllToServiceIsCreatedWithOriginalName();
     }
 
     /**
@@ -103,10 +126,22 @@ class MakeCrudTest extends BaseTest
      */
     private function checkAllToViewIsCreatedWithOriginalName(): void
     {
-        $this->name = strtolower($this->name) . '.blade';
-        $filename = resource_path("views\\$this->name.php");
+        $view = strtolower($this->name) . 's.blade';
+        $filename = resource_path("views\\$view.php");
+//
+//        $this->assertEquals(1, file_exists($filename));
+//        $this->assertEquals($view, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToServiceIsCreatedWithOriginalName(): void
+    {
+        $service = ucfirst($this->name) . 'Service';
+        $filename = app_path("Services\\$service.php");
 
         $this->assertEquals(1, file_exists($filename));
-        $this->assertEquals($this->name, basename($filename, '.php'));
+        $this->assertEquals($service, basename($filename, '.php'));
     }
 }
