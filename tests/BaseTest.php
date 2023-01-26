@@ -20,4 +20,14 @@ class BaseTest extends \Orchestra\Testbench\TestCase
         ];
     }
 
+    /**
+     * Is a fake test.
+     *
+     * @test
+     * @return void
+     */
+    public function success(): void
+    {
+        $this->assertEquals(1, 1);
+    }
 }
