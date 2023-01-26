@@ -38,7 +38,9 @@ class MakeCrudTest extends BaseTest
         $this->withoutExceptionHandling();
         $this->artisan("crud:make", [
             'name' => $this->name,
-            '--service'
+            '--service' => true,
+            '--test' => true,
+            '--repo' => true
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -47,6 +49,8 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToRequestIsCreatedWithOriginalName();
         $this->checkAllToViewIsCreatedWithOriginalName();
         $this->checkAllToServiceIsCreatedWithOriginalName();
+        $this->checkAllToRepositoryIsCreatedWithOriginalName();
+        $this->checkAllToTestsIsCreatedWithOriginalName();
     }
 
     /**
@@ -143,5 +147,30 @@ class MakeCrudTest extends BaseTest
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($service, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToRepositoryIsCreatedWithOriginalName(): void
+    {
+        $latest = config('laravel-crod.modules.repository_namespace') ?? 'Repo';
+        $repo = ucfirst($this->name) . $latest;
+        $filename = app_path("Repositories\\$repo.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($repo, basename($filename, '.php'));
+    }
+
+    /**
+     * @return void
+     */
+    private function checkAllToTestsIsCreatedWithOriginalName(): void
+    {
+        $test = ucfirst($this->name) . 'Test';
+        $filename = base_path("Tests\\Feature\\$test.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($test, basename($filename, '.php'));
     }
 }
