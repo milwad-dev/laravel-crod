@@ -19,6 +19,17 @@ class MakeCrudTest extends BaseTest
     {
         $this->artisan("crud:make Product");
 
-        $this->assertEquals(1, file_exists(app_path("Models\\$this->name.php")));
+        $this->checkAllToModelIsCreatedWithOriginalName();
+    }
+
+    /**
+     * @return void
+     */
+    public function checkAllToModelIsCreatedWithOriginalName(): void
+    {
+        $filename = app_path("Models\\$this->name.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($this->name, basename($filename, '.php'));
     }
 }
