@@ -2,9 +2,13 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - '*.x'
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - '*.x'
 
 jobs:
   run-tests:
