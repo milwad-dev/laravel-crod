@@ -10,9 +10,8 @@ controllers.
 
 ***
 
-- PHP >= 7.4
-- doctrine/dbal > 3.3
-- Laravel framework >= 7
+- PHP >= 8.0
+- Laravel framework >= 9
 
 # Installation
 

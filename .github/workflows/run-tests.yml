@@ -1,5 +1,4 @@
-name: "Run Tests"
-
+name: Run Tests
 on:
   push:
     branches:
@@ -17,68 +16,59 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php: [ '8.2', '8.1', '8.0', '7.4', '7.3', '7.2' ]
-        dependency-stability: [ 'prefer-stable' ]
-        laravel: [ '10.*', '9.*', '8.*', '7.*' ]
+        dependency-stability: [ 'prefer-none' ]
+        php-versions: [ 8.2, 8.1, 8.0 ]
+        laravel: [ 10.*, 9.* ]
         include:
           - laravel: 10.*
             testbench: 8.*
           - laravel: 9.*
             testbench: 7.*
-          - laravel: 8.*
-            testbench: 6.*
-          - laravel: 7.*
-            testbench: 5.*
 
-        exclude:
-          - php: 7.2
-            laravel: 8
-          - php: 7.2
-            laravel: 9
-          - php: 7.2
-            laravel: 10
-
-          - php: 7.3
-            laravel: 9
-          - php: 7.3
-            laravel: 10
-
-          - php: 7.4
-            laravel: 9
-          - php: 7.4
-            laravel: 10
-
-          - php: 8.1
-            laravel: 7
-
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
 
     steps:
       - uses: actions/checkout@v3
       - name: Install PHP versions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: ${{ matrix.php-versions }}
+
+      - name: Get Composer Cache Directory 2
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v3
+        id: actions-cache
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: Cache PHP dependencies
         uses: actions/cache@v3
         id: vendor-cache
         with:
           path: vendor
           key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+
       - name: Install Laravel Dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-stability }} --prefer-dist --no-interaction --no-suggest
 
       - name: Update Dependencies with latest stable
         if: matrix.dependency-stability == 'prefer-stable'
         run: composer update --prefer-stable
+
       - name: Update Dependencies with lowest stable
         if: matrix.dependency-stability == 'prefer-lowest'
         run: composer update --prefer-stable --prefer-lowest
 
       - name: Show dir
         run: pwd
+
       - name: PHP Version
         run: php --version
 
@@ -89,7 +79,6 @@ jobs:
           SESSION_DRIVER: array
 
         run: vendor/bin/phpunit --testdox
-
 
       - name: Execute Code Sniffer via phpcs
         run: |
