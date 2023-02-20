@@ -1,4 +1,4 @@
-name: tests
+name: "Run Tests"
 
 on:
   push:
@@ -11,13 +11,15 @@ on:
       - '*.x'
 
 jobs:
-  run-tests:
+  laravel-tests:
     runs-on: ubuntu-latest
+
     strategy:
-      fail-fast: false
       matrix:
-        php: [ 7.2.5, 7.3, 7.4, 8.0, 8.1, 8.2 ]
-        laravel: [ 7.*, 8.*, 9.*, 10.x ]
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '8.2','8.1','8.0','7.4','7.3' ]
+        dependency-stability: [ 'prefer-stable' ]
+        laravel: [ '10.*','9.*','8.*','7.*' ]
         include:
           - laravel: 10.*
             testbench: 8.*
@@ -27,53 +29,53 @@ jobs:
             testbench: 6.*
           - laravel: 7.*
             testbench: 5.*
-        exclude:
-          - laravel: 7.*
-            php: 7.4
-          - laravel: 7.*
-            php: 8.0
 
-          - laravel: 8.*
-            php: 7.2.5
-          - laravel: 8.*
-            php: 8.2
-
-          - laravel: 9.*
-            php: 7.2.5
-          - laravel: 9.*
-            php: 7.3
-          - laravel: 9.*
-            php: 7.4
-
-          - laravel: 10.*
-            php: 7.2.5
-          - laravel: 10.*
-            php: 7.3
-          - laravel: 10.*
-            php: 7.4
-          - laravel: 10.*
-            php: 8.0
-
-    name: PHP${{ matrix.php }} - Laravel${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
 
     steps:
-      - name: Update apt
-        run: sudo apt-get update --fix-missing
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
+      - uses: actions/checkout@v3
+      - name: Install PHP versions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-          coverage: none
-
-      - name: Install dependencies
+          php-version: ${{ matrix.php-versions }}
+      - name: Cache PHP dependencies
+        uses: actions/cache@v3
+        id: vendor-cache
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+      - name: Install Laravel Dependencies
         run: |
-          composer require "illuminate/console:${{ matrix.laravel }}" "illuminate/database:${{ matrix.laravel }}" "illuminate/filesystem:${{ matrix.laravel }}" --no-interaction --no-update
-          composer require "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
-          composer update --prefer-dist --no-interaction --no-suggest
-      - name: Execute tests
-        run: vendor/bin/phpunit
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.dependency-stability }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Update Dependencies with latest stable
+        if: matrix.dependency-stability == 'prefer-stable'
+        run: composer update --prefer-stable
+      - name: Update Dependencies with lowest stable
+        if: matrix.dependency-stability == 'prefer-lowest'
+        run: composer update --prefer-stable --prefer-lowest
+
+      - name: Show dir
+        run: pwd
+      - name: PHP Version
+        run: php --version
+
+      # Code quality
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        # Set environment
+        env:
+          SESSION_DRIVER: array
+
+        run: vendor/bin/phpunit --testdox
+
+
+      - name: Execute Code Sniffer via phpcs
+        run: |
+          composer require --dev squizlabs/php_codesniffer
+          vendor/bin/phpcs --standard=PSR12 src
+
+      - name: Execute Code Static Analysis (PHP Stan + Larastan)
+        run: |
+          composer require --dev nunomaduro/larastan
+          vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
