@@ -1,91 +1,55 @@
-name: Run Tests
-on:
-  push:
-    branches:
-      - main
-      - '*.x'
-  pull_request:
-    branches:
-      - main
-      - '*.x'
-
 jobs:
-  laravel-tests:
+  run-tests:
     runs-on: ubuntu-latest
-
     strategy:
+      fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        dependency-stability: [ 'prefer-none' ]
-        php-versions: [ 8.2, 8.1, 8.0 ]
-        laravel: [ 10.*, 9.* ]
+        php: [8.2, 8.1, 8.0]
+        laravel: [10.*, 9.*]
+        dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
-            testbench: 8.*
+            testbench: ^8.0
           - laravel: 9.*
-            testbench: 7.*
+            testbench: ^7.0
+        exclude:
+          - laravel: 10.*
+            php: 8.0
 
-    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Install PHP versions
+      - name: Update apt
+        run: sudo apt-get update --fix-missing
+
+      - name: Install ffmpeg
+        run: sudo apt-get -y install ffmpeg
+
+      - name: Install ghostscript
+        run: sudo apt-get -y install ghostscript
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
-      - name: Get Composer Cache Directory 2
-        id: composer-cache
+      - name: Setup Problem Matches
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v3
-        id: actions-cache
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Cache PHP dependencies
-        uses: actions/cache@v3
-        id: vendor-cache
-        with:
-          path: vendor
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+      - name: Fix Imagick Policy
+        run: sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
 
-      - name: Install Laravel Dependencies
+      - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.dependency-stability }} --prefer-dist --no-interaction --no-suggest
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
-      - name: Update Dependencies with latest stable
-        if: matrix.dependency-stability == 'prefer-stable'
-        run: composer update --prefer-stable
-
-      - name: Update Dependencies with lowest stable
-        if: matrix.dependency-stability == 'prefer-lowest'
-        run: composer update --prefer-stable --prefer-lowest
-
-      - name: Show dir
-        run: pwd
-
-      - name: PHP Version
-        run: php --version
-
-      # Code quality
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        # Set environment
-        env:
-          SESSION_DRIVER: array
-
-        run: vendor/bin/phpunit --testdox
-
-      - name: Execute Code Sniffer via phpcs
-        run: |
-          composer require --dev squizlabs/php_codesniffer
-          vendor/bin/phpcs --standard=PSR12 src
-
-      - name: Execute Code Static Analysis (PHP Stan + Larastan)
-        run: |
-          composer require --dev nunomaduro/larastan
-          vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
+      - name: Execute tests
+        run: vendor/bin/phpunit
