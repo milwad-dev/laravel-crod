@@ -31,7 +31,7 @@ class QueryData
      */
     public static function getServiceData(string $model, string $request, string $id)
     {
-        return "    public function store($id)
+        return "    public function store($request)
     {
         return $model::query()->create(" . '$request->all()' . ");
     }
