@@ -24,7 +24,7 @@ composer require milwad/laravel-crod
 After publish config files.<br>
 
 ```bash
-php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="laravel-crod-config"
 ```
 
 # Check active commands
