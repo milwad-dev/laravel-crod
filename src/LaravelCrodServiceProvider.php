@@ -3,10 +3,18 @@
 namespace Milwad\LaravelCrod;
 
 use Illuminate\Support\ServiceProvider;
-use Milwad\LaravelCrod\Commands\{MakeCrudCommand, MakeCrudModuleCommand, MakeQueryCommand, MakeQueryModuleCommand};
+use Milwad\LaravelCrod\Commands\{MakeCrudCommand,
+    MakeQueryCommand,
+    Modules\MakeCrudModuleCommand,
+    Modules\MakeQueryModuleCommand};
 
 class LaravelCrodServiceProvider extends ServiceProvider
 {
+    /**
+     * Register files.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->commands([

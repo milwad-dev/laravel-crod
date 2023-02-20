@@ -4,10 +4,12 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Pluralizer;
+use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
+    use StubTrait;
+
     protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
 
     protected $description = 'Make crud fast';
@@ -44,7 +46,7 @@ class MakeCrudCommand extends Command
             $this->makeTest($name_uc);
         }
 
-        $this->info('Crud successfully generate...');
+        $this->info('Crud successfully generates...');
     }
 
     /**
@@ -69,7 +71,7 @@ class MakeCrudCommand extends Command
         if (!str_ends_with($name, 'y')) {
             $this->call('make:migration', ['name' => "create_{$name}s_table", '--create']);
         } else {
-            $name = substr_replace($name ,"", -1);
+            $name = substr_replace($name, "", -1);
             $this->call('make:migration', ['name' => "create_{$name}ies_table", '--create']);
         }
     }
@@ -104,9 +106,12 @@ class MakeCrudCommand extends Command
      */
     private function makeView(string $name)
     {
+        $name = strtolower($name);
+        $name .= str_ends_with($name, 'y') ? 'ies' : 's';
+
         $this->makeStubFile(
             'Resources\\Views',
-            strtolower($name) . 's',
+            strtolower($name),
             '.blade',
             '/../Stubs/blade.stub',
             false,
@@ -132,7 +137,12 @@ class MakeCrudCommand extends Command
      */
     private function makeRepository(string $name)
     {
-        $this->makeStubFile('App\\Repositories', $name, 'Repo', '/../Stubs/repo.stub');
+        $this->makeStubFile(
+            'App\\Repositories',
+            $name,
+            config('laravel-crod.modules.repository_namespace') ?? 'Repo',
+            '/../Stubs/repo.stub'
+        );
     }
 
     /**
@@ -145,123 +155,5 @@ class MakeCrudCommand extends Command
     {
         $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
         $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
-    }
-
-    /**
-     * Return the stub file path.
-     *
-     * @return string
-     */
-    public function getStubPath($path)
-    {
-        return __DIR__ . $path;
-    }
-
-    /**
-     * Map the stub variables present in stub to its value.
-     *
-     * @return array
-     */
-    public function getStubVariables($namespace, $name)
-    {
-        return [
-            'NAMESPACE'         => $namespace,
-            'CLASS_NAME'        => $this->getSingularClassName($name),
-        ];
-    }
-
-    /**
-     * Get the stub path and the stub variables.
-     *
-     * @return array|false|string|string[]
-     */
-    public function getSourceFile($path, $namespace, $name)
-    {
-        return $this->getStubContents(
-            $this->getStubPath($path),
-            $this->getStubVariables($namespace, $name)
-        );
-    }
-
-    /**
-     * Replace the stub variables(key) with the desire value.
-     *
-     * @param $stub
-     * @param array $stubVariables
-     * @return array|false|string|string[]
-     */
-    public function getStubContents($stub , $stubVariables = [])
-    {
-        $contents = file_get_contents($stub);
-
-        foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$' , $replace, $contents);
-        }
-
-        return $contents;
-    }
-
-    /**
-     * Get the full path of generate class.
-     *
-     * @return string
-     */
-    public function getSourceFilePath($path, $name, $latest, $singular = true)
-    {
-        if (!$singular) {
-            return base_path($path) .'\\' . $name . "$latest.php";
-        }
-
-        return base_path($path) .'\\' .$this->getSingularClassName($name) . "$latest.php";
-    }
-
-    /**
-     * Return the singular capitalize name.
-     *
-     * @param $name
-     * @return string
-     */
-    public function getSingularClassName($name)
-    {
-        return ucwords(Pluralizer::singular($name));
-    }
-
-    /**
-     * Build the directory for the class if necessary.
-     *
-     * @param string $path
-     * @return string
-     */
-    public function makeDirectory(string $path)
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
-    }
-
-    /**
-     * Build stub & check exists.
-     *
-     * @param $pathSource
-     * @param string $name
-     * @param string $latest
-     * @param $pathStub
-     * @param bool $singular
-     * @return void
-     */
-    private function makeStubFile($pathSource, string $name, string $latest, $pathStub, bool $singular = true): void
-    {
-        $path = $this->getSourceFilePath($pathSource, $name, $latest, $singular);
-        $this->makeDirectory(dirname($path));
-        $contents = $this->getSourceFile($pathStub, $pathSource, $name);
-
-        if (!$this->files->exists($path)) {
-            $this->files->put($path, $contents);
-            $this->info("File : {$path} created");
-        } else {
-            $this->info("File : {$path} already exits");
-        }
     }
 }

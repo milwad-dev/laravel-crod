@@ -1,17 +1,17 @@
 <?php
 
 return [
-    /**
-     * Module namespace
-     */
-    'module_namespace' => 'Modules',
-
-    /**
+    /*
      * Modules config.
+     *
+     * You can make custom modules with special folders ...
      */
     'modules' => [
+        'module_namespace' => 'Modules',
+        'repository_namespace' => 'Repo',
+
         'model_path' => 'Entities',
-        'migration_path' => 'Database/Migrations',
+        'migration_path' => 'Database\Migrations',
         'controller_path' => 'Http\Controllers',
         'request_path' => 'Http\Requests',
         'view_path' => 'Resources\Views',
@@ -20,4 +20,13 @@ return [
         'feature_test_path' => 'Tests\Feature',
         'unit_test_path' => 'Tests\Unit',
     ],
+
+    /**
+     * Queries.
+     */
+    'queries' => [
+        'except_columns_in_fillable' => [
+            'id', 'updated_at', 'created_at'
+        ]
+    ]
 ];
