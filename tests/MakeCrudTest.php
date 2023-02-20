@@ -36,6 +36,7 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_options()
     {
+        $this->withoutExceptionHandling();
         $this->artisan("crud:make", [
             'name' => $this->name,
             '--service' => true,
