@@ -34,12 +34,6 @@ jobs:
       - name: Update apt
         run: sudo apt-get update --fix-missing
 
-      - name: Install ffmpeg
-        run: sudo apt-get -y install ffmpeg
-
-      - name: Install ghostscript
-        run: sudo apt-get -y install ghostscript
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -49,14 +43,6 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
-
-      - name: Setup Problem Matches
-        run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-      - name: Fix Imagick Policy
-        run: sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
 
       - name: Install dependencies
         run: |
