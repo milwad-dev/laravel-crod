@@ -41,6 +41,7 @@ class MakeQueryModuleCommand extends Command
 
         $this->addDataToModel($items, "$this->module_name_space/$model/Entities/$model.php");
         $this->addDataToController($model, $controllerFilename);
+        $this->addDataToProvider($model, $controllerFilename);
 
         if (!$this->option('id-controller')) {
             $this->addUseToControllerForRouteModelBinding($model, $controllerFilename);

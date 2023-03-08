@@ -185,4 +185,11 @@ use App\Models\{$model};
         $comment
     }";
     }
+
+    public function getProviderData()
+    {
+        // TODO
+        return "    '\$this->loadMigrationFrom(__DIR__ . /)'
+        ";
+    }
 }

@@ -71,6 +71,21 @@ trait QueryTrait
     }
 
     /**
+     * Add data to provider.
+     *
+     * @param string $model
+     * @param string $filename
+     * @return void
+     */
+    private function addDataToProvider(string $model, string $filename)
+    {
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 16);
+        $lines[$line_i_am_looking_for] = QueryData::getProviderData();
+
+        file_put_contents($filename, implode("\n", $lines));
+    }
+
+    /**
      * @param string $filename
      * @param int $looking_for
      * @return array
