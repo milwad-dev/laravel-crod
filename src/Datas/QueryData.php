@@ -117,6 +117,11 @@ use App\Models\{$model};
     {
         $comment
     }
+    
+    public function show($id)
+    {
+        $comment
+    }
 
     public function edit($id)
     {
@@ -156,6 +161,11 @@ use App\Models\{$model};
     }
 
     public function store(Request $request)
+    {
+        $comment
+    }
+    
+    public function show($name $$lowerName)
     {
         $comment
     }

@@ -19,6 +19,7 @@ return [
         'repository_path' => 'Repositories',
         'feature_test_path' => 'Tests\Feature',
         'unit_test_path' => 'Tests\Unit',
+        'provider_path' => 'Providers',
     ],
 
     /**

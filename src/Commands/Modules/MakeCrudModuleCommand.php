@@ -35,6 +35,7 @@ class MakeCrudModuleCommand extends Command
         $this->makeController($name);
         $this->makeRequest($name);
         $this->makeView($name);
+        $this->makeProvider($name);
 
         if ($this->option('service')) {
             $this->makeService($name);
@@ -138,6 +139,31 @@ class MakeCrudModuleCommand extends Command
             '.blade',
             '/../Stubs/module/blade.stub',
             false,
+        );
+    }
+
+    /**
+     * Build provider for module.
+     *
+     * @param string $name
+     * @return void
+     */
+    private function makeProvider(string $name)
+    {
+        $providerPath = config('laravel-crod.modules.provider_path', 'Providers');
+
+        if (str_ends_with($name, 'y')) {
+            $name = substr_replace($name, "", -1);
+            $name .= 'ies';
+        } else {
+            $name .= 's';
+        }
+
+        $this->makeStubFile(
+            $this->module_name_space . "\\$name\\$providerPath",
+            $name,
+            'ServiceProvider',
+            '/../Stubs/module/provider.stub',
         );
     }
 
