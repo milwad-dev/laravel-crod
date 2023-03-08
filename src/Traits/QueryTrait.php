@@ -26,10 +26,10 @@ trait QueryTrait
         }
 
         foreach ($excepts as $except) {
-            if (Arr::exists($itemsDB, $except)) {
-                Arr::forget($itemsDB, $except);
-            }
+            $key = array_search($except, $itemsDB, true);
+            unset($itemsDB[$key]);
         }
+
         foreach ($itemsDB as $db) {
             $columns .= "'$db', ";
         }
