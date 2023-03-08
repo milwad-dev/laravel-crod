@@ -21,7 +21,7 @@ class MakeCrudModuleCommand extends Command
     {
         parent::__construct();
         $this->files = $files;
-        $this->module_name_space = config('laravel-crod.modules.module_namespace') ?? "Modules";
+        $this->module_name_space = config('laravel-crod.modules.module_namespace', 'Modules');
     }
 
     public function handle()
@@ -57,7 +57,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeModel(string $name)
     {
-        $model = config('laravel-crod.modules.model_path') ?? 'Entities';
+        $model = config('laravel-crod.modules.model_path', 'Entities');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$model",
@@ -75,7 +75,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeMigration(string $name)
     {
-        $migrationPath = config('laravel-crod.modules.migration_path') ?? 'Database\Migrations';
+        $migrationPath = config('laravel-crod.modules.migration_path', 'Database\Migrations');
         $path = "$this->module_name_space\\$name\\$migrationPath";
 
         $this->call('make:migration', [
@@ -93,7 +93,7 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeController(string $name)
     {
-        $controllerPath = config('laravel-crod.modules.controller_path') ?? 'Http\Controllers';
+        $controllerPath = config('laravel-crod.modules.controller_path', 'Http\Controllers');
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$controllerPath",
