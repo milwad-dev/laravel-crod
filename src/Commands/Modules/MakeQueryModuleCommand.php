@@ -35,7 +35,7 @@ class MakeQueryModuleCommand extends Command
         $model = $this->argument('model');
 
         $itemsDB = Schema::getColumnListing($name);
-        $items = $this->addDBCulumnsToString($itemsDB);
+        $items = $this->addDBColumnsToString($itemsDB);
 
         $controllerFilename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
 

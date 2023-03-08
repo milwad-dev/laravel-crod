@@ -27,7 +27,7 @@ class MakeQueryCommand extends Command
         $model = $this->argument('model');
 
         $itemsDB = Schema::getColumnListing($name);
-        $items = $this->addDBCulumnsToString($itemsDB);
+        $items = $this->addDBColumnsToString($itemsDB);
 
         $this->addDataToModel($items, "App/Models/$model.php");
         $this->addDataToController($model, "App/Http/Controllers/{$model}Controller.php");

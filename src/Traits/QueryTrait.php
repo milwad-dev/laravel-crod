@@ -16,7 +16,7 @@ trait QueryTrait
      * @return string
      * @throws \Exception
      */
-    private function addDBCulumnsToString(array $itemsDB)
+    private function addDBColumnsToString(array $itemsDB)
     {
         $columns = '';
         $excepts = config('laravel-crod.queries.except_columns_in_fillable', ['id', 'updated_at', 'created_at']);
@@ -47,6 +47,7 @@ trait QueryTrait
     private function addDataToModel(mixed $items, string $filename)
     {
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 10);
+
         $lines[$line_i_am_looking_for] = QueryData::getModelData($items);
 
         file_put_contents($filename, implode("\n", $lines));
