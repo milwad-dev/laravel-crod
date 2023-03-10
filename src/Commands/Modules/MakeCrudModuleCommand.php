@@ -138,10 +138,12 @@ class MakeCrudModuleCommand extends Command
     private function makeView(string $name)
     {
         $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
+        $name = strtolower($name);
+        $name .= str_ends_with($name, 'y') ? 'ies' : 's';
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$viewPath",
-            strtolower($name) . 's',
+            strtolower($name),
             '.blade',
             '/../Stubs/module/blade.stub',
             false,
