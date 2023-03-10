@@ -117,7 +117,13 @@ class MakeCrudModuleCommand extends Command
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$requestPath",
             $name,
-            'Request',
+            'StoreRequest',
+            '/../Stubs/module/request.stub'
+        );
+        $this->makeStubFile(
+            $this->module_name_space . "\\$name\\$requestPath",
+            $name,
+            'UpdateRequest',
             '/../Stubs/module/request.stub'
         );
     }
