@@ -95,7 +95,8 @@ class MakeCrudCommand extends Command
      */
     private function makeRequest(string $name)
     {
-        $this->call('make:request', ['name' => "{$name}Request"]);
+        $this->call('make:request', ['name' => "{$name}StoreRequest"]);
+        $this->call('make:request', ['name' => "{$name}UpdateRequest"]);
     }
 
     /**
