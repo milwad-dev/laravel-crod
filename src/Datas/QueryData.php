@@ -188,8 +188,9 @@ use App\Models\{$model};
 
     public function getProviderData()
     {
+        $databasePath = config('laravel-crod.modules.migration_path', 'Database/Migrations');
         // TODO
-        return "    '\$this->loadMigrationFrom(__DIR__ . /)'
+        return "    \$this->loadMigrationFrom(__DIR__ . '/../$databasePath')
         ";
     }
 }
