@@ -4,6 +4,7 @@ namespace Milwad\LaravelCrod\Commands\Modules;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudModuleCommand extends Command
@@ -80,7 +81,7 @@ class MakeCrudModuleCommand extends Command
         $path = "$this->module_name_space\\$name\\$migrationPath";
 
         $this->call('make:migration', [
-            'name' => $this->getRealNameForMigration($name),
+            'name' => LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
             '--path' => $path,
             '--create'
         ]);
@@ -138,12 +139,10 @@ class MakeCrudModuleCommand extends Command
     private function makeView(string $name)
     {
         $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
-        $name = strtolower($name);
-        $name .= str_ends_with($name, 'y') ? 'ies' : 's';
 
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$viewPath",
-            strtolower($name),
+            LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
             '.blade',
             '/../Stubs/module/blade.stub',
             false,
@@ -160,16 +159,9 @@ class MakeCrudModuleCommand extends Command
     {
         $providerPath = config('laravel-crod.modules.provider_path', 'Providers');
 
-        if (str_ends_with($name, 'y')) {
-            $name = substr_replace($name, "", -1);
-            $name .= 'ies';
-        } else {
-            $name .= 's';
-        }
-
         $this->makeStubFile(
             $this->module_name_space . "\\$name\\$providerPath",
-            $name,
+            LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name, false),
             'ServiceProvider',
             '/../Stubs/module/provider.stub',
         );
@@ -234,21 +226,5 @@ class MakeCrudModuleCommand extends Command
             'Test',
             '/../Stubs/module/unit-test.stub'
         );
-    }
-
-    /**
-     * Get real name of migration.
-     *
-     * @param string $name
-     * @return string
-     */
-    private function getRealNameForMigration(string $name): string
-    {
-        if (\str_ends_with($name, 'y')) {
-            $name = substr_replace($name, "", -1);
-            return "create{$name}ies_table";
-        }
-
-        return "create{$name}s_table";
     }
 }
