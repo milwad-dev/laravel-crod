@@ -98,10 +98,12 @@ use $this->module_name_space\\$model\Services\\$model;
      */
     private function addUseToControllerForRouteModelBinding(string $model, string $filename)
     {
+        $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
+
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 5);
         $lines[$line_i_am_looking_for] = "
 use $this->module_name_space\\$model\Entities\\$model;
-use App\Http\Controllers\Controller;
+use $currentController;
 ";
         file_put_contents($filename, implode("\n", $lines));
     }

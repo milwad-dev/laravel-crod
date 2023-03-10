@@ -22,12 +22,17 @@ return [
         'provider_path' => 'Providers',
     ],
 
-    /**
+    /*
      * Queries.
      */
     'queries' => [
         'except_columns_in_fillable' => [
             'id', 'updated_at', 'created_at'
         ]
-    ]
+    ],
+
+    /*
+     * Get main controlelr.
+     */
+    'main_controller' => 'App\Http\Controllers\Controller'
 ];
