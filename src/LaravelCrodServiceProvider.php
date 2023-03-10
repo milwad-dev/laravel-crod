@@ -20,6 +20,7 @@ class LaravelCrodServiceProvider extends ServiceProvider
     {
         $this->loadCommands();
         $this->publishFiles();
+        $this->bindFacades();
     }
 
     /**
@@ -43,5 +44,15 @@ class LaravelCrodServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/laravel-crod.php' => config_path('laravel-crod.php')
         ], 'laravel-crod-config');
+    }
+
+    /**
+     * @return void
+     */
+    public function bindFacades(): void
+    {
+        $this->app->bind('laravel-crod-service', function () {
+            return new LaravelCrodService;
+        });
     }
 }
