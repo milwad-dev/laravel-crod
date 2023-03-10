@@ -4,6 +4,7 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
@@ -68,12 +69,9 @@ class MakeCrudCommand extends Command
      */
     private function makeMigration(string $name)
     {
-        if (!str_ends_with($name, 'y')) {
-            $this->call('make:migration', ['name' => "create_{$name}s_table", '--create']);
-        } else {
-            $name = substr_replace($name, "", -1);
-            $this->call('make:migration', ['name' => "create_{$name}ies_table", '--create']);
-        }
+        $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
+
+        $this->call('make:migration', ['name' => "create_{$name}_table", '--create']);
     }
 
     /**
@@ -107,12 +105,11 @@ class MakeCrudCommand extends Command
      */
     private function makeView(string $name)
     {
-        $name = strtolower($name);
-        $name .= str_ends_with($name, 'y') ? 'ies' : 's';
+        $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
         $this->makeStubFile(
             'Resources\\Views',
-            strtolower($name),
+            $name,
             '.blade',
             '/../Stubs/blade.stub',
             false,
