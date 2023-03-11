@@ -37,6 +37,8 @@ class LaravelCrodServiceProvider extends ServiceProvider
     }
 
     /**
+     * Publish files.
+     *
      * @return void
      */
     public function publishFiles(): void
@@ -47,6 +49,8 @@ class LaravelCrodServiceProvider extends ServiceProvider
     }
 
     /**
+     * Bind facades.
+     *
      * @return void
      */
     public function bindFacades(): void

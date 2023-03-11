@@ -9,14 +9,14 @@ trait StubTrait
     /**
      * Build stub & check exists.
      *
-     * @param $pathSource
+     * @param string $pathSource
      * @param string $name
      * @param string $latest
-     * @param $pathStub
+     * @param string $pathStub
      * @param bool $singular
      * @return void
      */
-    protected function makeStubFile($pathSource, string $name, string $latest, $pathStub, bool $singular = true): void
+    protected function makeStubFile(string $pathSource, string $name, string $latest, string $pathStub, bool $singular = true): void
     {
         $path = $this->getSourceFilePath($pathSource, $name, $latest, $singular);
         $this->makeDirectory(dirname($path));

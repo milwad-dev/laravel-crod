@@ -34,6 +34,7 @@ trait AddDataToServiceTrait
     {
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 3);
         $lines[$line_i_am_looking_for] = $uses;
+
         file_put_contents($filename, implode("\n", $lines));
     }
 }
