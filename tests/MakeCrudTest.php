@@ -4,9 +4,6 @@ namespace Milwad\LaravelCrod\Tests;
 
 class MakeCrudTest extends BaseTest
 {
-    /**
-     * @var string
-     */
     private string $name = 'Product';
 
     /**
@@ -40,10 +37,10 @@ class MakeCrudTest extends BaseTest
     {
         $this->withoutExceptionHandling();
         $this->artisan('crud:make', [
-            'name'      => $this->name,
+            'name' => $this->name,
             '--service' => true,
-            '--test'    => true,
-            '--repo'    => true,
+            '--test' => true,
+            '--repo' => true,
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -76,9 +73,6 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToViewIsCreatedWithOriginalName();
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToModelIsCreatedWithOriginalName(): void
     {
         $filename = app_path("Models\\$this->name.php");
@@ -87,14 +81,11 @@ class MakeCrudTest extends BaseTest
         $this->assertEquals($this->name, basename($filename, '.php'));
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToMigrationIsCreatedWithOriginalName(): void
     {
         $this->name = strtolower($this->name);
 
-        if (!str_ends_with($this->name, 'y')) {
+        if (! str_ends_with($this->name, 'y')) {
             $file = $this->migrationExists("create_{$this->name}s_table");
         } else {
             $file = $this->migrationExists("create_{$this->name}ies_table");
@@ -106,7 +97,6 @@ class MakeCrudTest extends BaseTest
     /**
      * Check migration file is exists.
      *
-     * @param string $mgr
      *
      * @return bool
      */
@@ -125,9 +115,6 @@ class MakeCrudTest extends BaseTest
         return false;
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToControllerIsCreatedWithOriginalName(): void
     {
         $controller = $this->name.'Controller';
@@ -137,9 +124,6 @@ class MakeCrudTest extends BaseTest
         $this->assertEquals($controller, basename($filename, '.php'));
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToRequestIsCreatedWithOriginalName(): void
     {
         $request = $this->name.'Request';
@@ -149,9 +133,6 @@ class MakeCrudTest extends BaseTest
         $this->assertEquals($request, basename($filename, '.php'));
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToViewIsCreatedWithOriginalName(): void
     {
         $lowerName = strtolower($this->name);
@@ -163,9 +144,6 @@ class MakeCrudTest extends BaseTest
         $this->assertEquals($view, basename($filename, '.php'));
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToServiceIsCreatedWithOriginalName(): void
     {
         $service = ucfirst($this->name).'Service';
@@ -175,9 +153,6 @@ class MakeCrudTest extends BaseTest
         $this->assertEquals($service, basename($filename, '.php'));
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToRepositoryIsCreatedWithOriginalName(): void
     {
         $latest = config('laravel-crod.repository_namespace', 'Repo');
@@ -188,9 +163,6 @@ class MakeCrudTest extends BaseTest
         $this->assertEquals($repo, basename($filename, '.php'));
     }
 
-    /**
-     * @return void
-     */
     private function checkAllToTestsIsCreatedWithOriginalName(): void
     {
         // Feature test

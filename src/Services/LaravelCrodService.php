@@ -7,8 +7,6 @@ class LaravelCrodService
     /**
      * Get current name with check latest letter ex (category => categories - product => products).
      *
-     * @param string $name
-     * @param bool   $needToLower
      *
      * @return string
      */
@@ -30,7 +28,6 @@ class LaravelCrodService
     /**
      * Change backslash to slash.
      *
-     * @param string $str
      *
      * @return string
      */

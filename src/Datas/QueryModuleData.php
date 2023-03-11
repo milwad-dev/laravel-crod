@@ -13,9 +13,6 @@ class QueryModuleData
     /**
      * Add Controller-ID data.
      *
-     * @param string $comment
-     * @param string $request
-     * @param string $id
      *
      * @return string
      */
@@ -55,10 +52,6 @@ class QueryModuleData
     /**
      * Add controller route-model-binding data,.
      *
-     * @param string $comment
-     * @param string $request
-     * @param string $name
-     * @param string $lowerName
      *
      * @return string
      */

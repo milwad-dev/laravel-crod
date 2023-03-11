@@ -8,14 +8,6 @@ trait StubTrait
 {
     /**
      * Build stub & check exists.
-     *
-     * @param string $pathSource
-     * @param string $name
-     * @param string $latest
-     * @param string $pathStub
-     * @param bool   $singular
-     *
-     * @return void
      */
     protected function makeStubFile(string $pathSource, string $name, string $latest, string $pathStub, bool $singular = true): void
     {
@@ -23,7 +15,7 @@ trait StubTrait
         $this->makeDirectory(dirname($path));
         $contents = $this->getSourceFile($pathStub, $pathSource, $name);
 
-        if (!$this->files->exists($path)) {
+        if (! $this->files->exists($path)) {
             $this->files->put($path, $contents);
             $this->info("File : {$path} created");
         } else {
@@ -34,7 +26,6 @@ trait StubTrait
     /**
      * Return the stub file path.
      *
-     * @param string $path
      *
      * @return string
      */
@@ -46,15 +37,13 @@ trait StubTrait
     /**
      * Map the stub variables present in stub to its value.
      *
-     * @param string $namespace
-     * @param string $name
      *
      * @return array
      */
     private function getStubVariables(string $namespace, string $name)
     {
         return [
-            'NAMESPACE'  => $namespace,
+            'NAMESPACE' => $namespace,
             'CLASS_NAME' => $this->getSingularClassName($name),
         ];
     }
@@ -62,9 +51,6 @@ trait StubTrait
     /**
      * Get the stub path and the stub variables.
      *
-     * @param string $path
-     * @param string $namespace
-     * @param string $name
      *
      * @return array|false|string|string[]
      */
@@ -79,9 +65,7 @@ trait StubTrait
     /**
      * Replace the stub variables(key) with the desire value.
      *
-     * @param $stub
-     * @param array $stubVariables
-     *
+     * @param  array  $stubVariables
      * @return array|false|string|string[]
      */
     private function getStubContents($stub, $stubVariables = [])
@@ -98,16 +82,12 @@ trait StubTrait
     /**
      * Get the full path of generate class.
      *
-     * @param string $path
-     * @param string $name
-     * @param string $latest
-     * @param bool   $singular
      *
      * @return string
      */
     private function getSourceFilePath(string $path, string $name, string $latest, bool $singular = true)
     {
-        if (!$singular) {
+        if (! $singular) {
             return base_path($path).'\\'.$name."$latest.php";
         }
 
@@ -117,7 +97,6 @@ trait StubTrait
     /**
      * Return the singular capitalize name.
      *
-     * @param string $name
      *
      * @return string
      */
@@ -129,13 +108,12 @@ trait StubTrait
     /**
      * Build the directory for the class if necessary.
      *
-     * @param string $path
      *
      * @return string
      */
     private function makeDirectory(string $path)
     {
-        if (!$this->files->isDirectory($path)) {
+        if (! $this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
 

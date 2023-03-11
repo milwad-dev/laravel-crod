@@ -15,7 +15,6 @@ class QueryData
     /**
      * Get model data.
      *
-     * @param mixed $items
      *
      * @return string
      */
@@ -27,9 +26,6 @@ class QueryData
     /**
      * Get service data.
      *
-     * @param string $model
-     * @param string $request
-     * @param string $id
      *
      * @return string
      */
@@ -49,7 +45,6 @@ class QueryData
     /**
      * Get use for service.
      *
-     * @param string $model
      *
      * @return string
      */
@@ -63,8 +58,6 @@ use App\Models\{$model};
     /**
      * Get repo data.
      *
-     * @param string $model
-     * @param string $id
      *
      * @return string
      */
@@ -89,7 +82,6 @@ use App\Models\{$model};
     /**
      * Get repo for data.
      *
-     * @param string $model
      *
      * @return string
      */
@@ -103,9 +95,6 @@ use App\Models\{$model};
     /**
      * Get controller-id data.
      *
-     * @param string $comment
-     * @param string $request
-     * @param string $id
      *
      * @return string
      */
@@ -150,10 +139,6 @@ use App\Models\{$model};
     /**
      * Get controller route model binding.
      *
-     * @param string $comment
-     * @param string $request
-     * @param string $name
-     * @param string $lowerName
      *
      * @return string
      */
@@ -198,7 +183,6 @@ use App\Models\{$model};
     /**
      * Get data for provider.
      *
-     * @param string $moduleName
      *
      * @return string
      */

@@ -9,8 +9,7 @@ class BaseTest extends \Orchestra\Testbench\TestCase
     /**
      * Get package providers.
      *
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, string>
      */
     protected function getPackageProviders($app)
@@ -24,8 +23,6 @@ class BaseTest extends \Orchestra\Testbench\TestCase
      * Is a fake test.
      *
      * @test
-     *
-     * @return void
      */
     public function success(): void
     {

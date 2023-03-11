@@ -53,7 +53,6 @@ class MakeCrudCommand extends Command
     /**
      * Build model file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -65,7 +64,6 @@ class MakeCrudCommand extends Command
     /**
      * Build migration file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -79,7 +77,6 @@ class MakeCrudCommand extends Command
     /**
      * Build controller file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -91,7 +88,6 @@ class MakeCrudCommand extends Command
     /**
      * Build request file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -104,7 +100,6 @@ class MakeCrudCommand extends Command
     /**
      * Build view file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -124,7 +119,6 @@ class MakeCrudCommand extends Command
     /**
      * Build service file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -136,7 +130,6 @@ class MakeCrudCommand extends Command
     /**
      * Build repository file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -153,7 +146,6 @@ class MakeCrudCommand extends Command
     /**
      * Build feature & unit test.
      *
-     * @param string $name
      *
      * @return void
      */

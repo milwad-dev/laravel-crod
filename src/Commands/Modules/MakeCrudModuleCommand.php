@@ -16,6 +16,7 @@ class MakeCrudModuleCommand extends Command
     protected $description = 'Command description';
 
     private string $module_name_space;
+
     public Filesystem $files;
 
     public function __construct(Filesystem $files)
@@ -54,7 +55,6 @@ class MakeCrudModuleCommand extends Command
     /**
      *  Build model file with call command for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -73,7 +73,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build migration file with call command.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -83,7 +82,7 @@ class MakeCrudModuleCommand extends Command
         $path = "$this->module_name_space\\$name\\$migrationPath";
 
         $this->call('make:migration', [
-            'name'   => LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
+            'name' => LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
             '--path' => $path,
             '--create',
         ]);
@@ -92,7 +91,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build controller file with call command for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -111,7 +109,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build request file with call command for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -136,7 +133,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build view file with call command for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -156,7 +152,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build provider for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -175,7 +170,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build service file with call command for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -194,7 +188,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build repository file with call command for module.
      *
-     * @param string $name
      *
      * @return void
      */
@@ -213,7 +206,6 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build feature & unit test.
      *
-     * @param string $name
      *
      * @return void
      */

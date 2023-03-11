@@ -9,8 +9,6 @@ trait AddDataToRepoTrait
     /**
      * Add data to repository.
      *
-     * @param string $model
-     * @param string $filename
      *
      * @return void
      */
@@ -26,8 +24,6 @@ trait AddDataToRepoTrait
     /**
      * Add use to repository.
      *
-     * @param string $model
-     * @param string $filename
      *
      * @return void
      */

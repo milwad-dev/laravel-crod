@@ -43,7 +43,7 @@ class MakeQueryModuleCommand extends Command
         $this->addDataToController($model, $controllerFilename);
         $this->addDataToProvider($model, "$this->module_name_space/$model/Providers/{$model}ServiceProvider.php");
 
-        if (!$this->option('id-controller')) {
+        if (! $this->option('id-controller')) {
             $this->addUseToControllerForRouteModelBinding($model, $controllerFilename);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {
@@ -61,8 +61,6 @@ use $this->module_name_space\\$model\Services\\$model;
 
     /**
      * Add data to controller with $id for module.
-     *
-     * @return string
      */
     private function controllerId(): string
     {
@@ -75,10 +73,6 @@ use $this->module_name_space\\$model\Services\\$model;
 
     /**
      * Add data to controller with route model binding for module.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     private function controllerRouteModelBinding(string $name): string
     {
@@ -93,8 +87,6 @@ use $this->module_name_space\\$model\Services\\$model;
     /**
      * Add use to controller route model binding for module.
      *
-     * @param string $model
-     * @param string $filename
      *
      * @return void
      */

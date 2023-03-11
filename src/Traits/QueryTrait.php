@@ -12,18 +12,17 @@ trait QueryTrait
     /**
      * Add db column to string.
      *
-     * @param array $itemsDB
-     *
-     * @throws \Exception
      *
      * @return string
+     *
+     * @throws \Exception
      */
     private function addDBColumnsToString(array $itemsDB)
     {
         $columns = '';
         $excepts = config('laravel-crod.queries.except_columns_in_fillable', ['id', 'updated_at', 'created_at']);
 
-        if (!is_array($excepts)) {
+        if (! is_array($excepts)) {
             throw new \RuntimeException('Except columns is not an array');
         }
 
@@ -42,9 +41,7 @@ trait QueryTrait
     /**
      * Add data to model.
      *
-     * @param mixed $items
-     * @param mixed $filename
-     *
+     * @param  mixed  $filename
      * @return void
      */
     private function addDataToModel(mixed $items, string $filename)
@@ -59,8 +56,6 @@ trait QueryTrait
     /**
      * Add data to controller.
      *
-     * @param string $model
-     * @param string $filename
      *
      * @return void
      */
@@ -77,8 +72,6 @@ trait QueryTrait
     /**
      * Add data to provider.
      *
-     * @param string $model
-     * @param string $filename
      *
      * @return void
      */
@@ -90,12 +83,6 @@ trait QueryTrait
         file_put_contents($filename, implode("\n", $lines));
     }
 
-    /**
-     * @param string $filename
-     * @param int    $looking_for
-     *
-     * @return array
-     */
     private function lookingLinesWithIgnoreLines(string $filename, int $looking_for = 8): array
     {
         return [
