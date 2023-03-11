@@ -25,4 +25,15 @@ class LaravelCrodService
             ? strtolower($name)
             : $name;
     }
+
+    /**
+     * Change backslash to slash.
+     *
+     * @param  string $str
+     * @return string
+     */
+    public function changeBackSlashToSlash(string $str)
+    {
+        return str_replace('\\', '/', $str);
+    }
 }

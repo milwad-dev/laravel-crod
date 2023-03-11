@@ -8,6 +8,8 @@ namespace Milwad\LaravelCrod\Datas;
  * ======================== WARNING ======================== => DO NOT MAKE ANY CHANGES TO THIS FILE
  */
 
+use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
+
 class QueryData
 {
     /**
@@ -186,11 +188,19 @@ use App\Models\{$model};
     }";
     }
 
-    public function getProviderData()
+    /**
+     * Get data for provider.
+     *
+     * @param  string $moduleName
+     * @return string
+     */
+    public static function getProviderData(string $moduleName)
     {
-        $databasePath = config('laravel-crod.modules.migration_path', 'Database/Migrations');
-        // TODO
-        return "    \$this->loadMigrationFrom(__DIR__ . '/../$databasePath')
-        ";
+        $modulePaths = config('laravel-crod.modules', []);
+        $migrationPath = '/../' . LaravelCrodServiceFacade::changeBackSlashToSlash($modulePaths['migration_path']);
+        $viewPath = '/../' . LaravelCrodServiceFacade::changeBackSlashToSlash($modulePaths['view_path']);
+
+        return "        \$this->loadMigrationsFrom(__DIR__ . '$migrationPath');
+        \$this->loadViewsFrom(__DIR__ . '$viewPath', '$moduleName');";
     }
 }
