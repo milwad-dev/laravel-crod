@@ -1,6 +1,6 @@
 # Laravel Crod
 
-![milwad-dev larave-crod](https://preview.dragon-code.pro/milwad-dev/larave-crod.svg?brand=laravel)
+![milwad-dev larave-crod](https://preview.dragon-code.pro/milwad-dev/larave-crod.svg?brand=laravel&invert=1)
 
 [![Latest Stable Version](http://poser.pugx.org/milwad/laravel-crod/v)](https://packagist.org/packages/milwad/laravel-crod)
 [![Total Downloads](http://poser.pugx.org/milwad/laravel-crod/downloads)](https://packagist.org/packages/milwad/laravel-crod)
