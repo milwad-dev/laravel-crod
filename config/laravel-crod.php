@@ -10,6 +10,13 @@ return [
     'repository_namespace' => 'Repo',
 
     /*
+     * Get main controller.
+     *
+     * This is a namespace of main controller that default path is `App\Http\Controllers\Controller`.
+     */
+    'main_controller' => 'App\Http\Controllers\Controller',
+
+    /*
      * Modules config.
      *
      * You can make custom modules with special folders ... .
@@ -44,11 +51,4 @@ return [
             'id', 'updated_at', 'created_at'
         ]
     ],
-
-    /*
-     * Get main controller.
-     *
-     * This is a namespace of main controller that default path is `App\Http\Controllers\Controller`.
-     */
-    'main_controller' => 'App\Http\Controllers\Controller'
 ];
