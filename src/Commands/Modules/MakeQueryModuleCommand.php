@@ -81,7 +81,7 @@ use $this->module_name_space\\$model\Services\\$model;
      */
     private function controllerRouteModelBinding(string $name): string
     {
-        return QueryModuleData::getControllerRouteModelBinding(
+        return QueryModuleData::getControllerRouteModelBindingData(
             '// Start code - milwad-dev',
             '$request',
             $name,
