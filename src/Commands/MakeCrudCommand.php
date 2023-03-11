@@ -53,7 +53,7 @@ class MakeCrudCommand extends Command
     /**
      * Build model file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeModel(string $name)
@@ -64,7 +64,7 @@ class MakeCrudCommand extends Command
     /**
      * Build migration file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeMigration(string $name)
@@ -77,7 +77,7 @@ class MakeCrudCommand extends Command
     /**
      * Build controller file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeController(string $name)
@@ -88,7 +88,7 @@ class MakeCrudCommand extends Command
     /**
      * Build request file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeRequest(string $name)
@@ -100,7 +100,7 @@ class MakeCrudCommand extends Command
     /**
      * Build view file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeView(string $name)
@@ -119,7 +119,7 @@ class MakeCrudCommand extends Command
     /**
      * Build service file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeService(string $name)
@@ -130,7 +130,7 @@ class MakeCrudCommand extends Command
     /**
      * Build repository file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeRepository(string $name)
@@ -146,7 +146,7 @@ class MakeCrudCommand extends Command
     /**
      * Build feature & unit test.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeTest(string $name)

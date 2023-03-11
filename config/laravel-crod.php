@@ -48,7 +48,7 @@ return [
          * This `except_columns_in_fillable` that remove field from $fillable in model.
          */
         'except_columns_in_fillable' => [
-            'id', 'updated_at', 'created_at'
-        ]
+            'id', 'updated_at', 'created_at',
+        ],
     ],
 ];

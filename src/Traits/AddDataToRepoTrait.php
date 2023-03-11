@@ -9,8 +9,7 @@ trait AddDataToRepoTrait
     /**
      * Add data to repository.
      *
-     * @param string $model
-     * @param string $filename
+     *
      * @return void
      */
     private function addDataToRepo(string $model, string $filename)
@@ -25,8 +24,7 @@ trait AddDataToRepoTrait
     /**
      * Add use to repository.
      *
-     * @param string $model
-     * @param string $filename
+     *
      * @return void
      */
     private function addUseToRepo(string $model, string $filename)
