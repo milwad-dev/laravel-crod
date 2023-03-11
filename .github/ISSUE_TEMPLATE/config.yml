@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+    - name: Ask a Question
+      url: https://github.com/milwad-dev/laravel-validate/issues/new
+      about: Ask the community for help
+
+    - name: Feature Request
+      url: https://github.com/milwad-dev/laravel-validate/issues/new
+      about: Share ideas for new features
