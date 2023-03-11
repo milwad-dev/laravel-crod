@@ -2,7 +2,6 @@
 
 namespace Milwad\LaravelCrod\Traits;
 
-use Illuminate\Support\Arr;
 use Milwad\LaravelCrod\Datas\QueryData;
 
 trait QueryTrait
