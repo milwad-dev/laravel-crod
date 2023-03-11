@@ -16,11 +16,12 @@ class QueryData
      * Get model data.
      *
      * @param mixed $items
+     *
      * @return string
      */
     public static function getModelData(mixed $items)
     {
-        return PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
+        return PHP_EOL.'    protected $fillable = ['.$items.'];'.PHP_EOL.'}';
     }
 
     /**
@@ -29,25 +30,27 @@ class QueryData
      * @param string $model
      * @param string $request
      * @param string $id
+     *
      * @return string
      */
     public static function getServiceData(string $model, string $request, string $id)
     {
         return "    public function store($request)
     {
-        return $model::query()->create(" . '$request->all()' . ");
+        return $model::query()->create(".'$request->all()'.");
     }
 
     public function update($request, $id)
     {
-        return $model::query()->where('id', $id)->update(" . '$request->all()' . ");
-    }";
+        return $model::query()->where('id', $id)->update(".'$request->all()'.');
+    }';
     }
 
     /**
      * Get use for service.
      *
      * @param string $model
+     *
      * @return string
      */
     public static function getUseServiceData(string $model)
@@ -62,6 +65,7 @@ use App\Models\{$model};
      *
      * @param string $model
      * @param string $id
+     *
      * @return string
      */
     public static function getRepoData(string $model, string $id)
@@ -86,6 +90,7 @@ use App\Models\{$model};
      * Get repo for data.
      *
      * @param string $model
+     *
      * @return string
      */
     public static function getUseRepoData(string $model)
@@ -101,6 +106,7 @@ use App\Models\{$model};
      * @param string $comment
      * @param string $request
      * @param string $id
+     *
      * @return string
      */
     public static function getControllerIdData(string $comment, string $request, string $id)
@@ -148,6 +154,7 @@ use App\Models\{$model};
      * @param string $request
      * @param string $name
      * @param string $lowerName
+     *
      * @return string
      */
     public static function getControllerRouteModelBinding(string $comment, string $request, string $name, string $lowerName)
@@ -191,14 +198,15 @@ use App\Models\{$model};
     /**
      * Get data for provider.
      *
-     * @param  string $moduleName
+     * @param string $moduleName
+     *
      * @return string
      */
     public static function getProviderData(string $moduleName)
     {
         $modulePaths = config('laravel-crod.modules', []);
-        $migrationPath = '/../' . LaravelCrodServiceFacade::changeBackSlashToSlash($modulePaths['migration_path']);
-        $viewPath = '/../' . LaravelCrodServiceFacade::changeBackSlashToSlash($modulePaths['view_path']);
+        $migrationPath = '/../'.LaravelCrodServiceFacade::changeBackSlashToSlash($modulePaths['migration_path']);
+        $viewPath = '/../'.LaravelCrodServiceFacade::changeBackSlashToSlash($modulePaths['view_path']);
 
         return "        \$this->loadMigrationsFrom(__DIR__ . '$migrationPath');
         \$this->loadViewsFrom(__DIR__ . '$viewPath', '$moduleName');";

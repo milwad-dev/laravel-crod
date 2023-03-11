@@ -16,6 +16,7 @@ class QueryModuleData
      * @param string $comment
      * @param string $request
      * @param string $id
+     *
      * @return string
      */
     public static function getControllerIdData(string $comment, string $request, string $id)
@@ -52,12 +53,13 @@ class QueryModuleData
     }
 
     /**
-     * Add controller route-model-binding data,
+     * Add controller route-model-binding data,.
      *
      * @param string $comment
      * @param string $request
      * @param string $name
      * @param string $lowerName
+     *
      * @return string
      */
     public static function getControllerRouteModelBindingData(string $comment, string $request, string $name, string $lowerName)

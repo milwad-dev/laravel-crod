@@ -77,6 +77,7 @@ use $this->module_name_space\\$model\Services\\$model;
      * Add data to controller with route model binding for module.
      *
      * @param string $name
+     *
      * @return string
      */
     private function controllerRouteModelBinding(string $name): string
@@ -94,6 +95,7 @@ use $this->module_name_space\\$model\Services\\$model;
      *
      * @param string $model
      * @param string $filename
+     *
      * @return void
      */
     private function addUseToControllerForRouteModelBinding(string $model, string $filename)

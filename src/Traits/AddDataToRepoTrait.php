@@ -11,6 +11,7 @@ trait AddDataToRepoTrait
      *
      * @param string $model
      * @param string $filename
+     *
      * @return void
      */
     private function addDataToRepo(string $model, string $filename)
@@ -27,6 +28,7 @@ trait AddDataToRepoTrait
      *
      * @param string $model
      * @param string $filename
+     *
      * @return void
      */
     private function addUseToRepo(string $model, string $filename)

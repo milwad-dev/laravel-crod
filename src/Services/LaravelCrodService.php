@@ -7,17 +7,18 @@ class LaravelCrodService
     /**
      * Get current name with check latest letter ex (category => categories - product => products).
      *
-     * @param  string $name
-     * @param  bool $needToLower
+     * @param string $name
+     * @param bool   $needToLower
+     *
      * @return string
      */
     public function getCurrentNameWithCheckLatestLetter(string $name, bool $needToLower = true)
     {
         if (str_ends_with($name, 'y')) {
-            $name = substr_replace($name, "", -1);
+            $name = substr_replace($name, '', -1);
             $name .= 'ies';
         } else {
-            $name = substr_replace($name, "", -1);
+            $name = substr_replace($name, '', -1);
             $name .= 's';
         }
 
@@ -29,7 +30,8 @@ class LaravelCrodService
     /**
      * Change backslash to slash.
      *
-     * @param  string $str
+     * @param string $str
+     *
      * @return string
      */
     public function changeBackSlashToSlash(string $str)

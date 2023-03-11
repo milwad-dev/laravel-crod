@@ -63,6 +63,7 @@ use App\Models\\$model;
      * Add data to controller with route model binding.
      *
      * @param string $name
+     *
      * @return string
      */
     private function controllerRouteModelBinding(string $name): string

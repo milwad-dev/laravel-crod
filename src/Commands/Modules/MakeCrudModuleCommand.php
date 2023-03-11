@@ -55,6 +55,7 @@ class MakeCrudModuleCommand extends Command
      *  Build model file with call command for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeModel(string $name)
@@ -62,7 +63,7 @@ class MakeCrudModuleCommand extends Command
         $model = config('laravel-crod.modules.model_path', 'Entities');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$model",
+            $this->module_name_space."\\$name\\$model",
             $name,
             '',
             '/../Stubs/module/model.stub'
@@ -73,6 +74,7 @@ class MakeCrudModuleCommand extends Command
      * Build migration file with call command.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeMigration(string $name)
@@ -81,9 +83,9 @@ class MakeCrudModuleCommand extends Command
         $path = "$this->module_name_space\\$name\\$migrationPath";
 
         $this->call('make:migration', [
-            'name' => LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
+            'name'   => LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
             '--path' => $path,
-            '--create'
+            '--create',
         ]);
     }
 
@@ -91,6 +93,7 @@ class MakeCrudModuleCommand extends Command
      * Build controller file with call command for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeController(string $name)
@@ -98,7 +101,7 @@ class MakeCrudModuleCommand extends Command
         $controllerPath = config('laravel-crod.modules.controller_path', 'Http\Controllers');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$controllerPath",
+            $this->module_name_space."\\$name\\$controllerPath",
             $name,
             'Controller',
             '/../Stubs/module/controller.stub'
@@ -109,6 +112,7 @@ class MakeCrudModuleCommand extends Command
      * Build request file with call command for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeRequest(string $name)
@@ -116,24 +120,24 @@ class MakeCrudModuleCommand extends Command
         $requestPath = config('laravel-crod.modules.request_path', 'Http\Requests');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$requestPath",
+            $this->module_name_space."\\$name\\$requestPath",
             $name,
             'StoreRequest',
             '/../Stubs/module/request.stub'
         );
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$requestPath",
+            $this->module_name_space."\\$name\\$requestPath",
             $name,
             'UpdateRequest',
             '/../Stubs/module/request.stub'
         );
     }
 
-
     /**
      * Build view file with call command for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeView(string $name)
@@ -141,7 +145,7 @@ class MakeCrudModuleCommand extends Command
         $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$viewPath",
+            $this->module_name_space."\\$name\\$viewPath",
             LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
             '.blade',
             '/../Stubs/module/blade.stub',
@@ -153,6 +157,7 @@ class MakeCrudModuleCommand extends Command
      * Build provider for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeProvider(string $name)
@@ -160,7 +165,7 @@ class MakeCrudModuleCommand extends Command
         $providerPath = config('laravel-crod.modules.provider_path', 'Providers');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$providerPath",
+            $this->module_name_space."\\$name\\$providerPath",
             LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name, false),
             'ServiceProvider',
             '/../Stubs/module/provider.stub',
@@ -171,6 +176,7 @@ class MakeCrudModuleCommand extends Command
      * Build service file with call command for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeService(string $name)
@@ -178,7 +184,7 @@ class MakeCrudModuleCommand extends Command
         $servicePath = config('laravel-crod.modules.service_path', 'Services');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$servicePath",
+            $this->module_name_space."\\$name\\$servicePath",
             $name,
             'Service',
             '/../Stubs/module/service.stub'
@@ -189,6 +195,7 @@ class MakeCrudModuleCommand extends Command
      * Build repository file with call command for module.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeRepository(string $name)
@@ -196,7 +203,7 @@ class MakeCrudModuleCommand extends Command
         $repositoryPath = config('laravel-crod.modules.repository_path', 'Repositories');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$repositoryPath",
+            $this->module_name_space."\\$name\\$repositoryPath",
             $name,
             config('laravel-crod.repository_namespace', 'Repo'),
             '/../Stubs/module/repo.stub'
@@ -207,6 +214,7 @@ class MakeCrudModuleCommand extends Command
      * Build feature & unit test.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeTest(string $name)
@@ -215,13 +223,13 @@ class MakeCrudModuleCommand extends Command
         $unitTestPath = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
 
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$featureTestPath",
+            $this->module_name_space."\\$name\\$featureTestPath",
             $name,
             'Test',
             '/../Stubs/module/feature-test.stub'
         );
         $this->makeStubFile(
-            $this->module_name_space . "\\$name\\$unitTestPath",
+            $this->module_name_space."\\$name\\$unitTestPath",
             $name,
             'Test',
             '/../Stubs/module/unit-test.stub'

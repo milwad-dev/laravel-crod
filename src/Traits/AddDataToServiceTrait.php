@@ -12,6 +12,7 @@ trait AddDataToServiceTrait
      * @param string $model
      * @param string $filename
      * @param string $uses
+     *
      * @return void
      */
     private function addDataToService(string $model, string $filename, string $uses)
@@ -28,6 +29,7 @@ trait AddDataToServiceTrait
      *
      * @param string $uses
      * @param string $filename
+     *
      * @return void
      */
     private function addUseToService(string $uses, string $filename)

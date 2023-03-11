@@ -3,10 +3,10 @@
 namespace Milwad\LaravelCrod;
 
 use Illuminate\Support\ServiceProvider;
-use Milwad\LaravelCrod\Commands\{MakeCrudCommand,
-    MakeQueryCommand,
-    Modules\MakeCrudModuleCommand,
-    Modules\MakeQueryModuleCommand};
+use Milwad\LaravelCrod\Commands\MakeCrudCommand;
+use Milwad\LaravelCrod\Commands\MakeQueryCommand;
+use Milwad\LaravelCrod\Commands\Modules\MakeCrudModuleCommand;
+use Milwad\LaravelCrod\Commands\Modules\MakeQueryModuleCommand;
 use Milwad\LaravelCrod\Services\LaravelCrodService;
 
 class LaravelCrodServiceProvider extends ServiceProvider
@@ -44,7 +44,7 @@ class LaravelCrodServiceProvider extends ServiceProvider
     public function publishFiles(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/laravel-crod.php' => config_path('laravel-crod.php')
+            __DIR__.'/../config/laravel-crod.php' => config_path('laravel-crod.php'),
         ], 'laravel-crod-config');
     }
 
@@ -56,7 +56,7 @@ class LaravelCrodServiceProvider extends ServiceProvider
     public function bindFacades(): void
     {
         $this->app->bind('laravel-crod-service', function () {
-            return new LaravelCrodService;
+            return new LaravelCrodService();
         });
     }
 }

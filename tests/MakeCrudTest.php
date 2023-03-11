@@ -13,11 +13,12 @@ class MakeCrudTest extends BaseTest
      * Test check all files create when user run command 'crud:make'.
      *
      * @test
+     *
      * @return void
      */
     public function check_to_create_files_with_command_crud_make()
     {
-        $this->artisan("crud:make", [
+        $this->artisan('crud:make', [
             'name' => $this->name,
         ]);
 
@@ -32,16 +33,17 @@ class MakeCrudTest extends BaseTest
      * Test check all files create when user run command 'crud:make' with options.
      *
      * @test
+     *
      * @return void
      */
     public function check_to_create_files_with_command_crud_make_with_options()
     {
         $this->withoutExceptionHandling();
-        $this->artisan("crud:make", [
-            'name' => $this->name,
+        $this->artisan('crud:make', [
+            'name'      => $this->name,
             '--service' => true,
-            '--test' => true,
-            '--repo' => true
+            '--test'    => true,
+            '--repo'    => true,
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -58,12 +60,13 @@ class MakeCrudTest extends BaseTest
      * Test check all files create when user run command 'crud:make' with ies name.
      *
      * @test
+     *
      * @return void
      */
     public function check_to_create_files_with_command_crud_make_with_ies_name()
     {
-        $this->artisan("crud:make", [
-            'name' => "Category",
+        $this->artisan('crud:make', [
+            'name' => 'Category',
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -104,6 +107,7 @@ class MakeCrudTest extends BaseTest
      * Check migration file is exists.
      *
      * @param string $mgr
+     *
      * @return bool
      */
     private function migrationExists(string $mgr)
@@ -126,7 +130,7 @@ class MakeCrudTest extends BaseTest
      */
     private function checkAllToControllerIsCreatedWithOriginalName(): void
     {
-        $controller = $this->name . 'Controller';
+        $controller = $this->name.'Controller';
         $filename = app_path("Http\\Controllers\\$controller.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -138,7 +142,7 @@ class MakeCrudTest extends BaseTest
      */
     private function checkAllToRequestIsCreatedWithOriginalName(): void
     {
-        $request = $this->name . 'Request';
+        $request = $this->name.'Request';
         $filename = app_path("Http\\Requests\\$request.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -152,7 +156,7 @@ class MakeCrudTest extends BaseTest
     {
         $lowerName = strtolower($this->name);
         $latest = str_ends_with($lowerName, 'y') ? 'ies' : 's';
-        $view = $lowerName . $latest . '.blade';
+        $view = $lowerName.$latest.'.blade';
         $filename = resource_path("views\\$view.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -164,7 +168,7 @@ class MakeCrudTest extends BaseTest
      */
     private function checkAllToServiceIsCreatedWithOriginalName(): void
     {
-        $service = ucfirst($this->name) . 'Service';
+        $service = ucfirst($this->name).'Service';
         $filename = app_path("Services\\$service.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -177,7 +181,7 @@ class MakeCrudTest extends BaseTest
     private function checkAllToRepositoryIsCreatedWithOriginalName(): void
     {
         $latest = config('laravel-crod.repository_namespace', 'Repo');
-        $repo = ucfirst($this->name) . $latest;
+        $repo = ucfirst($this->name).$latest;
         $filename = app_path("Repositories\\$repo.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -190,14 +194,14 @@ class MakeCrudTest extends BaseTest
     private function checkAllToTestsIsCreatedWithOriginalName(): void
     {
         // Feature test
-        $test = ucfirst($this->name) . 'Test';
+        $test = ucfirst($this->name).'Test';
         $filename = base_path("Tests\\Feature\\$test.php");
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($test, basename($filename, '.php'));
 
         // Unit test
-        $test = ucfirst($this->name) . 'Test';
+        $test = ucfirst($this->name).'Test';
         $filename = base_path("Tests\\Unit\\$test.php");
 
         $this->assertEquals(1, file_exists($filename));

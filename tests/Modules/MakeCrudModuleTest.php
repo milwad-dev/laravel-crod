@@ -14,7 +14,7 @@ class MakeCrudModuleTest extends BaseTest
     /**
      * @var string
      */
-    private string $command = "crud:make-module";
+    private string $command = 'crud:make-module';
 
     /**
      * @var string|null
@@ -31,6 +31,7 @@ class MakeCrudModuleTest extends BaseTest
      * Test check all files create when user run command 'crud:make'.
      *
      * @test
+     *
      * @return void
      */
     public function check_to_create_files_with_command_crud_make()
@@ -50,15 +51,16 @@ class MakeCrudModuleTest extends BaseTest
      * Test check all files create for module when user run command 'crud:make' with options.
      *
      * @test
+     *
      * @return void
      */
     public function check_to_create_files_for_module_with_command_crud_make_with_options()
     {
         $this->artisan($this->command, [
             'module_name' => $this->name,
-            '--service' => true,
-            '--test' => true,
-            '--repo' => true
+            '--service'   => true,
+            '--test'      => true,
+            '--repo'      => true,
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -101,6 +103,7 @@ class MakeCrudModuleTest extends BaseTest
      * Check migration file is exists.
      *
      * @param string $mgr
+     *
      * @return bool
      */
     private function migrationExists(string $mgr)
@@ -125,7 +128,7 @@ class MakeCrudModuleTest extends BaseTest
     private function checkAllToControllerIsCreatedWithOriginalName(): void
     {
         $modelFolderName = config('laravel-crod.modules.controller_path', 'Http\Controllers');
-        $name = $this->name . 'Controller';
+        $name = $this->name.'Controller';
         $filename = base_path("$this->module\\$this->name\\$modelFolderName\\$name.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -138,7 +141,7 @@ class MakeCrudModuleTest extends BaseTest
     private function checkAllToRequestIsCreatedWithOriginalName(): void
     {
         $modelFolderName = config('laravel-crod.modules.request_path', 'Http\Requests');
-        $name = $this->name . 'Request';
+        $name = $this->name.'Request';
         $filename = base_path("$this->module\\$this->name\\$modelFolderName\\$name.php");
 
         $this->assertEquals(1, file_exists($filename));
@@ -152,7 +155,7 @@ class MakeCrudModuleTest extends BaseTest
     {
         $lowerName = strtolower($this->name);
         $latest = str_ends_with($lowerName, 'y') ? 'ies' : 's';
-        $view = $lowerName . $latest . '.blade';
+        $view = $lowerName.$latest.'.blade';
         $viewFolderName = config('laravel-crod.modules.view_path', 'Resources\Views');
         $filename = base_path("$this->module\\$this->name\\$viewFolderName\\$view.php");
 
@@ -165,7 +168,7 @@ class MakeCrudModuleTest extends BaseTest
      */
     private function checkAllToServiceIsCreatedWithOriginalName(): void
     {
-        $service = ucfirst($this->name) . 'Service';
+        $service = ucfirst($this->name).'Service';
         $serviceFolderName = config('laravel-crod.modules.service_path', 'Services');
         $filename = base_path("$this->module\\$this->name\\$serviceFolderName\\$service.php");
 
@@ -178,7 +181,7 @@ class MakeCrudModuleTest extends BaseTest
      */
     private function checkAllToRepositoryIsCreatedWithOriginalName(): void
     {
-        $repo = ucfirst($this->name) . config('laravel-crod.repository_namespace', 'Repo');
+        $repo = ucfirst($this->name).config('laravel-crod.repository_namespace', 'Repo');
         $repoFolderName = config('laravel-crod.modules.repository_path', 'Repositories');
         $filename = base_path("$this->module\\$this->name\\$repoFolderName\\$repo.php");
 
@@ -192,7 +195,7 @@ class MakeCrudModuleTest extends BaseTest
     private function checkAllToTestsIsCreatedWithOriginalName(): void
     {
         // Feature test
-        $test = ucfirst($this->name) . 'Test';
+        $test = ucfirst($this->name).'Test';
         $repoFolderName = config('laravel-crod.modules.feature_test_path', 'Tests\Feature');
         $filename = base_path("$this->module\\$this->name\\$repoFolderName\\$test.php");
 
@@ -200,7 +203,7 @@ class MakeCrudModuleTest extends BaseTest
         $this->assertEquals($test, basename($filename, '.php'));
 
         // Unit test
-        $test = ucfirst($this->name) . 'Test';
+        $test = ucfirst($this->name).'Test';
         $repoFolderName = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
         $filename = base_path("$this->module\\$this->name\\$repoFolderName\\$test.php");
 

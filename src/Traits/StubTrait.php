@@ -13,7 +13,8 @@ trait StubTrait
      * @param string $name
      * @param string $latest
      * @param string $pathStub
-     * @param bool $singular
+     * @param bool   $singular
+     *
      * @return void
      */
     protected function makeStubFile(string $pathSource, string $name, string $latest, string $pathStub, bool $singular = true): void
@@ -34,11 +35,12 @@ trait StubTrait
      * Return the stub file path.
      *
      * @param string $path
+     *
      * @return string
      */
     private function getStubPath(string $path)
     {
-        return __DIR__ . $path;
+        return __DIR__.$path;
     }
 
     /**
@@ -46,12 +48,13 @@ trait StubTrait
      *
      * @param string $namespace
      * @param string $name
+     *
      * @return array
      */
     private function getStubVariables(string $namespace, string $name)
     {
         return [
-            'NAMESPACE' => $namespace,
+            'NAMESPACE'  => $namespace,
             'CLASS_NAME' => $this->getSingularClassName($name),
         ];
     }
@@ -62,6 +65,7 @@ trait StubTrait
      * @param string $path
      * @param string $namespace
      * @param string $name
+     *
      * @return array|false|string|string[]
      */
     private function getSourceFile(string $path, string $namespace, string $name)
@@ -77,6 +81,7 @@ trait StubTrait
      *
      * @param $stub
      * @param array $stubVariables
+     *
      * @return array|false|string|string[]
      */
     private function getStubContents($stub, $stubVariables = [])
@@ -84,7 +89,7 @@ trait StubTrait
         $contents = file_get_contents($stub);
 
         foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$' . $search . '$', $replace, $contents);
+            $contents = str_replace('$'.$search.'$', $replace, $contents);
         }
 
         return $contents;
@@ -96,22 +101,24 @@ trait StubTrait
      * @param string $path
      * @param string $name
      * @param string $latest
-     * @param bool $singular
+     * @param bool   $singular
+     *
      * @return string
      */
     private function getSourceFilePath(string $path, string $name, string $latest, bool $singular = true)
     {
         if (!$singular) {
-            return base_path($path) . '\\' . $name . "$latest.php";
+            return base_path($path).'\\'.$name."$latest.php";
         }
 
-        return base_path($path) . '\\' . $this->getSingularClassName($name) . "$latest.php";
+        return base_path($path).'\\'.$this->getSingularClassName($name)."$latest.php";
     }
 
     /**
      * Return the singular capitalize name.
      *
      * @param string $name
+     *
      * @return string
      */
     private function getSingularClassName(string $name)
@@ -123,6 +130,7 @@ trait StubTrait
      * Build the directory for the class if necessary.
      *
      * @param string $path
+     *
      * @return string
      */
     private function makeDirectory(string $path)
