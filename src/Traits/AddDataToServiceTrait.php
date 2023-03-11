@@ -9,9 +9,7 @@ trait AddDataToServiceTrait
     /**
      * Add data to service.
      *
-     * @param string $model
-     * @param string $filename
-     * @param string $uses
+     *
      * @return void
      */
     private function addDataToService(string $model, string $filename, string $uses)
@@ -26,8 +24,7 @@ trait AddDataToServiceTrait
     /**
      * Add use to Service for module.
      *
-     * @param string $uses
-     * @param string $filename
+     *
      * @return void
      */
     private function addUseToService(string $uses, string $filename)
