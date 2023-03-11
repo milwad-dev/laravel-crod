@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'repository_namespace' => 'Repo',
+
     /*
      * Modules config.
      *
@@ -8,8 +10,6 @@ return [
      */
     'modules' => [
         'module_namespace' => 'Modules',
-        'repository_namespace' => 'Repo',
-
         'model_path' => 'Entities',
         'migration_path' => 'Database\Migrations',
         'controller_path' => 'Http\Controllers',

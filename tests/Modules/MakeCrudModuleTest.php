@@ -178,7 +178,7 @@ class MakeCrudModuleTest extends BaseTest
      */
     private function checkAllToRepositoryIsCreatedWithOriginalName(): void
     {
-        $repo = ucfirst($this->name) . config('laravel-crod.modules.repository_namespace', 'Repo');
+        $repo = ucfirst($this->name) . config('laravel-crod.repository_namespace', 'Repo');
         $repoFolderName = config('laravel-crod.modules.repository_path', 'Repositories');
         $filename = base_path("$this->module\\$this->name\\$repoFolderName\\$repo.php");
 
