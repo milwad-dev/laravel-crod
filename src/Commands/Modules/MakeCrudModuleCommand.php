@@ -50,6 +50,11 @@ class MakeCrudModuleCommand extends Command
             $this->makeTest($name);
         }
 
+        /*
+         * When all files created, after say to user need to make more files like: factory, seeder, etc.
+         */
+        $this->extraOptionOperation($name);
+
         $this->info('Crud files successfully generated...');
     }
 
