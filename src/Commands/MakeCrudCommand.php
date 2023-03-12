@@ -48,11 +48,15 @@ class MakeCrudCommand extends Command
             $this->makeTest($name_uc);
         }
 
-        $selectOption = $this->choice('You want something extra?', OptionData::$options, 0);
-        match ($selectOption) {
-            OptionData::SEEDER_OPTION => $this->makeSeeder($name_uc),
-            OptionData::FACTORY_OPTION => $this->makeFactory($name_uc),
-        };
+        $selectOption = $this->extraOption();
+
+        if ($selectOption === OptionData::SEEDER_OPTION) {
+            $this->makeSeeder($name_uc);
+        }
+        if ($selectOption === OptionData::FACTORY_OPTION) {
+            $this->makeFactory($name_uc);
+        }
+
 
         $this->info('Crud files successfully generated...');
     }
@@ -186,5 +190,15 @@ class MakeCrudCommand extends Command
         $this->call('make:factory', [
             'name' => $name . 'Factory'
         ]);
+    }
+
+    /**
+     * Show extra option in CLI.
+     *
+     * @return array|string
+     */
+    private function extraOption(): string|array
+    {
+        return $this->choice('You want something extra?', OptionData::$options, 0);
     }
 }
