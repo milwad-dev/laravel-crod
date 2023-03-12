@@ -40,7 +40,7 @@ class MakeQueryModuleCommand extends Command
         $controllerFilename = "$this->module_name_space/$model/Http/Controllers/{$model}Controller.php";
 
         $this->addDataToModel($items, "$this->module_name_space/$model/Entities/$model.php");
-        $this->addDataToController($model, $controllerFilename);
+        $this->addDataToController($model, $controllerFilename, 9);
         $this->addDataToProvider($model, "$this->module_name_space/$model/Providers/{$model}ServiceProvider.php");
 
         if (! $this->option('id-controller')) {

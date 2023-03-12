@@ -59,7 +59,7 @@ trait QueryTrait
      *
      * @return void
      */
-    private function addDataToController(string $model, string $filename, int $line = 9)
+    private function addDataToController(string $model, string $filename, int $line = 8)
     {
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, $line);
         $lines[$line_i_am_looking_for] = $this->option('id-controller')
