@@ -12,7 +12,7 @@ class MakeCrudModuleCommand extends Command
 {
     use StubTrait, CommonTrait;
 
-    protected $signature = 'crud:make-module {module_name} {--service} {--repo} {--test}';
+    protected $signature = 'crud:make-module {module_name}';
 
     protected $description = 'Command description';
 
@@ -39,16 +39,6 @@ class MakeCrudModuleCommand extends Command
         $this->makeRequest($name);
         $this->makeView($name);
         $this->makeProvider($name);
-
-        if ($this->option('service')) {
-            $this->makeService($name);
-        }
-        if ($this->option('repo')) {
-            $this->makeRepository($name);
-        }
-        if ($this->option('test')) {
-            $this->makeTest($name);
-        }
 
         /*
          * When all files created, after say to user need to make more files like: factory, seeder, etc.
