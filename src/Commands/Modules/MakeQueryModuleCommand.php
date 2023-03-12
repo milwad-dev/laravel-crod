@@ -47,8 +47,9 @@ class MakeQueryModuleCommand extends Command
             $this->addUseToControllerForRouteModelBinding($model, $controllerFilename);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {
+            $modelPath = config('laravel-crod.modules.model_path', 'Entities');
             $uses = "
-use $this->module_name_space\\$model\Services\\$model;
+use $this->module_name_space\\$model\\$modelPath\\$model;
 ";
             $this->addDataToService($model, $filename, $uses);
         }
