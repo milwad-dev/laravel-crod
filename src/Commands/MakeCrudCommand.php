@@ -48,7 +48,10 @@ class MakeCrudCommand extends Command
             $this->makeTest($name_uc);
         }
 
-        $option = $this->extraOptionOperation($name_uc);
+        /*
+         * When all files created, after say to user need to make more files like: factory, seeder, etc.
+         */
+        $this->extraOptionOperation($name_uc);
 
         $this->info('Crud files successfully generated...');
     }
@@ -198,7 +201,7 @@ class MakeCrudCommand extends Command
      * Extra option operation.
      *
      * @param  string $name_uc
-     * @return array|mixed|string
+     * @return void
      */
     public function extraOptionOperation(string $name_uc)
     {
@@ -212,8 +215,5 @@ class MakeCrudCommand extends Command
             $this->makeFactory($name_uc);
             $this->extraOptionOperation($name_uc);
         }
-        
-
-        return $selectOption;
     }
 }
