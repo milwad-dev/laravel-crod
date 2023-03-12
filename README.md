@@ -75,6 +75,8 @@ php artisan crud:make Product --service --repo --test
 <li> When write repo option add repository file. </li>
 <li> When write test option add tests file. </li>
 
+When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`.
+
 ✅ After you can see crod creates files for crud
 
 # CRUD query
@@ -116,6 +118,8 @@ For example
 ```bash
 php artisan crud:make-module Product --service --repo --test
 ```
+
+When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`.
 
 # CRUD query from module
 
@@ -183,6 +187,8 @@ return [
         'feature_test_path' => 'Tests\Feature', // This value is for the name of the folder that contains the module feature-tests.
         'unit_test_path' => 'Tests\Unit', // This value is for the name of the folder that contains the module unit-tests.
         'provider_path' => 'Providers', // This value is for the name of the folder that contains the module providers.
+        'factory_path' => 'Database\Factories', // This value is for the name of the folder that contains the module factories.
+        'seeder_path' => 'Database\Seeders', // This value is for the name of the folder that contains the module seeders.
     ],
 
     /*
@@ -198,11 +204,10 @@ return [
          * This `except_columns_in_fillable` that remove field from $fillable in model.
          */
         'except_columns_in_fillable' => [
-            'id', 'updated_at', 'created_at'
-        ]
+            'id', 'updated_at', 'created_at',
+        ],
     ],
 ];
-
 ```
 
 This config file is very helpful to custom path or latest name file.
