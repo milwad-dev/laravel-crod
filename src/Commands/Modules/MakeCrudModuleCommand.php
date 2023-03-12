@@ -5,11 +5,12 @@ namespace Milwad\LaravelCrod\Commands\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
+use Milwad\LaravelCrod\Traits\CommonTrait;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudModuleCommand extends Command
 {
-    use StubTrait;
+    use StubTrait, CommonTrait;
 
     protected $signature = 'crud:make-module {module_name} {--service} {--repo} {--test}';
 

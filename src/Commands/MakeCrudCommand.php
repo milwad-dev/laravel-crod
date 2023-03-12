@@ -6,11 +6,12 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Datas\OptionData;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
+use Milwad\LaravelCrod\Traits\CommonTrait;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
-    use StubTrait;
+    use StubTrait, CommonTrait;
 
     protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
 
