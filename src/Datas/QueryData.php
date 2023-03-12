@@ -85,11 +85,16 @@ use App\Models\{$model};
      *
      * @return string
      */
-    public static function getUseRepoData(string $model)
+    public static function getUseRepoData(string $model, bool $isModule)
     {
-        return "
-use App\Models\{$model};
-";
+        if ($isModule) {
+            $modulePath = config('laravel-crod.modules.module_namespace', 'Modules');
+            $modelPath = config('laravel-crod.modules.model_path', 'Entities');
+
+            return "use $modulePath\\$modelPath\\$model;";
+        }
+
+        return "use App\Models\\$model;";
     }
 
     /**

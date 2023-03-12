@@ -77,7 +77,7 @@ trait QueryTrait
      */
     private function addDataToProvider(string $moduleName, string $filename)
     {
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 16);
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 15);
         $lines[$line_i_am_looking_for] = QueryData::getProviderData($moduleName);
 
         file_put_contents($filename, implode("\n", $lines));

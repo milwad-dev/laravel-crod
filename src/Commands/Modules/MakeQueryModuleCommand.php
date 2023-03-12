@@ -53,7 +53,7 @@ use $this->module_name_space\\$model\Services\\$model;
             $this->addDataToService($model, $filename, $uses);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Repositories/{$model}Repo.php")) {
-            $this->addDataToRepo($model, $filename);
+            $this->addDataToRepo($model, $filename, true);
         }
 
         $this->info('Query added successfully');
