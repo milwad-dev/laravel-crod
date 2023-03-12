@@ -257,14 +257,15 @@ class MakeCrudModuleCommand extends Command
     {
         $filename = $name . 'Factory';
         $filenameWithExt = "$filename.php";
-        $factoryPath = 'Database/Factories';
+        $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
+        $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($factoryPath);
 
         $this->call('make:factory', [
             'name' => $filename
         ]);
 
         try {
-            rename($filenameWithExt, $this->module_name_space."/$name/$factoryPath/$filenameWithExt");
+            rename($filenameWithExt, $this->module_name_space."/$name/$correctPath/$filenameWithExt");
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
