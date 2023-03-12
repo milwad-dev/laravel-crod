@@ -255,10 +255,18 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeFactory(string $name)
     {
+        $filename = $name . 'Factory';
+        $filenameWithExt = "$filename.php";
+        $factoryPath = 'Database/Factories';
+
         $this->call('make:factory', [
-            'name' => $name . 'Factory'
+            'name' => $filename
         ]);
 
-
+        try {
+            rename($filenameWithExt, $this->module_name_space."/$name/$factoryPath/$filenameWithExt");
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
     }
 }
