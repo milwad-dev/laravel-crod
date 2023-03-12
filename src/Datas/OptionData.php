@@ -9,7 +9,7 @@ class OptionData
     public const REPOSITORY_OPTION = 'Repository';
     public const SERVICE_OPTION = 'Service';
     public const TEST_OPTION = 'Tests';
-    public const EXIT_OPTION = 'exit';
+    public const EXIT_OPTION = 'Exit';
 
     public static array $options = [
         self::SEEDER_OPTION,
