@@ -257,7 +257,6 @@ class MakeCrudModuleCommand extends Command
     private function makeFactory(string $name)
     {
         $filename = $name . 'Factory';
-        $filenameWithExt = "$filename.php";
         $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
         $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($factoryPath);
 
@@ -266,7 +265,16 @@ class MakeCrudModuleCommand extends Command
         ]);
 
         try {
-            rename($filenameWithExt, $this->module_name_space."/$name/$correctPath/$filenameWithExt");
+            $filenameWithExt = "$filename.php";
+            $concurrentDirectory = base_path($this->module_name_space . "/$name/$correctPath");
+
+            if (! mkdir($concurrentDirectory) && ! is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+            rename(
+                database_path("factories/$filenameWithExt"),
+                base_path($this->module_name_space."/$name/$correctPath/$filenameWithExt")
+            );
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
