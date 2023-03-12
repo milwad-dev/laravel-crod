@@ -48,15 +48,7 @@ class MakeCrudCommand extends Command
             $this->makeTest($name_uc);
         }
 
-        $selectOption = $this->extraOption();
-
-        if ($selectOption === OptionData::SEEDER_OPTION) {
-            $this->makeSeeder($name_uc);
-        }
-        if ($selectOption === OptionData::FACTORY_OPTION) {
-            $this->makeFactory($name_uc);
-        }
-
+        $option = $this->extraOptionOperation($name_uc);
 
         $this->info('Crud files successfully generated...');
     }
@@ -200,5 +192,28 @@ class MakeCrudCommand extends Command
     private function extraOption(): string|array
     {
         return $this->choice('You want something extra?', OptionData::$options, 0);
+    }
+
+    /**
+     * Extra option operation.
+     *
+     * @param  string $name_uc
+     * @return array|mixed|string
+     */
+    public function extraOptionOperation(string $name_uc)
+    {
+        $selectOption = $this->extraOption();
+
+        if ($selectOption === OptionData::SEEDER_OPTION) {
+            $this->makeSeeder($name_uc);
+            $this->extraOptionOperation($name_uc);
+        }
+        if ($selectOption === OptionData::FACTORY_OPTION) {
+            $this->makeFactory($name_uc);
+            $this->extraOptionOperation($name_uc);
+        }
+        
+
+        return $selectOption;
     }
 }
