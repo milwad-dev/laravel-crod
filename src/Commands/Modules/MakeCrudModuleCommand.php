@@ -79,7 +79,7 @@ class MakeCrudModuleCommand extends Command
         $currentNameWithCheckLatestLetter = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
         $this->call('make:migration', [
-            'name' => 'create' . $currentNameWithCheckLatestLetter . 'table',
+            'name' => 'create_' . $currentNameWithCheckLatestLetter . '_table',
             '--path' => $path,
             '--create',
         ]);
