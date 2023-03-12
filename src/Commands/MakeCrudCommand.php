@@ -4,6 +4,7 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Milwad\LaravelCrod\Datas\OptionData;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
@@ -47,7 +48,13 @@ class MakeCrudCommand extends Command
             $this->makeTest($name_uc);
         }
 
-        $this->info('Crud successfully generates...');
+        $selectOption = $this->choice('You want something extra?', OptionData::$options, 0);
+        match ($selectOption) {
+            OptionData::SEEDER_OPTION => $this->makeSeeder(),
+            OptionData::FACTORY_OPTION => $this->makeFactory(),
+        };
+
+        $this->info('Crud files successfully generates...');
     }
 
     /**
