@@ -34,6 +34,7 @@ return [
         'unit_test_path' => 'Tests\Unit', // This value is for the name of the folder that contains the module unit-tests.
         'provider_path' => 'Providers', // This value is for the name of the folder that contains the module providers.
         'factory_path' => 'Database\Factories', // This value is for the name of the folder that contains the module factories.
+        'seeder_path' => 'Database\Seeders', // This value is for the name of the folder that contains the module seeders.
     ],
 
     /*
