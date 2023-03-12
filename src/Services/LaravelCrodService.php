@@ -16,7 +16,6 @@ class LaravelCrodService
             $name = substr_replace($name, '', -1);
             $name .= 'ies';
         } else {
-            $name = substr_replace($name, '', -1);
             $name .= 's';
         }
 
