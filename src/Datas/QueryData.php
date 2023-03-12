@@ -91,7 +91,7 @@ use App\Models\{$model};
             $modulePath = config('laravel-crod.modules.module_namespace', 'Modules');
             $modelPath = config('laravel-crod.modules.model_path', 'Entities');
 
-            return "use $modulePath\\$modelPath\\$model;";
+            return "use $modulePath\\$model\\$modelPath\\$model; \n";
         }
 
         return "use App\Models\\$model;";
