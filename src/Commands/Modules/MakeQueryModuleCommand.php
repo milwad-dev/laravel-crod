@@ -96,10 +96,8 @@ use $this->module_name_space\\$model\\$modelPath\\$model;
         $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
 
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 5);
-        $lines[$line_i_am_looking_for] = "
-use $this->module_name_space\\$model\Entities\\$model;
-use $currentController;
-";
+        $lines[$line_i_am_looking_for] = "use $this->module_name_space\\$model\Entities\\$model;
+use $currentController;";
         file_put_contents($filename, implode("\n", $lines));
     }
 }
