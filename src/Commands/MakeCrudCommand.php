@@ -51,7 +51,7 @@ class MakeCrudCommand extends Command
         $selectOption = $this->choice('You want something extra?', OptionData::$options, 0);
         match ($selectOption) {
             OptionData::SEEDER_OPTION => $this->makeSeeder($name_uc),
-            OptionData::FACTORY_OPTION => $this->makeFactory(),
+            OptionData::FACTORY_OPTION => $this->makeFactory($name_uc),
         };
 
         $this->info('Crud files successfully generated...');
@@ -172,6 +172,19 @@ class MakeCrudCommand extends Command
     {
         $this->call('make:seeder', [
             'name' => $name . 'Seeder'
+        ]);
+    }
+
+    /**
+     * Build factory file with call command.
+     *
+     * @param  string $name
+     * @return void
+     */
+    private function makeFactory(string $name)
+    {
+        $this->call('make:factory', [
+            'name' => $name . 'Factory'
         ]);
     }
 }
