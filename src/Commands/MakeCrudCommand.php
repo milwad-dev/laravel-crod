@@ -13,7 +13,7 @@ class MakeCrudCommand extends Command
 {
     use StubTrait, CommonTrait;
 
-    protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
+    protected $signature = 'crud:make {name}';
 
     protected $description = 'Make crud fast';
 
@@ -31,23 +31,12 @@ class MakeCrudCommand extends Command
 
         $name = $this->argument('name');
         $name_uc = ucfirst($name);
-        $name_lower = strtolower($name);
 
         $this->makeModel($name_uc);
-        $this->makeMigration($name_lower);
+        $this->makeMigration(strtolower($name));
         $this->makeController($name_uc);
         $this->makeRequest($name_uc);
         $this->makeView($name_uc);
-
-        if ($this->option('service')) {
-            $this->makeService($name_uc);
-        }
-        if ($this->option('repo')) {
-            $this->makeRepository($name_uc);
-        }
-        if ($this->option('test')) {
-            $this->makeTest($name_uc);
-        }
 
         /*
          * When all files created, after say to user need to make more files like: factory, seeder, etc.

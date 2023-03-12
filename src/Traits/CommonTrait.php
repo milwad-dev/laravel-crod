@@ -34,5 +34,17 @@ trait CommonTrait
             $this->makeFactory($name_uc);
             $this->extraOptionOperation($name_uc);
         }
+        if ($selectOption === OptionData::REPOSITORY_OPTION) {
+            $this->makeRepository($name_uc);
+            $this->extraOptionOperation($name_uc);
+        }
+        if ($selectOption === OptionData::SERVICE_OPTION) {
+            $this->makeService($name_uc);
+            $this->extraOptionOperation($name_uc);
+        }
+        if ($selectOption === OptionData::TEST_OPTION) {
+            $this->makeTest($name_uc);
+            $this->extraOptionOperation($name_uc);
+        }
     }
 }
