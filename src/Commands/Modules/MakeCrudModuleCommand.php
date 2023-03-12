@@ -233,16 +233,24 @@ class MakeCrudModuleCommand extends Command
     private function makeSeeder(string $name)
     {
         $filename = $name . 'Seeder';
-        $filenameWithExt = "$filename.php";
         $seederPath = config('laravel-crod.modules.seeder_path', 'Database\Seeders');
         $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($seederPath);
 
-        $this->call('make:seeder', [
+        $this->callSilent('make:seeder', [
             'name' => $filename
         ]);
 
         try {
-            rename($filenameWithExt, $this->module_name_space."/$name/$correctPath/$filenameWithExt");
+            $filenameWithExt = "$filename.php";
+            $concurrentDirectory = base_path($this->module_name_space . "/$name/$correctPath");
+
+            if (! mkdir($concurrentDirectory) && ! is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+            rename(
+                database_path("seeders/$filenameWithExt"),
+                base_path($this->module_name_space."/$name/$correctPath/$filenameWithExt")
+            );
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
@@ -260,7 +268,7 @@ class MakeCrudModuleCommand extends Command
         $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
         $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($factoryPath);
 
-        $this->call('make:factory', [
+        $this->callSilent('make:factory', [
             'name' => $filename
         ]);
 
