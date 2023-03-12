@@ -59,7 +59,7 @@ You must see this command in the terminal.
 <font color="succe">This command creates CRUD files</font>, Run this command in the terminal. <br>
 
 ```bash
-php artisan crud:make {name} {--service} {--repo} {--test}
+php artisan crud:make {name}
 ``` 
 
 <br>
@@ -67,15 +67,10 @@ php artisan crud:make {name} {--service} {--repo} {--test}
 For example <br>
 
 ```bash
-php artisan crud:make Product --service --repo --test
+php artisan crud:make Product
 ```
 
-<br>
-<li> When write service option add service file. </li>
-<li> When write repo option add repository file. </li>
-<li> When write test option add tests file. </li>
-
-When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`.
+When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`, `factory`, `repository`, etc.
 
 ✅ After you can see crod creates files for crud
 
@@ -110,16 +105,16 @@ When write `--id-controller` option add function without route model binding.
 Run this command in the terminal, This command created CRUD file for module.
 
 ```bash
-php artisan crud:make-module {module_name} {--service} {--repo} {--test}
+php artisan crud:make-module {module_name}
 ```
 
 For example
 
 ```bash
-php artisan crud:make-module Product --service --repo --test
+php artisan crud:make-module Product
 ```
 
-When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`.
+When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`, `factory`, `repository`, etc.
 
 # CRUD query from module
 
