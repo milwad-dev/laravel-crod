@@ -50,7 +50,7 @@ class MakeCrudCommand extends Command
 
         $selectOption = $this->choice('You want something extra?', OptionData::$options, 0);
         match ($selectOption) {
-            OptionData::SEEDER_OPTION => $this->makeSeeder(),
+            OptionData::SEEDER_OPTION => $this->makeSeeder($name_uc),
             OptionData::FACTORY_OPTION => $this->makeFactory(),
         };
 
@@ -153,12 +153,25 @@ class MakeCrudCommand extends Command
     /**
      * Build feature & unit test.
      *
-     *
+     * @param  string $name
      * @return void
      */
     private function makeTest(string $name)
     {
         $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
         $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
+    }
+
+    /**
+     * Build seeder file with call command.
+     *
+     * @param  string $name
+     * @return void
+     */
+    private function makeSeeder(string $name)
+    {
+        $this->call('make:seeder', [
+            'name' => $name . 'Seeder'
+        ]);
     }
 }
