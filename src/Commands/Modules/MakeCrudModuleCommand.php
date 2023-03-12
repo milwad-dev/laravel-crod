@@ -233,4 +233,32 @@ class MakeCrudModuleCommand extends Command
             '/../Stubs/module/unit-test.stub'
         );
     }
+
+    /**
+     * Build seeder file with call command.
+     *
+     * @param  string $name
+     * @return void
+     */
+    private function makeSeeder(string $name)
+    {
+        $this->call('make:seeder', [
+            'name' => $name . 'Seeder'
+        ]);
+    }
+
+    /**
+     * Build factory file with call command.
+     *
+     * @param  string $name
+     * @return void
+     */
+    private function makeFactory(string $name)
+    {
+        $this->call('make:factory', [
+            'name' => $name . 'Factory'
+        ]);
+
+
+    }
 }
