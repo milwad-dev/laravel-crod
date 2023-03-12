@@ -59,9 +59,9 @@ trait QueryTrait
      *
      * @return void
      */
-    private function addDataToController(string $model, string $filename)
+    private function addDataToController(string $model, string $filename, int $line = 8)
     {
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename);
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, $line);
         $lines[$line_i_am_looking_for] = $this->option('id-controller')
             ? $this->controllerId()
             : $this->controllerRouteModelBinding($model);
