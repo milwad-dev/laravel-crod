@@ -242,9 +242,20 @@ class MakeCrudModuleCommand extends Command
      */
     private function makeSeeder(string $name)
     {
+        $filename = $name . 'Seeder';
+        $filenameWithExt = "$filename.php";
+        $seederPath = config('laravel-crod.modules.seeder_path', 'Database\Seeders');
+        $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($seederPath);
+
         $this->call('make:seeder', [
-            'name' => $name . 'Seeder'
+            'name' => $filename
         ]);
+
+        try {
+            rename($filenameWithExt, $this->module_name_space."/$name/$correctPath/$filenameWithExt");
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
     }
 
     /**
