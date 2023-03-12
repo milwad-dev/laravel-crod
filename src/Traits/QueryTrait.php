@@ -61,7 +61,7 @@ trait QueryTrait
      */
     private function addDataToController(string $model, string $filename)
     {
-        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 9);
+        [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename);
         $lines[$line_i_am_looking_for] = $this->option('id-controller')
             ? $this->controllerId()
             : $this->controllerRouteModelBinding($model);
@@ -75,14 +75,19 @@ trait QueryTrait
      *
      * @return void
      */
-    private function addDataToProvider(string $model, string $filename)
+    private function addDataToProvider(string $moduleName, string $filename)
     {
         [$line_i_am_looking_for, $lines] = $this->lookingLinesWithIgnoreLines($filename, 16);
-        $lines[$line_i_am_looking_for] = QueryData::getProviderData();
+        $lines[$line_i_am_looking_for] = QueryData::getProviderData($moduleName);
 
         file_put_contents($filename, implode("\n", $lines));
     }
 
+    /**
+     * @param  string $filename
+     * @param  int $looking_for
+     * @return array
+     */
     private function lookingLinesWithIgnoreLines(string $filename, int $looking_for = 8): array
     {
         return [

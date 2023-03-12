@@ -76,9 +76,10 @@ class MakeCrudModuleCommand extends Command
     {
         $migrationPath = config('laravel-crod.modules.migration_path', 'Database\Migrations');
         $path = "$this->module_name_space\\$name\\$migrationPath";
+        $currentNameWithCheckLatestLetter = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
         $this->call('make:migration', [
-            'name' => LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
+            'name' => 'create' . $currentNameWithCheckLatestLetter . 'table',
             '--path' => $path,
             '--create',
         ]);
