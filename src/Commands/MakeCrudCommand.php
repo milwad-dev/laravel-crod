@@ -54,7 +54,7 @@ class MakeCrudCommand extends Command
             OptionData::FACTORY_OPTION => $this->makeFactory(),
         };
 
-        $this->info('Crud files successfully generates...');
+        $this->info('Crud files successfully generated...');
     }
 
     /**

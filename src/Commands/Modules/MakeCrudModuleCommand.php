@@ -49,7 +49,7 @@ class MakeCrudModuleCommand extends Command
             $this->makeTest($name);
         }
 
-        $this->info('Crud successfully generate...');
+        $this->info('Crud files successfully generated...');
     }
 
     /**
