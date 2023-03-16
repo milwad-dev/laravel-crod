@@ -14,6 +14,8 @@ You can create controllers, models, migrations, services, repositories, views an
 You can make automatically fillable for models, query for repositories and services, make resource functions for
 controllers, and a lot of options.
 
+Docs: https://github.com/milwad-dev/laravel-crod/wiki
+
 # Requirements
 
 ***
