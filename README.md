@@ -169,6 +169,13 @@ return [
     'main_controller' => 'App\Http\Controllers\Controller',
 
     /*
+     * Are using PEST?
+     *
+     * If you are using PEST framework, you can change it this value to `true`.
+     */
+    'are_using_pest' => false,
+
+    /*
      * Modules config.
      *
      * You can make custom modules with special folders ... .
@@ -206,6 +213,7 @@ return [
         ],
     ],
 ];
+
 ```
 
 This config file is very helpful to custom path or latest name file.
