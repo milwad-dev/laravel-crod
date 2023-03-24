@@ -31,6 +31,13 @@ return [
     'route_namespace' => '',
 
     /*
+     * Route name.
+     *
+     * This is a word that name of route file.
+     */
+    'route_name' => 'web',
+
+    /*
      * Modules config.
      *
      * You can make custom modules with special folders ... .
