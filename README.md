@@ -176,6 +176,20 @@ return [
     'are_using_pest' => false,
 
     /*
+     * Route namespace.
+     *
+     * This is a word that move into the latest name of route file.
+     */
+    'route_namespace' => '',
+
+    /*
+     * Route name.
+     *
+     * This is a word that name of route file.
+     */
+    'route_name' => 'web',
+
+    /*
      * Modules config.
      *
      * You can make custom modules with special folders ... .
@@ -194,6 +208,7 @@ return [
         'provider_path' => 'Providers', // This value is for the name of the folder that contains the module providers.
         'factory_path' => 'Database\Factories', // This value is for the name of the folder that contains the module factories.
         'seeder_path' => 'Database\Seeders', // This value is for the name of the folder that contains the module seeders.
+        'route_path' => 'Routes', // This value is for the name of the folder that contains the module routes.
     ],
 
     /*
@@ -213,7 +228,6 @@ return [
         ],
     ],
 ];
-
 ```
 
 This config file is very helpful to custom path or latest name file.
