@@ -39,6 +39,7 @@ class MakeCrudModuleCommand extends Command
         $this->makeRequest($name);
         $this->makeView($name);
         $this->makeProvider($name);
+        $this->makeRoute($name);
 
         /*
          * When all files created, after say to user need to make more files like: factory, seeder, etc.
@@ -176,6 +177,24 @@ class MakeCrudModuleCommand extends Command
             LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name, false),
             'ServiceProvider',
             '/../Stubs/module/provider.stub',
+        );
+    }
+
+    /**
+     * Build route for module.
+     *
+     *
+     * @return void
+     */
+    private function makeRoute(string $name)
+    {
+        $routePath = config('laravel-crod.modules.route_path', 'Routes');
+
+        $this->makeStubFile(
+            $this->module_name_space."\\$name\\$routePath",
+            LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name, true),
+            '',
+            '/../Stubs/module/route.stub',
         );
     }
 
