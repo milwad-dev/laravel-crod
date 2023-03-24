@@ -136,12 +136,32 @@ class MakeCrudModuleCommand extends Command
     private function makeView(string $name)
     {
         $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
+        $namePlural = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
+        $pathSource = $this->module_name_space."\\$name\\$viewPath\\$namePlural";
+
+        if (!mkdir($pathSource) && !is_dir($pathSource)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $name));
+        }
 
         $this->makeStubFile(
-            $this->module_name_space."\\$name\\$viewPath",
-            LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name),
+            $pathSource,
+            'index',
             '.blade',
-            '/../Stubs/module/blade.stub',
+            '/../Stubs/blade.stub',
+            false,
+        );
+        $this->makeStubFile(
+            $pathSource,
+            'create',
+            '.blade',
+            '/../Stubs/blade.stub',
+            false,
+        );
+        $this->makeStubFile(
+            $pathSource,
+            'edit',
+            '.blade',
+            '/../Stubs/blade.stub',
             false,
         );
     }
