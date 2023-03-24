@@ -24,6 +24,13 @@ return [
     'are_using_pest' => false,
 
     /*
+     * Route namespace.
+     *
+     * This is a word that move into the latest name of route file.
+     */
+    'route_namespace' => '',
+
+    /*
      * Modules config.
      *
      * You can make custom modules with special folders ... .

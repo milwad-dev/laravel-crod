@@ -189,11 +189,12 @@ class MakeCrudModuleCommand extends Command
     private function makeRoute(string $name)
     {
         $routePath = config('laravel-crod.modules.route_path', 'Routes');
+        $routeLatest = config('laravel-crod.route_namespace', '');
 
         $this->makeStubFile(
             $this->module_name_space."\\$name\\$routePath",
-            LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name, true),
-            '',
+            'web',
+            $routeLatest,
             '/../Stubs/module/route.stub',
         );
     }
