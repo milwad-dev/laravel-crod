@@ -211,18 +211,27 @@ class MakeCrudModuleCommand extends Command
         $featureTestPath = config('laravel-crod.modules.feature_test_path', 'Tests\Feature');
         $unitTestPath = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$featureTestPath",
-            $name,
-            'Test',
-            '/../Stubs/module/feature-test.stub'
-        );
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$unitTestPath",
-            $name,
-            'Test',
-            '/../Stubs/module/unit-test.stub'
-        );
+        if (config('laravel-crod.are_using_pest', false)) {
+            $this->makeStubFile(
+                $this->module_name_space."\\$name\\$featureTestPath",
+                $name,
+                'Test',
+                '/../Stubs/module/pest-test.stub'
+            );
+        } else {
+            $this->makeStubFile(
+                $this->module_name_space."\\$name\\$featureTestPath",
+                $name,
+                'Test',
+                '/../Stubs/module/feature-test.stub'
+            );
+            $this->makeStubFile(
+                $this->module_name_space."\\$name\\$unitTestPath",
+                $name,
+                'Test',
+                '/../Stubs/module/unit-test.stub'
+            );
+        }
     }
 
     /**

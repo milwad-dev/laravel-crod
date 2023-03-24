@@ -147,8 +147,12 @@ class MakeCrudCommand extends Command
      */
     private function makeTest(string $name)
     {
-        $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
-        $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
+        if (config('laravel-crod.are_using_pest', false)) {
+            $this->call('make:test', ['--pest' => true]);
+        } else {
+            $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
+            $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
+        }
     }
 
     /**
