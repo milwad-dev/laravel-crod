@@ -139,10 +139,6 @@ class MakeCrudModuleCommand extends Command
         $namePlural = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
         $pathSource = $this->module_name_space."\\$name\\$viewPath\\$namePlural";
 
-        if (!mkdir($pathSource) && !is_dir($pathSource)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $name));
-        }
-
         $this->makeStubFile(
             $pathSource,
             'index',
