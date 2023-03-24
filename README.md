@@ -236,3 +236,7 @@ contribute. [CONTRIBUTING](https://github.com/milwad-dev/laravel-crod/graphs/con
 
 If you've found a bug regarding security please mail [milwad.dev@gmail.com](mailto:milwad.dev@gmail.com) instead of
 using the issue tracker.
+
+## Conclusion
+
+Laravel-crod is a simple yet powerful package that can help you create CRUD operations for your Laravel models in just a few lines of code. By following this documentation, you should now have a better understanding of how to use the package in your Laravel project. If you have any issues or questions, please feel free to open an issue on the package's GitHub repository.
