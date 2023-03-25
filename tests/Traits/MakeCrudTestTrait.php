@@ -127,4 +127,13 @@ trait MakeCrudTestTrait
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($seeder, basename($filename, '.php'));
     }
+
+    private function checkAllToFactoryIsCreatedWithOriginalName(): void
+    {
+        $factory = ucfirst($this->name).'Factory';
+        $filename = database_path("factories\\$factory.php");
+
+        $this->assertEquals(1, file_exists($filename));
+        $this->assertEquals($factory, basename($filename, '.php'));
+    }
 }
