@@ -77,6 +77,27 @@ class MakeCrudTest extends BaseTest
     }
 
     /**
+     * Test check all files create when user run command 'crud:make' with option repository.
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function check_to_create_files_with_command_crud_make_with_option_repository()
+    {
+        $this->artisan($this->command, ['name' => $this->name])
+            ->expectsQuestion($this->question, 3)
+            ->expectsOutputToContain('created successfully');
+
+        $this->checkAllToModelIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
+        $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName($this->name);
+        $this->checkAllToRepositoryIsCreatedWithOriginalName();
+    }
+
+    /**
      * Test check all files create when user run command 'crud:make' with ies name.
      *
      * @test
