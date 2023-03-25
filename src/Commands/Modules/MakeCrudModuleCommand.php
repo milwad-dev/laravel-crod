@@ -10,7 +10,8 @@ use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudModuleCommand extends Command
 {
-    use StubTrait, CommonTrait;
+    use StubTrait;
+    use CommonTrait;
 
     protected $signature = 'crud:make-module {module_name}';
 
@@ -80,7 +81,7 @@ class MakeCrudModuleCommand extends Command
         $currentNameWithCheckLatestLetter = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
         $this->call('make:migration', [
-            'name' => 'create_' . $currentNameWithCheckLatestLetter . '_table',
+            'name'   => 'create_'.$currentNameWithCheckLatestLetter.'_table',
             '--path' => $path,
             '--create',
         ]);
@@ -273,24 +274,25 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build seeder file with call command.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     private function makeSeeder(string $name)
     {
-        $filename = $name . 'Seeder';
+        $filename = $name.'Seeder';
         $seederPath = config('laravel-crod.modules.seeder_path', 'Database\Seeders');
         $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($seederPath);
 
         $this->callSilent('make:seeder', [
-            'name' => $filename
+            'name' => $filename,
         ]);
 
         try {
             $filenameWithExt = "$filename.php";
-            $concurrentDirectory = base_path($this->module_name_space . "/$name/$correctPath");
+            $concurrentDirectory = base_path($this->module_name_space."/$name/$correctPath");
 
-            if (! mkdir($concurrentDirectory) && ! is_dir($concurrentDirectory)) {
+            if (!mkdir($concurrentDirectory) && !is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
             rename(
@@ -305,24 +307,25 @@ class MakeCrudModuleCommand extends Command
     /**
      * Build factory file with call command.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     private function makeFactory(string $name)
     {
-        $filename = $name . 'Factory';
+        $filename = $name.'Factory';
         $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
         $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($factoryPath);
 
         $this->callSilent('make:factory', [
-            'name' => $filename
+            'name' => $filename,
         ]);
 
         try {
             $filenameWithExt = "$filename.php";
-            $concurrentDirectory = base_path($this->module_name_space . "/$name/$correctPath");
+            $concurrentDirectory = base_path($this->module_name_space."/$name/$correctPath");
 
-            if (! mkdir($concurrentDirectory) && ! is_dir($concurrentDirectory)) {
+            if (!mkdir($concurrentDirectory) && !is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
             rename(

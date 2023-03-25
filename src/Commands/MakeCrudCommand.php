@@ -4,14 +4,14 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Milwad\LaravelCrod\Datas\OptionData;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
 use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
-    use StubTrait, CommonTrait;
+    use StubTrait;
+    use CommonTrait;
 
     protected $signature = 'crud:make {name}';
 
@@ -103,11 +103,11 @@ class MakeCrudCommand extends Command
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
-        if (!mkdir($viewPath = resource_path('views/' . $name)) && !is_dir($viewPath)) {
+        if (!mkdir($viewPath = resource_path('views/'.$name)) && !is_dir($viewPath)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $name));
         }
 
-        $pathSource = 'Resources\\Views\\' . $name;
+        $pathSource = 'Resources\\Views\\'.$name;
         $this->makeStubFile(
             $pathSource,
             'index',
@@ -161,7 +161,8 @@ class MakeCrudCommand extends Command
     /**
      * Build feature & unit test.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     private function makeTest(string $name)
@@ -177,26 +178,28 @@ class MakeCrudCommand extends Command
     /**
      * Build seeder file with call command.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     private function makeSeeder(string $name)
     {
         $this->call('make:seeder', [
-            'name' => $name . 'Seeder'
+            'name' => $name.'Seeder',
         ]);
     }
 
     /**
      * Build factory file with call command.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return void
      */
     private function makeFactory(string $name)
     {
         $this->call('make:factory', [
-            'name' => $name . 'Factory'
+            'name' => $name.'Factory',
         ]);
     }
 }

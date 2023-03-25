@@ -43,7 +43,7 @@ class MakeQueryModuleCommand extends Command
         $this->addDataToController($model, $controllerFilename, 9);
         $this->addDataToProvider($model, "$this->module_name_space/$model/Providers/{$model}ServiceProvider.php");
 
-        if (! $this->option('id-controller')) {
+        if (!$this->option('id-controller')) {
             $this->addUseToControllerForRouteModelBinding($model, $controllerFilename);
         }
         if (File::exists($filename = "$this->module_name_space/$model/Services/{$model}Service.php")) {

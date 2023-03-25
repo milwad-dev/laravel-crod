@@ -37,10 +37,10 @@ class MakeCrudTest extends BaseTest
     {
         $this->withoutExceptionHandling();
         $this->artisan('crud:make', [
-            'name' => $this->name,
+            'name'      => $this->name,
             '--service' => true,
-            '--test' => true,
-            '--repo' => true,
+            '--test'    => true,
+            '--repo'    => true,
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -85,7 +85,7 @@ class MakeCrudTest extends BaseTest
     {
         $this->name = strtolower($this->name);
 
-        if (! str_ends_with($this->name, 'y')) {
+        if (!str_ends_with($this->name, 'y')) {
             $file = $this->migrationExists("create_{$this->name}s_table");
         } else {
             $file = $this->migrationExists("create_{$this->name}ies_table");

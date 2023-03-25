@@ -15,7 +15,7 @@ trait StubTrait
         $this->makeDirectory(dirname($path));
         $contents = $this->getSourceFile($pathStub, $pathSource, $name);
 
-        if (! $this->files->exists($path)) {
+        if (!$this->files->exists($path)) {
             $this->files->put($path, $contents);
             $this->info("File : {$path} created");
         } else {
@@ -43,7 +43,7 @@ trait StubTrait
     private function getStubVariables(string $namespace, string $name)
     {
         return [
-            'NAMESPACE' => $namespace,
+            'NAMESPACE'  => $namespace,
             'CLASS_NAME' => $this->getSingularClassName($name),
         ];
     }
@@ -65,7 +65,8 @@ trait StubTrait
     /**
      * Replace the stub variables(key) with the desire value.
      *
-     * @param  array  $stubVariables
+     * @param array $stubVariables
+     *
      * @return array|false|string|string[]
      */
     private function getStubContents($stub, $stubVariables = [])
@@ -87,7 +88,7 @@ trait StubTrait
      */
     private function getSourceFilePath(string $path, string $name, string $latest, bool $singular = true)
     {
-        if (! $singular) {
+        if (!$singular) {
             return base_path($path).'\\'.$name."$latest.php";
         }
 
@@ -113,7 +114,7 @@ trait StubTrait
      */
     private function makeDirectory(string $path)
     {
-        if (! $this->files->isDirectory($path)) {
+        if (!$this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
 
