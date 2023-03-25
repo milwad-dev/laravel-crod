@@ -19,10 +19,11 @@ trait MakeCrudTestTrait
         if (!str_ends_with($this->name, 'y')) {
             $file = $this->migrationExists("create_{$this->name}s_table");
         } else {
+            $this->name = substr($this->name, 0, -1);
             $file = $this->migrationExists("create_{$this->name}ies_table");
         }
 
-        $this->assertEquals(1, $file);
+        $this->assertTrue($file);
     }
 
     /**
