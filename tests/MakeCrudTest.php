@@ -32,13 +32,13 @@ class MakeCrudTest extends BaseTest
     }
 
     /**
-     * Test check all files create when user run command 'crud:make' with options.
+     * Test check all files create when user run command 'crud:make' with option seeder.
      *
      * @test
      *
      * @return void
      */
-    public function check_to_create_files_with_command_crud_make_with_options()
+    public function check_to_create_files_with_command_crud_make_with_option_seeder()
     {
         $this->artisan($this->command, ['name' => $this->name])
             ->expectsQuestion($this->question, 0)
@@ -53,6 +53,27 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToRepositoryIsCreatedWithOriginalName();
         $this->checkAllToTestsIsCreatedWithOriginalName();
         $this->checkAllToSeederIsCreatedWithOriginalName();
+    }
+
+    /**
+     * Test check all files create when user run command 'crud:make' with option service.
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function check_to_create_files_with_command_crud_make_with_option_service()
+    {
+        $this->artisan($this->command, ['name' => $this->name])
+            ->expectsQuestion($this->question, 3)
+            ->expectsOutputToContain('created successfully');
+
+        $this->checkAllToModelIsCreatedWithOriginalName();
+        $this->checkAllToMigrationIsCreatedWithOriginalName();
+        $this->checkAllToControllerIsCreatedWithOriginalName();
+        $this->checkAllToRequestIsCreatedWithOriginalName();
+        $this->checkAllToViewIsCreatedWithOriginalName($this->name);
+        $this->checkAllToServiceIsCreatedWithOriginalName();
     }
 
     /**
