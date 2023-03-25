@@ -17,9 +17,8 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make()
     {
-        $this->artisan($this->command, [
-            'name' => $this->name,
-        ])->expectsQuestion($this->question, 5);
+        $this->artisan($this->command, ['name' => $this->name])
+            ->expectsQuestion($this->question, 5);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();
@@ -65,7 +64,8 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_ies_name()
     {
-        $this->artisan($this->command, ['name' => 'Category'])
+        $this->name = 'Category';
+        $this->artisan($this->command, ['name' => $this->name])
             ->expectsQuestion($this->question, 5);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
