@@ -2,3 +2,6 @@ composer.lock
 /vendor
 /.idea
 .phpunit.result.cache
+/reports
+todos.txt
+/coverage

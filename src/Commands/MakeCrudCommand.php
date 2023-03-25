@@ -4,11 +4,16 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Pluralizer;
+use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
+use Milwad\LaravelCrod\Traits\CommonTrait;
+use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
-    protected $signature = 'crud:make {name} {--service} {--repo} {--test}';
+    use StubTrait;
+    use CommonTrait;
+
+    protected $signature = 'crud:make {name}';
 
     protected $description = 'Make crud fast';
 
@@ -26,31 +31,25 @@ class MakeCrudCommand extends Command
 
         $name = $this->argument('name');
         $name_uc = ucfirst($name);
-        $name_lower = strtolower($name);
 
         $this->makeModel($name_uc);
-        $this->makeMigration($name_lower);
+        $this->makeMigration(strtolower($name));
         $this->makeController($name_uc);
         $this->makeRequest($name_uc);
         $this->makeView($name_uc);
 
-        if ($this->option('service')) {
-            $this->makeService($name_uc);
-        }
-        if ($this->option('repo')) {
-            $this->makeRepository($name_uc);
-        }
-        if ($this->option('test')) {
-            $this->makeTest($name_uc);
-        }
+        /*
+         * When all files created, after say to user need to make more files like: factory, seeder, etc.
+         */
+        $this->extraOptionOperation($name_uc);
 
-        $this->info('Crud successfully generate...');
+        $this->info('Crud files successfully generated...');
     }
 
     /**
      * Build model file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeModel(string $name)
@@ -61,23 +60,20 @@ class MakeCrudCommand extends Command
     /**
      * Build migration file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeMigration(string $name)
     {
-        if (!str_ends_with($name, 'y')) {
-            $this->call('make:migration', ['name' => "create_{$name}s_table", '--create']);
-        } else {
-            $name = substr_replace($name ,"", -1);
-            $this->call('make:migration', ['name' => "create_{$name}ies_table", '--create']);
-        }
+        $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
+
+        $this->call('make:migration', ['name' => "create_{$name}_table", '--create']);
     }
 
     /**
      * Build controller file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeController(string $name)
@@ -88,25 +84,43 @@ class MakeCrudCommand extends Command
     /**
      * Build request file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeRequest(string $name)
     {
-        $this->call('make:request', ['name' => "{$name}Request"]);
+        $this->call('make:request', ['name' => "{$name}StoreRequest"]);
+        $this->call('make:request', ['name' => "{$name}UpdateRequest"]);
     }
 
     /**
      * Build view file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeView(string $name)
     {
+        $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
+        $pathSource = 'Resources\\Views\\'.$name;
+
         $this->makeStubFile(
-            'Resources\\Views',
-            strtolower($name) . 's',
+            $pathSource,
+            'index',
+            '.blade',
+            '/../Stubs/blade.stub',
+            false,
+        );
+        $this->makeStubFile(
+            $pathSource,
+            'create',
+            '.blade',
+            '/../Stubs/blade.stub',
+            false,
+        );
+        $this->makeStubFile(
+            $pathSource,
+            'edit',
             '.blade',
             '/../Stubs/blade.stub',
             false,
@@ -116,7 +130,7 @@ class MakeCrudCommand extends Command
     /**
      * Build service file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeService(string $name)
@@ -127,141 +141,61 @@ class MakeCrudCommand extends Command
     /**
      * Build repository file with call command.
      *
-     * @param string $name
+     *
      * @return void
      */
     private function makeRepository(string $name)
     {
-        $this->makeStubFile('App\\Repositories', $name, 'Repo', '/../Stubs/repo.stub');
+        $this->makeStubFile(
+            'App\\Repositories',
+            $name,
+            config('laravel-crod.repository_namespace', 'Repo'),
+            '/../Stubs/repo.stub'
+        );
     }
 
     /**
      * Build feature & unit test.
      *
      * @param string $name
+     *
      * @return void
      */
     private function makeTest(string $name)
     {
-        $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
-        $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
-    }
-
-    /**
-     * Return the stub file path.
-     *
-     * @return string
-     */
-    public function getStubPath($path)
-    {
-        return __DIR__ . $path;
-    }
-
-    /**
-     * Map the stub variables present in stub to its value.
-     *
-     * @return array
-     */
-    public function getStubVariables($namespace, $name)
-    {
-        return [
-            'NAMESPACE'         => $namespace,
-            'CLASS_NAME'        => $this->getSingularClassName($name),
-        ];
-    }
-
-    /**
-     * Get the stub path and the stub variables.
-     *
-     * @return array|false|string|string[]
-     */
-    public function getSourceFile($path, $namespace, $name)
-    {
-        return $this->getStubContents(
-            $this->getStubPath($path),
-            $this->getStubVariables($namespace, $name)
-        );
-    }
-
-    /**
-     * Replace the stub variables(key) with the desire value.
-     *
-     * @param $stub
-     * @param array $stubVariables
-     * @return array|false|string|string[]
-     */
-    public function getStubContents($stub , $stubVariables = [])
-    {
-        $contents = file_get_contents($stub);
-
-        foreach ($stubVariables as $search => $replace) {
-            $contents = str_replace('$'.$search.'$' , $replace, $contents);
+        if (config('laravel-crod.are_using_pest', false)) {
+            $this->call('make:test', ['--pest' => true]);
+        } else {
+            $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
+            $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
         }
-
-        return $contents;
     }
 
     /**
-     * Get the full path of generate class.
+     * Build seeder file with call command.
      *
-     * @return string
-     */
-    public function getSourceFilePath($path, $name, $latest, $singular = true)
-    {
-        if (!$singular) {
-            return base_path($path) .'\\' . $name . "$latest.php";
-        }
-
-        return base_path($path) .'\\' .$this->getSingularClassName($name) . "$latest.php";
-    }
-
-    /**
-     * Return the singular capitalize name.
-     *
-     * @param $name
-     * @return string
-     */
-    public function getSingularClassName($name)
-    {
-        return ucwords(Pluralizer::singular($name));
-    }
-
-    /**
-     * Build the directory for the class if necessary.
-     *
-     * @param string $path
-     * @return string
-     */
-    public function makeDirectory(string $path)
-    {
-        if (! $this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        return $path;
-    }
-
-    /**
-     * Build stub & check exists.
-     *
-     * @param $pathSource
      * @param string $name
-     * @param string $latest
-     * @param $pathStub
-     * @param bool $singular
+     *
      * @return void
      */
-    private function makeStubFile($pathSource, string $name, string $latest, $pathStub, bool $singular = true): void
+    private function makeSeeder(string $name)
     {
-        $path = $this->getSourceFilePath($pathSource, $name, $latest, $singular);
-        $this->makeDirectory(dirname($path));
-        $contents = $this->getSourceFile($pathStub, $pathSource, $name);
+        $this->call('make:seeder', [
+            'name' => $name.'Seeder',
+        ]);
+    }
 
-        if (!$this->files->exists($path)) {
-            $this->files->put($path, $contents);
-            $this->info("File : {$path} created");
-        } else {
-            $this->info("File : {$path} already exits");
-        }
+    /**
+     * Build factory file with call command.
+     *
+     * @param string $name
+     *
+     * @return void
+     */
+    private function makeFactory(string $name)
+    {
+        $this->call('make:factory', [
+            'name' => $name.'Factory',
+        ]);
     }
 }

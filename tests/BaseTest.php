@@ -1,6 +1,6 @@
 <?php
 
-namespace Milwad\LaravelCrod\Commands;
+namespace Milwad\LaravelCrod\Tests;
 
 use Milwad\LaravelCrod\LaravelCrodServiceProvider;
 
@@ -9,18 +9,23 @@ class BaseTest extends \Orchestra\Testbench\TestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return array<int, string>
      */
     protected function getPackageProviders($app)
     {
         return [
-            LaravelCrodServiceProvider::class
+            LaravelCrodServiceProvider::class,
         ];
     }
 
-    public function test_success()
+    /**
+     * Is a fake test.
+     *
+     * @test
+     */
+    public function success(): void
     {
         $this->assertEquals(1, 1);
     }

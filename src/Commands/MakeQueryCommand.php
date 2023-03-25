@@ -5,13 +5,20 @@ namespace Milwad\LaravelCrod\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Milwad\LaravelCrod\Datas\QueryData;
+use Milwad\LaravelCrod\Traits\QueryTrait;
 
 class MakeQueryCommand extends Command
 {
+    use QueryTrait;
+
     protected $signature = 'crud:query {table_name} {model} {--id-controller}';
 
     protected $description = 'Add query & data fast';
 
+    /**
+     * @throws \Exception
+     */
     public function handle()
     {
         $this->alert('Add query...');
@@ -20,269 +27,46 @@ class MakeQueryCommand extends Command
         $model = $this->argument('model');
 
         $itemsDB = Schema::getColumnListing($name);
-        $items = $this->addDBCulumnsToString($itemsDB);
+        $items = $this->addDBColumnsToString($itemsDB);
 
-        $this->addDataToModel($model, $items);
-        $this->addDataToController($model);
+        $this->addDataToModel($items, "App/Models/$model.php");
+        $this->addDataToController($model, "App/Http/Controllers/{$model}Controller.php");
 
-        if (!$this->option('id-controller')) {
-            $this->addUseToControllerForRouteModelBinding($model);
+        if (File::exists($filename = "App/Services/{$model}Service.php")) {
+            $uses = "
+use App\Models\\$model;
+";
+            $this->addDataToService($model, $filename, $uses);
         }
-
-        $filename = "App/Services/{$model}Service.php";
-        if (File::exists($filename)) {
-            $this->addDataToService($model);
-        }
-
-        $filename = "App/Repositories/{$model}Repo.php";
-        if (File::exists($filename)) {
-            $this->addDataToRepo($model);
+        if (File::exists($filename = "App/Repositories/{$model}Repo.php")) {
+            $this->addDataToRepo($model, $filename);
         }
 
         $this->info('Query added successfully');
     }
 
     /**
-     * Add db column to string.
-     *
-     * @param array $itemsDB
-     * @return string
-     */
-    private function addDBCulumnsToString(array $itemsDB)
-    {
-        $columns = '';
-        foreach ($itemsDB as $db) {
-            $columns .= "'$db', ";
-        }
-
-        return $columns;
-    }
-
-    /**
-     * Add data to model.
-     *
-     * @param string $model
-     * @param $items
-     * @return void
-     */
-    private function addDataToModel(string $model, $items)
-    {
-        $filename = "App/Models/$model.php";
-        $line_i_am_looking_for = 10;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = PHP_EOL . '    protected $fillable = [' . $items . '];' . PHP_EOL . '}';
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to service.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToService(string $model)
-    {
-        $filename = "App/Services/{$model}Service.php";
-        $line_i_am_looking_for = 6;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $request = '$request';
-        $id = '$id';
-        $lines[$line_i_am_looking_for] = "    public function store($request)
-    {
-        return $model::query()->create(" . '$request->all()' . ");
-    }
-
-    public function update($request, $id)
-    {
-        return $model::query()->where('id', $id)->update(" . '$request->all()' . ");
-    }";
-        file_put_contents($filename, implode("\n", $lines));
-        $this->addUseToService($model);
-    }
-
-    /**
-     * Add use to Service.
-     *
-     * @param $model
-     * @return void
-     */
-    private function addUseToService($model)
-    {
-        $filename = "App/Services/{$model}Service.php";
-        $line_i_am_looking_for = 3;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use App\Models\{$model};
-";
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to repository.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToRepo(string $model)
-    {
-        $filename = "App/Repositories/{$model}Repo.php";
-        $line_i_am_looking_for = 6;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $id = '$id';
-        $lines[$line_i_am_looking_for] = "    public function index()
-    {
-        return $model::query()->latest();
-    }
-
-    public function findById($id)
-    {
-        return $model::query()->findOrFail($id);
-    }
-
-     public function delete($id)
-    {
-        return $model::query()->where('id', $id)->delete();
-    }";
-        file_put_contents($filename, implode("\n", $lines));
-        $this->addUseToRepo($model);
-    }
-
-    /**
-     * Add use to repository.
-     *
-     * @param $model
-     * @return void
-     */
-    private function addUseToRepo($model)
-    {
-        $filename = "App/Repositories/{$model}Repo.php";
-        $line_i_am_looking_for = 3;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use App\Models\{$model};
-";
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
-     * Add data to controller.
-     *
-     * @param string $model
-     * @return void
-     */
-    private function addDataToController(string $model)
-    {
-        $filename = "App/Http/Controllers/{$model}Controller.php";
-        $line_i_am_looking_for = 8;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $comment = '// Start code - milwad-dev';
-        $request = '$request';
-        if (!$this->option('id-controller')) {
-            $lines[$line_i_am_looking_for] = $this->controllerRouteModelBinding($comment, $request, $model);
-        } else {
-            $lines[$line_i_am_looking_for] = $this->controllerId($comment, $request, '$id');
-        }
-        file_put_contents($filename, implode("\n", $lines));
-    }
-
-    /**
      * Add data to controller with $id.
-     *
-     * @param string $comment
-     * @param string $request
-     * @param string $id
-     * @return string
      */
-    private function controllerId(string $comment, string $request, string $id): string
+    private function controllerId(): string
     {
-        return "    public function index()
-    {
-        $comment
-    }
-
-    public function create()
-    {
-        $comment
-    }
-
-    public function store(Request $request)
-    {
-        $comment
-    }
-
-    public function edit($id)
-    {
-        $comment
-    }
-
-    public function update(Request $request, $id)
-    {
-        $comment
-    }
-
-    public function destroy($id)
-    {
-        $comment
-    }";
+        return QueryData::getControllerIdData(
+            '// Start code - milwad-dev',
+            '$request',
+            '$id'
+        );
     }
 
     /**
      * Add data to controller with route model binding.
-     *
-     * @param string $comment
-     * @param string $request
-     * @param string $name
-     * @return string
      */
-    private function controllerRouteModelBinding(string $comment, string $request, string $name): string
+    private function controllerRouteModelBinding(string $name): string
     {
-        $lowerName = strtolower($name);
-
-        return "    public function index()
-    {
-        $comment
-    }
-
-    public function create()
-    {
-        $comment
-    }
-
-    public function store(Request $request)
-    {
-        $comment
-    }
-
-    public function edit($name $$lowerName)
-    {
-        $comment
-    }
-
-    public function update(Request $request, $name $$lowerName)
-    {
-        $comment
-    }
-
-    public function destroy($name $$lowerName)
-    {
-        $comment
-    }";
-    }
-
-    /**
-     * Add use to controller route model binding.
-     *
-     * @param $model
-     * @return void
-     */
-    private function addUseToControllerForRouteModelBinding($model)
-    {
-        $filename = "App/Http/Controllers/{$model}Controller.php";
-        $line_i_am_looking_for = 5;
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        $lines[$line_i_am_looking_for] = "
-use App\Models\\$model;
-";
-        file_put_contents($filename, implode("\n", $lines));
+        return QueryData::getControllerRouteModelBinding(
+            '// Start code - milwad-dev',
+            '$request',
+            $name,
+            strtolower($name)
+        );
     }
 }
