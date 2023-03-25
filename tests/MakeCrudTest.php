@@ -5,8 +5,8 @@ namespace Milwad\LaravelCrod\Tests;
 class MakeCrudTest extends BaseTest
 {
     private string $name = 'Product';
-
     private string $question = 'You want something extra?';
+    private string $command = 'crud:make';
 
     /**
      * Test check all files create when user run command 'crud:make'.
@@ -17,7 +17,7 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make()
     {
-        $this->artisan('crud:make', [
+        $this->artisan($this->command, [
             'name' => $this->name,
         ])->expectsQuestion($this->question, 5);
 
@@ -37,7 +37,7 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_options()
     {
-        $this->artisan('crud:make', ['name' => $this->name])
+        $this->artisan($this->command, ['name' => $this->name])
             ->expectsQuestion($this->question, 0)
             ->expectsQuestion($this->question, 1)
             ->expectsQuestion($this->question, 2)
@@ -65,7 +65,7 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_ies_name()
     {
-        $this->artisan('crud:make', ['name' => 'Category'])
+        $this->artisan($this->command, ['name' => 'Category'])
             ->expectsQuestion($this->question, 5);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
@@ -85,7 +85,7 @@ class MakeCrudTest extends BaseTest
     public function check_to_create_files_with_command_crud_make_with_ies_name_with_options()
     {
         $this->name = 'Category';
-        $this->artisan('crud:make', ['name' => $this->name])
+        $this->artisan($this->command, ['name' => $this->name])
             ->expectsQuestion($this->question, 0)
             ->expectsQuestion($this->question, 1)
             ->expectsQuestion($this->question, 2)
