@@ -37,9 +37,8 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_options()
     {
-        $this->artisan('crud:make', [
-            'name'      => $this->name,
-        ])->expectsQuestion($this->question, 0)
+        $this->artisan('crud:make', ['name' => $this->name])
+            ->expectsQuestion($this->question, 0)
             ->expectsQuestion($this->question, 1)
             ->expectsQuestion($this->question, 2)
             ->expectsQuestion($this->question, 3)
@@ -66,9 +65,8 @@ class MakeCrudTest extends BaseTest
      */
     public function check_to_create_files_with_command_crud_make_with_ies_name()
     {
-        $this->artisan('crud:make', [
-            'name' => 'Category',
-        ])->expectsQuestion('', 5);
+        $this->artisan('crud:make', ['name' => 'Category'])
+            ->expectsQuestion($this->question, 5);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();
@@ -87,9 +85,8 @@ class MakeCrudTest extends BaseTest
     public function check_to_create_files_with_command_crud_make_with_ies_name_with_options()
     {
         $this->name = 'Category';
-        $this->artisan('crud:make', [
-            'name' => $this->name,
-        ])->expectsQuestion($this->question, 0)
+        $this->artisan('crud:make', ['name' => $this->name])
+            ->expectsQuestion($this->question, 0)
             ->expectsQuestion($this->question, 1)
             ->expectsQuestion($this->question, 2)
             ->expectsQuestion($this->question, 3)
