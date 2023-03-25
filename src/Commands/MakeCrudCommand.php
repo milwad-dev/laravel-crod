@@ -102,8 +102,8 @@ class MakeCrudCommand extends Command
     private function makeView(string $name)
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
-
         $pathSource = 'Resources\\Views\\'.$name;
+
         $this->makeStubFile(
             $pathSource,
             'index',
