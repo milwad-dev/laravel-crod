@@ -17,7 +17,7 @@ class MakeCrudTest extends BaseTest
     {
         $this->artisan('crud:make', [
             'name' => $this->name,
-        ]);
+        ])->expectsQuestion('You want something extra?', true);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();

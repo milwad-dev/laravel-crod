@@ -103,10 +103,6 @@ class MakeCrudCommand extends Command
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
-        if (!mkdir($viewPath = resource_path('views/'.$name)) && !is_dir($viewPath)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $name));
-        }
-
         $pathSource = 'Resources\\Views\\'.$name;
         $this->makeStubFile(
             $pathSource,
