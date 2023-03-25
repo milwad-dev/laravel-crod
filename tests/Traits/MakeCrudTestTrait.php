@@ -114,7 +114,7 @@ trait MakeCrudTestTrait
     private function checkAllToSeederIsCreatedWithOriginalName(): void
     {
         $seeder = ucfirst($this->name).'Seeder';
-        $filename = database_path("Seeders\\$seeder.php");
+        $filename = database_path("seeders\\$seeder.php");
 
         $this->assertEquals(1, file_exists($filename));
         $this->assertEquals($seeder, basename($filename, '.php'));
