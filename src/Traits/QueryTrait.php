@@ -13,16 +13,16 @@ trait QueryTrait
      * Add db column to string.
      *
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     private function addDBColumnsToString(array $itemsDB)
     {
         $columns = '';
         $excepts = config('laravel-crod.queries.except_columns_in_fillable', ['id', 'updated_at', 'created_at']);
 
-        if (! is_array($excepts)) {
+        if (!is_array($excepts)) {
             throw new \RuntimeException('Except columns is not an array');
         }
 
@@ -41,7 +41,8 @@ trait QueryTrait
     /**
      * Add data to model.
      *
-     * @param  mixed  $filename
+     * @param mixed $filename
+     *
      * @return void
      */
     private function addDataToModel(mixed $items, string $filename)
@@ -84,8 +85,9 @@ trait QueryTrait
     }
 
     /**
-     * @param  string $filename
-     * @param  int $looking_for
+     * @param string $filename
+     * @param int    $looking_for
+     *
      * @return array
      */
     private function lookingLinesWithIgnoreLines(string $filename, int $looking_for = 8): array

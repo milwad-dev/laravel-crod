@@ -19,7 +19,8 @@ trait CommonTrait
     /**
      * Extra option operation.
      *
-     * @param  string $name_uc
+     * @param string $name_uc
+     *
      * @return void
      */
     public function extraOptionOperation(string $name_uc)

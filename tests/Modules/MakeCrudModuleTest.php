@@ -49,9 +49,9 @@ class MakeCrudModuleTest extends BaseTest
     {
         $this->artisan($this->command, [
             'module_name' => $this->name,
-            '--service' => true,
-            '--test' => true,
-            '--repo' => true,
+            '--service'   => true,
+            '--test'      => true,
+            '--repo'      => true,
         ]);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
