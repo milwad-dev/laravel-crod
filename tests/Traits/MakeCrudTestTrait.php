@@ -65,11 +65,18 @@ trait MakeCrudTestTrait
         $this->assertEquals($request, basename($filename, '.php'));
     }
 
-    private function checkAllToViewIsCreatedWithOriginalName(): void
+    private function checkAllToViewIsCreatedWithOriginalName(string $name): void
     {
-        $lowerName = strtolower($this->name);
-        $latest = str_ends_with($lowerName, 'y') ? 'ies' : 's';
-        $view = $lowerName.$latest.'.blade';
+        $lowerName = strtolower($name);
+
+        if (!str_ends_with($lowerName, 'y')) {
+            $latest = $name.'s';
+        } else {
+            $name = substr($name, 0, -1);
+            $latest = $name.'ies';
+        }
+
+        $view = strtolower($latest).'.blade';
         $filename = resource_path("views\\$view.php");
 
         $this->assertEquals(1, file_exists($filename));
