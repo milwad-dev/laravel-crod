@@ -1,6 +1,6 @@
 # Laravel Crod
 
-![milwad-dev larave-crod](https://preview.dragon-code.pro/milwad-dev/larave-crod.svg?brand=laravel&invert=1)
+<img src="https://banners.beyondco.de/Laravel%20Crod.png?theme=light&packageManager=composer+require&packageName=milwad%2Flaravel-crod&pattern=architect&style=style_1&description=Generate+crud+files+easy&md=1&showWatermark=0&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg" />
 
 [![Latest Stable Version](http://poser.pugx.org/milwad/laravel-crod/v)](https://packagist.org/packages/milwad/laravel-crod)
 [![Total Downloads](http://poser.pugx.org/milwad/laravel-crod/downloads)](https://packagist.org/packages/milwad/laravel-crod)
