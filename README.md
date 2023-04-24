@@ -29,6 +29,7 @@ Docs: https://github.com/milwad-dev/laravel-crod/wiki
 | 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
 | 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: |
 | 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: |
+| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: |
 
 # Installation
 
