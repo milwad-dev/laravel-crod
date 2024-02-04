@@ -114,7 +114,6 @@ class MakeCrudTest extends BaseTest
         $this->checkAllToMigrationIsCreatedWithOriginalName();
         $this->checkAllToControllerIsCreatedWithOriginalName();
         $this->checkAllToRequestIsCreatedWithOriginalName();
-//        $this->checkAllToFactoryIsCreatedWithOriginalName(); TODO
         $this->checkAllToViewIsCreatedWithOriginalName($this->name);
     }
 
@@ -150,13 +149,24 @@ class MakeCrudTest extends BaseTest
         $this->name = 'Category';
         $this->artisan($this->command, ['name' => $this->name])
             ->expectsQuestion($this->question, 0)
+            ->expectsQuestion($this->question, 1)
+            ->expectsQuestion($this->question, 2)
+            ->expectsQuestion($this->question, 3)
+            ->expectsQuestion($this->question, 4)
+            ->expectsQuestion($this->question, 5)
             ->expectsOutputToContain('created successfully');
 
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToControllerIsCreatedWithOriginalName();
         $this->checkAllToRequestIsCreatedWithOriginalName();
-//        $this->checkAllToSeederIsCreatedWithOriginalName();
         $this->checkAllToViewIsCreatedWithOriginalName('Category');
         $this->checkAllToMigrationIsCreatedWithOriginalName();
+
+        // Options Checks
+        $this->checkAllToSeederIsCreatedWithOriginalName();
+        $this->checkAllToFactoryIsCreatedWithOriginalName();
+        $this->checkAllToRepositoryIsCreatedWithOriginalName();
+        $this->checkAllToServiceIsCreatedWithOriginalName();
+        $this->checkAllToTestsIsCreatedWithOriginalName();
     }
 }
