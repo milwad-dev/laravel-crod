@@ -15,7 +15,7 @@ class MakeCrudModuleCommand extends Command
 
     protected $signature = 'crud:make-module {module_name}';
 
-    protected $description = 'Command description';
+    protected $description = 'Create crud files for module.';
 
     private string $module_name_space;
 
