@@ -12,7 +12,7 @@ class MakeCrudModuleTest extends BaseTest
 
     private ?string $module;
 
-    private string $question = 'You want something extra?';
+    private string $question = 'Do you want something extra?';
 
     protected function setUp(): void
     {

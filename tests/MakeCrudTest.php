@@ -9,7 +9,7 @@ class MakeCrudTest extends BaseTest
     use MakeCrudTestTrait;
 
     private string $name = 'Product';
-    private string $question = 'You want something extra?';
+    private string $question = 'Do you want something extra?';
     private string $command = 'crud:make';
 
     /**

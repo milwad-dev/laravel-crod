@@ -13,7 +13,7 @@ trait CommonTrait
      */
     private function extraOption(): string|array
     {
-        return $this->choice('You want something extra?', OptionData::$options, 0);
+        return $this->choice('Do you want something extra?', OptionData::$options, 0);
     }
 
     /**
