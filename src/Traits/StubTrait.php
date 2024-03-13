@@ -98,7 +98,6 @@ trait StubTrait
     /**
      * Return the singular capitalize name.
      *
-     *
      * @return string
      */
     private function getSingularClassName(string $name)
