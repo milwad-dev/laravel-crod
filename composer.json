@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": "^8.0",
-    "doctrine/dbal": "^3.8|^4.*",
+    "doctrine/dbal": "^3.8|4.*",
     "laravel/framework": "^9.0|^10.0|^11.0"
   },
   "require-dev": {
