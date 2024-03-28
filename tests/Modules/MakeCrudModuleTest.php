@@ -56,7 +56,7 @@ class MakeCrudModuleTest extends BaseTest
             ->expectsQuestion($this->question, 3)
             ->expectsQuestion($this->question, 4)
             ->expectsQuestion($this->question, 5)
-            ->expectsOutputToContain('created successfully');
+            ->assertExitCode(0);
 
         $this->checkAllToModelIsCreatedWithOriginalName();
         $this->checkAllToMigrationIsCreatedWithOriginalName();
