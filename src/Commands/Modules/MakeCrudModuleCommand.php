@@ -315,11 +315,11 @@ class MakeCrudModuleCommand extends Command
     {
         $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
 
-        $this->makeStubFile(
-            base_path($this->module_name_space."\\$name\\$factoryPath"),
-            $name,
-            'Factory',
-            '/../Stubs/module/factory.stub'
-        );
+//        $this->makeStubFile(
+//            base_path($this->module_name_space."\\$name\\$factoryPath"),
+//            $name,
+//            'Factory',
+//            '/../Stubs/module/factory.stub'
+//        );
     }
 }
