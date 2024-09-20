@@ -2,21 +2,20 @@
 
 <img src="https://banners.beyondco.de/Laravel%20Crod.png?theme=light&packageManager=composer+require&packageName=milwad%2Flaravel-crod&pattern=architect&style=style_1&description=Generate+crud+files+easy&md=1&showWatermark=0&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg" />
 
-[![Latest Stable Version](http://poser.pugx.org/milwad/laravel-crod/v)](https://packagist.org/packages/milwad/laravel-crod)
-[![Total Downloads](http://poser.pugx.org/milwad/laravel-crod/downloads)](https://packagist.org/packages/milwad/laravel-crod)
-[![License](http://poser.pugx.org/milwad/laravel-crod/license)](https://packagist.org/packages/milwad/laravel-crod)
+[![PHP Version Require](https://img.shields.io/packagist/dependency-v/milwad/laravel-crod/php.svg)](https://packagist.org/packages/milwad/laravel-crod)
+[![Latest Stable Version](https://img.shields.io/packagist/v/milwad/laravel-crod.svg)](https://packagist.org/packages/milwad/laravel-crod)
+[![Total Downloads](https://img.shields.io/packagist/dt/milwad/laravel-crod.svg)](https://packagist.org/packages/milwad/laravel-crod)
+[![License](https://img.shields.io/packagist/l/milwad/laravel-crod.svg)](https://packagist.org/packages/milwad/laravel-crod)
 [![Passed Tests](https://github.com/milwad-dev/laravel-crod/actions/workflows/run-tests.yml/badge.svg)](https://github.com/milwad-dev/laravel-crod/actions/workflows/run-tests.yml)
-[![PHP Version Require](http://poser.pugx.org/milwad/laravel-crod/require/php)](https://packagist.org/packages/milwad/laravel-crod)
 
 ***
-Laravel crod is a package for implementing CRUD faster and easier. <br>
-You can create controllers, models, migrations, services, repositories, views and requests quickly. <br>
-You can make automatically fillable for models, query for repositories and services, make resource functions for
-controllers, and a lot of options.
+Laravel crod is a package for implementing CRUD faster and easier.
+You can quickly create controllers, models, migrations, services, repositories, views and requests.
+You can make it automatically fillable for models, query for repositories and services, make resource controllers, and have a lot of options.
 
 Docs: https://github.com/milwad-dev/laravel-crod/wiki
 
-# Requirements
+## Requirements
 
 ***
 
@@ -24,14 +23,15 @@ Docs: https://github.com/milwad-dev/laravel-crod/wiki
 - `Laravel framework: ^9`
 - `doctrine/dbal: ^3.6`
 
-| Crod | L7                 | L8                 | L9                 | L10                |
-|------|--------------------|--------------------|--------------------|--------------------|
-| 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
-| 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: |
-| 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: |
-| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: |
+| Crod | L7                 | L8                 | L9                 | L10                | L11                |
+|------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
+| 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 1.4  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
-# Installation
+## Installation
 
 ***
 
@@ -39,28 +39,25 @@ Docs: https://github.com/milwad-dev/laravel-crod/wiki
 composer require milwad/laravel-crod
 ```
 
-After publish config files.<br>
+After installation, you need to publish config files. <br>
 
 ```bash
 php artisan vendor:publish --provider="Milwad\LaravelCrod\LaravelCrodServiceProvider" --tag="laravel-crod-config"
 ```
 
-# Check active commands
+## Check active commands
 
-Run the command in cmd or terminal. <br>
+When you install the `Laravel Crod`, a series of commands will be activated for you. For see these commands, you can run below command: <br>
 
 ```bash
 php artisan
 ```
 
-<br>
-
-You must see this command in the terminal.
 ![Crod commands](https://s6.uupload.ir/files/carbon_(1)_tqmq.png "Crod commands")
 
-# Make CRUD files
+## Make CRUD files
 
-<font color="succe">This command creates CRUD files</font>, Run this command in the terminal. <br>
+For creating crud files, you need to run the `crud:make` command in your terminal: <br>
 
 ```bash
 php artisan crud:make {name}
@@ -76,43 +73,49 @@ php artisan crud:make Product
 
 When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`, `factory`, `repository`, etc.
 
-✅ After you can see crod creates files for crud
+✅ After, you can see `Laravel Crod` creates crud files such as `Model`, `Controller`, `Form-Requests`, `Migrations` etc.
 
-# CRUD query
+## CRUD Query
 
-This command adds query and date to CRUD files. <br>
+If you run `crud:query` command, the result is:
 
-<strong>** You must run the migrate command. ** </strong> <br>
+- Add `index`, `create`, `store`, `edit`, `update`, `destroy` function to your controller
+- Get all migration columns and move it to your model fillable
+- Add `index`, `findById`, `delete` functions to your repositories
+- Add `store`, `update` functions to your services
+- Add resource route (SOON)
+
+<strong>** You must run the migrate command, before `crud:query` command. ** </strong> <br>
 
 ```bash
 php artisan migrate
 ```
 
-Run this command in the terminal. <br>
+For using automatic query, you can run below command:
 
 ```bash
 php artisan crud:query {table_name} {model} {--id-controller}
 ```
 
-For example
+For example:
 
 ```bash
 php artisan crud:query products Product
 ```
 
-When write `--id-controller` option add function without route model binding.
+When you add `--id-controller` option, the `Laravel Crod` create crud functions without [Route Model Binding](https://laravel.com/docs/routing#route-model-binding) in controller.
 
-<font color="info">After you can see add query to service, repository, controller, model, etc.</font>
+After you can see `Laravel Crod` added query to service, repository, controller, model, etc.
 
-# CRUD for module
+## CRUD for Module
 
-Run this command in the terminal, This command created CRUD file for module.
+If you are using Modular Architecture, you are able to run `crud:make-module` command. This command create a new module and create the default crud files such as `Model`, `Controller`, `Migration`, etc:
 
 ```bash
 php artisan crud:make-module {module_name}
 ```
 
-For example
+For example:
 
 ```bash
 php artisan crud:make-module Product
@@ -120,17 +123,18 @@ php artisan crud:make-module Product
 
 When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`, `factory`, `repository`, etc.
 
-# CRUD query from module
+## CRUD Query for Module
 
-<font color="succe">This command adds query and date to CRUD files for module.</font> <br>
+This command adds query and date to CRUD files for module.
+This command is similar to `crud:query` command, but this command is for module. if you have a modular you can write your module name and `Laravel Crod` find it automatically.
 
-<font color="yellow">** You must run your migration file. ** </font> <br>
+** You must run your migration file **
 
 ```
 php artisan crud:query-module {table_name} {model} {--id-controller}
 ```
 
-For example
+For example:
 
 ```bash
 php artisan crud:query-module products Product
@@ -142,13 +146,16 @@ OR
 php artisan crud:query-module products Product --id-controller
 ```
 
-When write --id-controller option add function without route model binding.
+When you add `--id-controller` option, the `Laravel Crod` create crud functions without [Route Model Binding](https://laravel.com/docs/routing#route-model-binding) in controller.
 
-<font color="info">After you can see add query to service, repository, controller, model, etc for module.</font>
+After you can see `Laravel Crod` added query to service, repository, controller, model, ... for your module.
 
 ## Custom path
 
-You can custom file path in config file. ```config/laravel-crod.php```
+You can custom file path in config file. ``````
+
+With `Laravel Crod` config, you can customize the commands, for example you want to set the route file name.
+This config file exists in `config/laravel-crod.php`:
 
 ```php
 <?php
@@ -230,8 +237,6 @@ return [
     ],
 ];
 ```
-
-This config file is very helpful to custom path or latest name file.
 
 ## License
 
