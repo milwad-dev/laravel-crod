@@ -120,21 +120,21 @@ class MakeCrudModuleCommandTest extends TestCase
     public function crud_files_created_successfully_with_customize_from_config_file(): void
     {
         config()->set([
-            'laravel-crod.modules.module_namespace' => 'modules',
-            'laravel-crod.modules.model_path' => 'Models',
-            'laravel-crod.modules.migration_path' => 'Database\Migrations\Test',
-            'laravel-crod.modules.controller_path' => 'Http\Controllers\Test',
-            'laravel-crod.modules.request_path' => 'Http\Requests\Test',
-            'laravel-crod.modules.view_path' => 'Resources\Views\Test',
-            'laravel-crod.modules.service_path' => 'Services\Test',
-            'laravel-crod.modules.repository_path' => 'Repositories\Test',
+            'laravel-crod.modules.module_namespace'  => 'modules',
+            'laravel-crod.modules.model_path'        => 'Models',
+            'laravel-crod.modules.migration_path'    => 'Database\Migrations\Test',
+            'laravel-crod.modules.controller_path'   => 'Http\Controllers\Test',
+            'laravel-crod.modules.request_path'      => 'Http\Requests\Test',
+            'laravel-crod.modules.view_path'         => 'Resources\Views\Test',
+            'laravel-crod.modules.service_path'      => 'Services\Test',
+            'laravel-crod.modules.repository_path'   => 'Repositories\Test',
             'laravel-crod.modules.feature_test_path' => 'Tests\Feature\Test',
-            'laravel-crod.modules.unit_test_path' => 'Tests\Unit\Test',
-            'laravel-crod.modules.provider_path' => 'Providers\Test',
-            'laravel-crod.modules.factory_path' => 'Database\Factories\Test',
-            'laravel-crod.modules.seeder_path' => 'Database\Seeders\Test',
-            'laravel-crod.modules.route_path' => 'Routes\Test',
-            'laravel-crod.repository_namespace' => 'Repository'
+            'laravel-crod.modules.unit_test_path'    => 'Tests\Unit\Test',
+            'laravel-crod.modules.provider_path'     => 'Providers\Test',
+            'laravel-crod.modules.factory_path'      => 'Database\Factories\Test',
+            'laravel-crod.modules.seeder_path'       => 'Database\Seeders\Test',
+            'laravel-crod.modules.route_path'        => 'Routes\Test',
+            'laravel-crod.repository_namespace'      => 'Repository',
         ]);
 
         $this->artisan('crud:make-module', ['module_name' => 'Product'])
@@ -148,7 +148,7 @@ class MakeCrudModuleCommandTest extends TestCase
             ->expectsOutput('Crud files successfully generated...');
 
         // Ensure model exists
-        $this->assertFileExists(base_path("modules/Product/Models/Product.php"));
+        $this->assertFileExists(base_path('modules/Product/Models/Product.php'));
 
         // ensure migration exists
         $this->migrationExists('create_products_table', 'Modules/Product/Database/Migrations/Test');
