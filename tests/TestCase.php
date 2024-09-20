@@ -30,9 +30,11 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         File::deleteDirectory(base_path('Modules'));
-        File::deleteDirectory(base_path('App\Repositories'));
-        File::deleteDirectory(base_path('App\Services'));
-        File::deleteDirectory(base_path('Database\Factories'));
+        File::deleteDirectory(base_path('modules'));
+        File::deleteDirectory(base_path('app\Repositories'));
+        File::deleteDirectory(base_path('app\Services'));
+        File::deleteDirectory(base_path('database\factories'));
+        File::deleteDirectory(base_path('resources\views\products'));
     }
 
     /*
