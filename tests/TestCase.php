@@ -2,8 +2,8 @@
 
 namespace Milwad\LaravelCrod\Tests;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Support\Facades\File;
 use Milwad\LaravelCrod\LaravelCrodServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -34,12 +34,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
         File::deleteDirectory(base_path('App\Services'));
         File::deleteDirectory(base_path('Database\Factories'));
     }
-  
-     /*
-     * Define environment setup.
-     *
-     * @param \Illuminate\Foundation\Application $app
-     */
+
+    /*
+    * Define environment setup.
+    *
+    * @param \Illuminate\Foundation\Application $app
+    */
     protected function getEnvironmentSetUp($app)
     {
         // Set default database to use sqlite :memory:
