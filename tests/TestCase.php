@@ -2,6 +2,7 @@
 
 namespace Milwad\LaravelCrod\Tests;
 
+use Illuminate\Support\Facades\File;
 use Milwad\LaravelCrod\LaravelCrodServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -18,5 +19,18 @@ class TestCase extends \Orchestra\Testbench\TestCase
         return [
             LaravelCrodServiceProvider::class,
         ];
+    }
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        File::deleteDirectory(base_path('Modules'));
+        File::deleteDirectory(base_path('App\Repositories'));
+        File::deleteDirectory(base_path('App\Services'));
+        File::deleteDirectory(base_path('Database\Factories'));
     }
 }
