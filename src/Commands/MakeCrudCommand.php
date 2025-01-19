@@ -2,6 +2,7 @@
 
 namespace Milwad\LaravelCrod\Commands;
 
+use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
@@ -13,17 +14,19 @@ class MakeCrudCommand extends Command
     use StubTrait;
     use CommonTrait;
 
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
     protected $signature = 'crud:make {name}';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Make crud fast';
-
-    public Filesystem $files;
-
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-        $this->files = $files;
-    }
 
     public function handle()
     {
@@ -47,23 +50,25 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build model file with call command.
-     *
-     *
-     * @return void
+     * Create model.
      */
-    private function makeModel(string $name)
+    private function makeModel(string $name): void
     {
-        $this->call('make:model', ['name' => $name]);
+        LaravelStub::from(__DIR__ . '/../Stubs/model.stub')
+            ->to(app_path('Models')) // TODO: Check models folder exists or not
+            ->name($name)
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'App\Models',
+                '$CLASS_NAME$' => $name
+            ])
+            ->generate();
     }
 
     /**
-     * Build migration file with call command.
-     *
-     *
-     * @return void
+     * Create migration file with call command.
      */
-    private function makeMigration(string $name)
+    private function makeMigration(string $name): void
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
