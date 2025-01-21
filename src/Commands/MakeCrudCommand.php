@@ -221,21 +221,23 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build seeder file with call command.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create seeder class.
      */
     private function makeSeeder(string $name)
     {
-        $this->call('make:seeder', [
-            'name' => $name.'Seeder',
-        ]);
+        LaravelStub::from(__DIR__ . '/../Stubs/seeder.stub')
+            ->to(database_path('seeders'))
+            ->name("{$name}Seeder")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'Database\Seeders',
+                '$CLASS_NAME$' => "{$name}Seeder",
+            ])
+            ->generate();
     }
 
     /**
-     * Create factory.
+     * Create factory class.
      */
     private function makeFactory(string $name)
     {
