@@ -151,7 +151,7 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Create service.
+     * Create service class.
      */
     private function makeService(string $name): void
     {
@@ -167,19 +167,21 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build repository file with call command.
-     *
-     *
-     * @return void
+     * Create repository class.
      */
-    private function makeRepository(string $name)
+    private function makeRepository(string $name): void
     {
-        $this->makeStubFile(
-            'App\\Repositories',
-            $name,
-            config('laravel-crod.repository_namespace', 'Repo'),
-            '/../Stubs/repo.stub'
-        );
+        $latest = config('laravel-crod.repository_namespace', 'Repository');
+
+        LaravelStub::from(__DIR__ . '/../Stubs/repository.stub')
+            ->to(app_path('Repositories/'.$name))
+            ->name("{$name}$latest")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'App\Repositories',
+                '$CLASS_NAME$' => "{$name}$latest",
+            ])
+            ->generate();
     }
 
     /**

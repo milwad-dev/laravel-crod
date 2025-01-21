@@ -7,7 +7,7 @@ return [
      * This is a word that move into the latest name of repository file, for ex: ProductRepo.
      * If this value is changed, any repos that are created will be renamed, for ex: ProductRepository.
     */
-    'repository_namespace' => 'Repo',
+    'repository_namespace' => 'Repository',
 
     /*
      * Get main controller.
