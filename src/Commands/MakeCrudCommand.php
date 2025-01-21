@@ -158,7 +158,7 @@ class MakeCrudCommand extends Command
     private function makeService(string $name): void
     {
         LaravelStub::from(__DIR__ . '/../Stubs/service.stub')
-            ->to(app_path('Services/'.$name))
+            ->to(app_path('Services'))
             ->name("{$name}Service")
             ->ext('php')
             ->replaces([
@@ -176,7 +176,7 @@ class MakeCrudCommand extends Command
         $latest = config('laravel-crod.repository_namespace', 'Repository');
 
         LaravelStub::from(__DIR__ . '/../Stubs/repository.stub')
-            ->to(app_path('Repositories/'.$name))
+            ->to(app_path('Repositories'))
             ->name("{$name}$latest")
             ->ext('php')
             ->replaces([
