@@ -69,7 +69,7 @@ class MakeCrudCommandTest extends TestCase
 
         $this->ensureCrudFileCreated();
 
-        $this->assertFileExists(app_path('Repositories/ProductRepo.php'));
+        $this->assertFileExists(app_path('Repositories/ProductRepository.php'));
     }
 
     /**
