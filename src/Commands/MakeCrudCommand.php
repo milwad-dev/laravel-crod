@@ -185,19 +185,38 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build feature & unit test.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create feature & unit test.
      */
-    private function makeTest(string $name)
+    private function makeTest(string $name): void
     {
         if (config('laravel-crod.are_using_pest', false)) {
-            $this->call('make:test', ['--pest' => true]);
+            LaravelStub::from(__DIR__ . '/../Stubs/pest.stub')
+                ->to(base_path('tests/Feature'))
+                ->name("{$name}Test")
+                ->ext('php')
+                ->generate();
         } else {
-            $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
-            $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
+            // Feature
+            LaravelStub::from(__DIR__ . '/../Stubs/feature-test.stub')
+                ->to(base_path('tests/Feature'))
+                ->name("{$name}Test")
+                ->ext('php')
+                ->replaces([
+                    '$NAMESPACE$' => 'Tests\Feature',
+                    '$CLASS_NAME$' => "{$name}Test",
+                ])
+                ->generate();
+
+            // Unit
+            LaravelStub::from(__DIR__ . '/../Stubs/unit-test.stub')
+                ->to(base_path('tests/Unit'))
+                ->name("{$name}Test")
+                ->ext('php')
+                ->replaces([
+                    '$NAMESPACE$' => 'Tests\Unit',
+                    '$CLASS_NAME$' => "{$name}Test",
+                ])
+                ->generate();
         }
     }
 
