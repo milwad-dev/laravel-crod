@@ -235,16 +235,18 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build factory file with call command.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create factory.
      */
     private function makeFactory(string $name)
     {
-        $this->call('make:factory', [
-            'name' => $name.'Factory',
-        ]);
+        LaravelStub::from(__DIR__ . '/../Stubs/factory.stub')
+            ->to(database_path('factories'))
+            ->name("{$name}Factory")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'Database\Factories',
+                '$CLASS_NAME$' => "{$name}Factory",
+            ])
+            ->generate();
     }
 }
