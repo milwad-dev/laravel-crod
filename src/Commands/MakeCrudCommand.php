@@ -56,13 +56,13 @@ class MakeCrudCommand extends Command
      */
     private function makeModel(string $name): void
     {
-        LaravelStub::from(__DIR__ . '/../Stubs/model.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/model.stub')
             ->to(app_path('Models')) // TODO: Check models folder exists or not
             ->name($name)
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'App\Models',
-                '$CLASS_NAME$' => $name
+                '$NAMESPACE$'  => 'App\Models',
+                '$CLASS_NAME$' => $name,
             ])
             ->generate();
     }
@@ -84,14 +84,14 @@ class MakeCrudCommand extends Command
     {
         $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
 
-        LaravelStub::from(__DIR__ . '/../Stubs/controller.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/controller.stub')
             ->to(app_path('Http\Controllers'))
             ->name($name)
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'App\Http\Controllers',
-                '$CLASS_NAME$' => "{$name}Controller",
-                '$EXTEND_CONTROLLER$' => $currentController
+                '$NAMESPACE$'         => 'App\Http\Controllers',
+                '$CLASS_NAME$'        => "{$name}Controller",
+                '$EXTEND_CONTROLLER$' => $currentController,
             ])
             ->generate();
     }
@@ -101,22 +101,22 @@ class MakeCrudCommand extends Command
      */
     private function makeRequest(string $name)
     {
-        LaravelStub::from(__DIR__ . '/../Stubs/form-request.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
             ->to(app_path('Http\Requests'))
             ->name($name)
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'App\Http\Requests',
+                '$NAMESPACE$'  => 'App\Http\Requests',
                 '$CLASS_NAME$' => "{$name}StoreRequest",
             ])
             ->generate();
 
-        LaravelStub::from(__DIR__ . '/../Stubs/form-request.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
             ->to(app_path('Http\Requests'))
             ->name($name)
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'App\Http\Requests',
+                '$NAMESPACE$'  => 'App\Http\Requests',
                 '$CLASS_NAME$' => "{$name}UpdateRequest",
             ])
             ->generate();
@@ -131,21 +131,21 @@ class MakeCrudCommand extends Command
         $to = resource_path('views/'.$name);
 
         // Index
-        LaravelStub::from(__DIR__ . '/../Stubs/blade.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
             ->to($to)
             ->name('index')
             ->ext('blade.php')
             ->generate();
 
         // Create
-        LaravelStub::from(__DIR__ . '/../Stubs/blade.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
             ->to($to)
             ->name('create')
             ->ext('blade.php')
             ->generate();
 
         // Edit
-        LaravelStub::from(__DIR__ . '/../Stubs/blade.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
             ->to($to)
             ->name('edit')
             ->ext('blade.php')
@@ -157,12 +157,12 @@ class MakeCrudCommand extends Command
      */
     private function makeService(string $name): void
     {
-        LaravelStub::from(__DIR__ . '/../Stubs/service.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/service.stub')
             ->to(app_path('Services'))
             ->name("{$name}Service")
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'App\Services',
+                '$NAMESPACE$'  => 'App\Services',
                 '$CLASS_NAME$' => "{$name}Service",
             ])
             ->generate();
@@ -175,12 +175,12 @@ class MakeCrudCommand extends Command
     {
         $latest = config('laravel-crod.repository_namespace', 'Repository');
 
-        LaravelStub::from(__DIR__ . '/../Stubs/repository.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/repository.stub')
             ->to(app_path('Repositories'))
             ->name("{$name}$latest")
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'App\Repositories',
+                '$NAMESPACE$'  => 'App\Repositories',
                 '$CLASS_NAME$' => "{$name}$latest",
             ])
             ->generate();
@@ -192,30 +192,30 @@ class MakeCrudCommand extends Command
     private function makeTest(string $name): void
     {
         if (config('laravel-crod.are_using_pest', false)) {
-            LaravelStub::from(__DIR__ . '/../Stubs/pest.stub')
+            LaravelStub::from(__DIR__.'/../Stubs/pest.stub')
                 ->to(base_path('tests/Feature'))
                 ->name("{$name}Test")
                 ->ext('php')
                 ->generate();
         } else {
             // Feature
-            LaravelStub::from(__DIR__ . '/../Stubs/feature-test.stub')
+            LaravelStub::from(__DIR__.'/../Stubs/feature-test.stub')
                 ->to(base_path('tests/Feature'))
                 ->name("{$name}Test")
                 ->ext('php')
                 ->replaces([
-                    '$NAMESPACE$' => 'Tests\Feature',
+                    '$NAMESPACE$'  => 'Tests\Feature',
                     '$CLASS_NAME$' => "{$name}Test",
                 ])
                 ->generate();
 
             // Unit
-            LaravelStub::from(__DIR__ . '/../Stubs/unit-test.stub')
+            LaravelStub::from(__DIR__.'/../Stubs/unit-test.stub')
                 ->to(base_path('tests/Unit'))
                 ->name("{$name}Test")
                 ->ext('php')
                 ->replaces([
-                    '$NAMESPACE$' => 'Tests\Unit',
+                    '$NAMESPACE$'  => 'Tests\Unit',
                     '$CLASS_NAME$' => "{$name}Test",
                 ])
                 ->generate();
@@ -227,12 +227,12 @@ class MakeCrudCommand extends Command
      */
     private function makeSeeder(string $name)
     {
-        LaravelStub::from(__DIR__ . '/../Stubs/seeder.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/seeder.stub')
             ->to(database_path('seeders'))
             ->name("{$name}Seeder")
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'Database\Seeders',
+                '$NAMESPACE$'  => 'Database\Seeders',
                 '$CLASS_NAME$' => "{$name}Seeder",
             ])
             ->generate();
@@ -243,12 +243,12 @@ class MakeCrudCommand extends Command
      */
     private function makeFactory(string $name)
     {
-        LaravelStub::from(__DIR__ . '/../Stubs/factory.stub')
+        LaravelStub::from(__DIR__.'/../Stubs/factory.stub')
             ->to(database_path('factories'))
             ->name("{$name}Factory")
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$' => 'Database\Factories',
+                '$NAMESPACE$'  => 'Database\Factories',
                 '$CLASS_NAME$' => "{$name}Factory",
             ])
             ->generate();
