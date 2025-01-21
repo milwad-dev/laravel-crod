@@ -6,11 +6,9 @@ use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
-use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
-    use StubTrait;
     use CommonTrait;
 
     /**
