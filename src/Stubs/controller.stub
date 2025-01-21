@@ -1,0 +1,11 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Http\Request;
+use $EXTEND_CONTROLLER$ as Controller;
+
+class $CLASS_NAME$ extends Controller
+{
+    // Milwad Khosravi
+}

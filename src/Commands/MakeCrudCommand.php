@@ -50,7 +50,7 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Create model.
+     * Create model class.
      */
     private function makeModel(string $name): void
     {
@@ -66,7 +66,7 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Create migration file with call command.
+     * Create migration with call command.
      */
     private function makeMigration(string $name): void
     {
@@ -76,14 +76,22 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build controller file with call command.
-     *
-     *
-     * @return void
+     * Create controller class.
      */
-    private function makeController(string $name)
+    private function makeController(string $name): void
     {
-        $this->call('make:controller', ['name' => "{$name}Controller"]);
+        $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
+
+        LaravelStub::from(__DIR__ . '/../Stubs/controller.stub')
+            ->to(app_path('Http\Controllers'))
+            ->name($name)
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'App\Http\Controllers',
+                '$CLASS_NAME$' => "{$name}Controller",
+                '$EXTEND_CONTROLLER$' => $currentController
+            ])
+            ->generate();
     }
 
     /**
