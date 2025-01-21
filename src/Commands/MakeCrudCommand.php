@@ -95,15 +95,29 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build request file with call command.
-     *
-     *
-     * @return void
+     * Create request classes for store and update operation.
      */
     private function makeRequest(string $name)
     {
-        $this->call('make:request', ['name' => "{$name}StoreRequest"]);
-        $this->call('make:request', ['name' => "{$name}UpdateRequest"]);
+        LaravelStub::from(__DIR__ . '/../Stubs/form-request.stub')
+            ->to(app_path('Http\Requests'))
+            ->name($name)
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'App\Http\Requests',
+                '$CLASS_NAME$' => "{$name}StoreRequest",
+            ])
+            ->generate();
+
+        LaravelStub::from(__DIR__ . '/../Stubs/form-request.stub')
+            ->to(app_path('Http\Requests'))
+            ->name($name)
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'App\Http\Requests',
+                '$CLASS_NAME$' => "{$name}UpdateRequest",
+            ])
+            ->generate();
     }
 
     /**
