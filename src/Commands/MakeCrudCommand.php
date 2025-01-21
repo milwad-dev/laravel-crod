@@ -4,7 +4,6 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
 use Milwad\LaravelCrod\Traits\StubTrait;
@@ -26,8 +25,11 @@ class MakeCrudCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Make crud fast';
+    protected $description = 'Generate CRUD files (model, migration, controller, request, views) and guide additional file creation';
 
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         $this->alert('Publishing crud files...');
