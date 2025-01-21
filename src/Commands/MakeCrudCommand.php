@@ -151,14 +151,19 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build service file with call command.
-     *
-     *
-     * @return void
+     * Create service.
      */
-    private function makeService(string $name)
+    private function makeService(string $name): void
     {
-        $this->makeStubFile('App\\Services', $name, 'Service', '/../Stubs/service.stub');
+        LaravelStub::from(__DIR__ . '/../Stubs/service.stub')
+            ->to(app_path('Services/'.$name))
+            ->name("{$name}Service")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$' => 'App\Services',
+                '$CLASS_NAME$' => "{$name}Service",
+            ])
+            ->generate();
     }
 
     /**
