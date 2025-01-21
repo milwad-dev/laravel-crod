@@ -121,37 +121,33 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build view file with call command.
-     *
-     *
-     * @return void
+     * Create views (index, create, edit).
      */
     private function makeView(string $name)
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
-        $pathSource = 'Resources\\Views\\'.$name;
+        $to = resource_path('views/'.$name);
 
-        $this->makeStubFile(
-            $pathSource,
-            'index',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
-        $this->makeStubFile(
-            $pathSource,
-            'create',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
-        $this->makeStubFile(
-            $pathSource,
-            'edit',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
+        // Index
+        LaravelStub::from(__DIR__ . '/../Stubs/blade.stub')
+            ->to($to)
+            ->name('index')
+            ->ext('blade.php')
+            ->generate();
+
+        // Create
+        LaravelStub::from(__DIR__ . '/../Stubs/blade.stub')
+            ->to($to)
+            ->name('create')
+            ->ext('blade.php')
+            ->generate();
+
+        // Edit
+        LaravelStub::from(__DIR__ . '/../Stubs/blade.stub')
+            ->to($to)
+            ->name('edit')
+            ->ext('blade.php')
+            ->generate();
     }
 
     /**
