@@ -4,6 +4,7 @@ namespace Milwad\LaravelCrod\Commands;
 
 use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
 
@@ -54,8 +55,13 @@ class MakeCrudCommand extends Command
      */
     private function makeModel(string $name): void
     {
+        $to = app_path('Models');
+        if (! File::isDirectory($to)) {
+            $to = app_path();
+        }
+
         LaravelStub::from(__DIR__.'/../Stubs/model.stub')
-            ->to(app_path('Models')) // TODO: Check models folder exists or not
+            ->to($to)
             ->name($name)
             ->ext('php')
             ->replaces([
@@ -99,8 +105,13 @@ class MakeCrudCommand extends Command
      */
     private function makeRequest(string $name)
     {
+        $to = app_path('Http\Requests');
+        if (! File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
+
         LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
-            ->to(app_path('Http\Requests'))
+            ->to($to)
             ->name($name)
             ->ext('php')
             ->replaces([
@@ -110,7 +121,7 @@ class MakeCrudCommand extends Command
             ->generate();
 
         LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
-            ->to(app_path('Http\Requests'))
+            ->to($to)
             ->name($name)
             ->ext('php')
             ->replaces([
@@ -127,6 +138,9 @@ class MakeCrudCommand extends Command
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
         $to = resource_path('views/'.$name);
+        if (! File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
 
         // Index
         LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
@@ -155,8 +169,13 @@ class MakeCrudCommand extends Command
      */
     private function makeService(string $name): void
     {
+        $to = app_path('Services');
+        if (! File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
+
         LaravelStub::from(__DIR__.'/../Stubs/service.stub')
-            ->to(app_path('Services'))
+            ->to($to)
             ->name("{$name}Service")
             ->ext('php')
             ->replaces([
@@ -172,9 +191,13 @@ class MakeCrudCommand extends Command
     private function makeRepository(string $name): void
     {
         $latest = config('laravel-crod.repository_namespace', 'Repository');
+        $to = app_path('Repositories');
+        if (! File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
 
         LaravelStub::from(__DIR__.'/../Stubs/repository.stub')
-            ->to(app_path('Repositories'))
+            ->to($to)
             ->name("{$name}$latest")
             ->ext('php')
             ->replaces([
