@@ -2,6 +2,7 @@
 
 namespace Milwad\LaravelCrod\Tests;
 
+use Binafy\LaravelStub\Providers\LaravelStubServiceProvider;
 use Illuminate\Encryption\Encrypter;
 use Milwad\LaravelCrod\LaravelCrodServiceProvider;
 
@@ -18,6 +19,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             LaravelCrodServiceProvider::class,
+            LaravelStubServiceProvider::class,
         ];
     }
 
