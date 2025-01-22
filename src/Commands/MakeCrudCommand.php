@@ -60,7 +60,7 @@ class MakeCrudCommand extends Command
             $to = app_path();
         }
 
-        LaravelStub::from(__DIR__.'/../Stubs/model.stub')
+        LaravelStub::from(realpath(__DIR__.'/../Stubs/model.stub'))
             ->to($to)
             ->name($name)
             ->ext('php')
