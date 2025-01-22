@@ -89,7 +89,7 @@ class MakeCrudCommand extends Command
         $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
 
         LaravelStub::from(__DIR__.'/../Stubs/controller.stub')
-            ->to(app_path('Http\Controllers'))
+            ->to(app_path('Http/Controllers'))
             ->name($name)
             ->ext('php')
             ->replaces([
@@ -105,12 +105,12 @@ class MakeCrudCommand extends Command
      */
     private function makeRequest(string $name)
     {
-        $to = app_path('Http\Requests');
+        $to = app_path('Http/Requests');
         if (! File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
         }
 
-        LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
+        LaravelStub::from(realpath(__DIR__.'/../Stubs/form-request.stub'))
             ->to($to)
             ->name($name)
             ->ext('php')
