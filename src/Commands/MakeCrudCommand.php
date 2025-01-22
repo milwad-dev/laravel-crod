@@ -90,7 +90,7 @@ class MakeCrudCommand extends Command
 
         LaravelStub::from(__DIR__.'/../Stubs/controller.stub')
             ->to(app_path('Http/Controllers'))
-            ->name($name)
+            ->name("{$name}Controller")
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'         => 'App\Http\Controllers',
@@ -112,7 +112,7 @@ class MakeCrudCommand extends Command
 
         LaravelStub::from(realpath(__DIR__.'/../Stubs/form-request.stub'))
             ->to($to)
-            ->name($name)
+            ->name("{$name}StoreRequest")
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => 'App\Http\Requests',
@@ -122,7 +122,7 @@ class MakeCrudCommand extends Command
 
         LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
             ->to($to)
-            ->name($name)
+            ->name("{$name}UpdateRequest")
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => 'App\Http\Requests',
