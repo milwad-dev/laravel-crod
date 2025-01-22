@@ -13,8 +13,6 @@ class LaravelCrodServiceProvider extends ServiceProvider
 {
     /**
      * Register files.
-     *
-     * @return void
      */
     public function register()
     {

@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-class $CLASS_NAME$Repo
+class $CLASS_NAME$
 {
 
 }

@@ -2,29 +2,33 @@
 
 namespace Milwad\LaravelCrod\Commands;
 
+use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
-use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudCommand extends Command
 {
-    use StubTrait;
     use CommonTrait;
 
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
     protected $signature = 'crud:make {name}';
 
-    protected $description = 'Make crud fast';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Generate CRUD files (model, migration, controller, request, views) and guide additional file creation';
 
-    public Filesystem $files;
-
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-        $this->files = $files;
-    }
-
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         $this->alert('Publishing crud files...');
@@ -47,23 +51,30 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build model file with call command.
-     *
-     *
-     * @return void
+     * Create model class.
      */
-    private function makeModel(string $name)
+    private function makeModel(string $name): void
     {
-        $this->call('make:model', ['name' => $name]);
+        $to = app_path('Models');
+        if (!File::isDirectory($to)) {
+            $to = app_path();
+        }
+
+        LaravelStub::from(realpath(__DIR__.'/../Stubs/model.stub'))
+            ->to($to)
+            ->name($name)
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'App\Models',
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build migration file with call command.
-     *
-     *
-     * @return void
+     * Create migration with call command.
      */
-    private function makeMigration(string $name)
+    private function makeMigration(string $name): void
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
@@ -71,131 +82,206 @@ class MakeCrudCommand extends Command
     }
 
     /**
-     * Build controller file with call command.
-     *
-     *
-     * @return void
+     * Create controller class.
      */
-    private function makeController(string $name)
+    private function makeController(string $name): void
     {
-        $this->call('make:controller', ['name' => "{$name}Controller"]);
+        $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
+
+        LaravelStub::from(__DIR__.'/../Stubs/controller.stub')
+            ->to(app_path('Http/Controllers'))
+            ->name("{$name}Controller")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'         => 'App\Http\Controllers',
+                '$CLASS_NAME$'        => "{$name}Controller",
+                '$EXTEND_CONTROLLER$' => $currentController,
+            ])
+            ->generate();
     }
 
     /**
-     * Build request file with call command.
-     *
-     *
-     * @return void
+     * Create request classes for store and update operation.
      */
     private function makeRequest(string $name)
     {
-        $this->call('make:request', ['name' => "{$name}StoreRequest"]);
-        $this->call('make:request', ['name' => "{$name}UpdateRequest"]);
+        $to = app_path('Http/Requests');
+        if (!File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
+
+        LaravelStub::from(realpath(__DIR__.'/../Stubs/form-request.stub'))
+            ->to($to)
+            ->name("{$name}StoreRequest")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'App\Http\Requests',
+                '$CLASS_NAME$' => "{$name}StoreRequest",
+            ])
+            ->generate();
+
+        LaravelStub::from(__DIR__.'/../Stubs/form-request.stub')
+            ->to($to)
+            ->name("{$name}UpdateRequest")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'App\Http\Requests',
+                '$CLASS_NAME$' => "{$name}UpdateRequest",
+            ])
+            ->generate();
     }
 
     /**
-     * Build view file with call command.
-     *
-     *
-     * @return void
+     * Create views (index, create, edit).
      */
     private function makeView(string $name)
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
-        $pathSource = 'Resources\\Views\\'.$name;
+        $to = resource_path('views/'.$name);
+        if (!File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
 
-        $this->makeStubFile(
-            $pathSource,
-            'index',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
-        $this->makeStubFile(
-            $pathSource,
-            'create',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
-        $this->makeStubFile(
-            $pathSource,
-            'edit',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
+        // Index
+        LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
+            ->to($to)
+            ->name('index')
+            ->ext('blade.php')
+            ->generate();
+
+        // Create
+        LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
+            ->to($to)
+            ->name('create')
+            ->ext('blade.php')
+            ->generate();
+
+        // Edit
+        LaravelStub::from(__DIR__.'/../Stubs/blade.stub')
+            ->to($to)
+            ->name('edit')
+            ->ext('blade.php')
+            ->generate();
     }
 
     /**
-     * Build service file with call command.
-     *
-     *
-     * @return void
+     * Create service class.
      */
-    private function makeService(string $name)
+    private function makeService(string $name): void
     {
-        $this->makeStubFile('App\\Services', $name, 'Service', '/../Stubs/service.stub');
+        $to = app_path('Services');
+        if (!File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
+
+        LaravelStub::from(__DIR__.'/../Stubs/service.stub')
+            ->to($to)
+            ->name("{$name}Service")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'App\Services',
+                '$CLASS_NAME$' => "{$name}Service",
+            ])
+            ->generate();
     }
 
     /**
-     * Build repository file with call command.
-     *
-     *
-     * @return void
+     * Create repository class.
      */
-    private function makeRepository(string $name)
+    private function makeRepository(string $name): void
     {
-        $this->makeStubFile(
-            'App\\Repositories',
-            $name,
-            config('laravel-crod.repository_namespace', 'Repo'),
-            '/../Stubs/repo.stub'
-        );
+        $latest = config('laravel-crod.repository_namespace', 'Repository');
+        $to = app_path('Repositories');
+        if (!File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
+
+        LaravelStub::from(__DIR__.'/../Stubs/repository.stub')
+            ->to($to)
+            ->name("{$name}$latest")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'App\Repositories',
+                '$CLASS_NAME$' => "{$name}$latest",
+            ])
+            ->generate();
     }
 
     /**
-     * Build feature & unit test.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create feature & unit test.
      */
-    private function makeTest(string $name)
+    private function makeTest(string $name): void
     {
+        $featureTo = base_path('tests/Feature');
+        if (!File::isDirectory($featureTo)) {
+            File::makeDirectory($featureTo, 0755, true);
+        }
+
         if (config('laravel-crod.are_using_pest', false)) {
-            $this->call('make:test', ['--pest' => true]);
+            LaravelStub::from(__DIR__.'/../Stubs/pest.stub')
+                ->to($featureTo)
+                ->name("{$name}Test")
+                ->ext('php')
+                ->generate();
         } else {
-            $this->makeStubFile('Tests\\Feature', $name, 'Test', '/../Stubs/feature-test.stub');
-            $this->makeStubFile('Tests\\Unit', $name, 'Test', '/../Stubs/unit-test.stub');
+            // Feature
+            LaravelStub::from(__DIR__.'/../Stubs/feature-test.stub')
+                ->to($featureTo)
+                ->name("{$name}Test")
+                ->ext('php')
+                ->replaces([
+                    '$NAMESPACE$'  => 'Tests\Feature',
+                    '$CLASS_NAME$' => "{$name}Test",
+                ])
+                ->generate();
+
+            $unitTo = base_path('tests/Unit');
+            if (!File::isDirectory($unitTo)) {
+                File::makeDirectory($unitTo, 0755, true);
+            }
+
+            // Unit
+            LaravelStub::from(__DIR__.'/../Stubs/unit-test.stub')
+                ->to($unitTo)
+                ->name("{$name}Test")
+                ->ext('php')
+                ->replaces([
+                    '$NAMESPACE$'  => 'Tests\Unit',
+                    '$CLASS_NAME$' => "{$name}Test",
+                ])
+                ->generate();
         }
     }
 
     /**
-     * Build seeder file with call command.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create seeder class.
      */
     private function makeSeeder(string $name)
     {
-        $this->call('make:seeder', [
-            'name' => $name.'Seeder',
-        ]);
+        LaravelStub::from(__DIR__.'/../Stubs/seeder.stub')
+            ->to(database_path('seeders'))
+            ->name("{$name}Seeder")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'Database\Seeders',
+                '$CLASS_NAME$' => "{$name}Seeder",
+            ])
+            ->generate();
     }
 
     /**
-     * Build factory file with call command.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create factory class.
      */
     private function makeFactory(string $name)
     {
-        $this->call('make:factory', [
-            'name' => $name.'Factory',
-        ]);
+        LaravelStub::from(__DIR__.'/../Stubs/factory.stub')
+            ->to(database_path('factories'))
+            ->name("{$name}Factory")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => 'Database\Factories',
+                '$CLASS_NAME$' => "{$name}Factory",
+            ])
+            ->generate();
     }
 }

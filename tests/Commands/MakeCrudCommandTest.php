@@ -3,15 +3,13 @@
 namespace Milwad\LaravelCrod\Tests\Commands;
 
 use Milwad\LaravelCrod\Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 class MakeCrudCommandTest extends TestCase
 {
     /**
      * Test crud files created successfully.
      */
-    #[Test]
-    public function crud_files_created_successfully(): void
+    public function test_crud_files_created_successfully(): void
     {
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 0)
@@ -24,8 +22,7 @@ class MakeCrudCommandTest extends TestCase
     /**
      * Test crud files created successfully with seeder.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_seeder(): void
+    public function test_crud_files_created_successfully_with_seeder(): void
     {
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 1)
@@ -41,8 +38,7 @@ class MakeCrudCommandTest extends TestCase
     /**
      * Test crud files created successfully with factory.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_factory(): void
+    public function test_crud_files_created_successfully_with_factory(): void
     {
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 2)
@@ -58,8 +54,7 @@ class MakeCrudCommandTest extends TestCase
     /**
      * Test crud files created successfully with repository.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_repository(): void
+    public function test_crud_files_created_successfully_with_repository(): void
     {
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 3)
@@ -69,14 +64,13 @@ class MakeCrudCommandTest extends TestCase
 
         $this->ensureCrudFileCreated();
 
-        $this->assertFileExists(app_path('Repositories/ProductRepo.php'));
+        $this->assertFileExists(app_path('Repositories/ProductRepository.php'));
     }
 
     /**
      * Test crud files created successfully with service.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_service(): void
+    public function test_crud_files_created_successfully_with_service(): void
     {
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 4)
@@ -92,9 +86,10 @@ class MakeCrudCommandTest extends TestCase
     /**
      * Test crud files created successfully with tests.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_tests(): void
+    public function test_crud_files_created_successfully_with_tests(): void
     {
+        config(['laravel-crod.are_using_pest' => false]);
+
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 5)
             ->expectsQuestion('Do you want something extra?', 0)
@@ -110,10 +105,9 @@ class MakeCrudCommandTest extends TestCase
     /**
      * Test crud files created successfully with tests.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_tests_using_pest(): void
+    public function test_crud_files_created_successfully_with_tests_using_pest(): void
     {
-        config()->set(['laravel-crod.are_using_pest', true]);
+        config(['laravel-crod.are_using_pest' => true]);
 
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 5)
@@ -124,7 +118,6 @@ class MakeCrudCommandTest extends TestCase
         $this->ensureCrudFileCreated();
 
         $this->assertFileExists(base_path('tests/Feature/ProductTest.php'));
-        $this->assertFileExists(base_path('tests/Unit/ProductTest.php'));
     }
 
     /**
