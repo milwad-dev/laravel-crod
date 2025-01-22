@@ -56,7 +56,7 @@ class MakeCrudCommand extends Command
     private function makeModel(string $name): void
     {
         $to = app_path('Models');
-        if (! File::isDirectory($to)) {
+        if (!File::isDirectory($to)) {
             $to = app_path();
         }
 
@@ -106,7 +106,7 @@ class MakeCrudCommand extends Command
     private function makeRequest(string $name)
     {
         $to = app_path('Http/Requests');
-        if (! File::isDirectory($to)) {
+        if (!File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
         }
 
@@ -138,7 +138,7 @@ class MakeCrudCommand extends Command
     {
         $name = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
         $to = resource_path('views/'.$name);
-        if (! File::isDirectory($to)) {
+        if (!File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
         }
 
@@ -170,7 +170,7 @@ class MakeCrudCommand extends Command
     private function makeService(string $name): void
     {
         $to = app_path('Services');
-        if (! File::isDirectory($to)) {
+        if (!File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
         }
 
@@ -192,7 +192,7 @@ class MakeCrudCommand extends Command
     {
         $latest = config('laravel-crod.repository_namespace', 'Repository');
         $to = app_path('Repositories');
-        if (! File::isDirectory($to)) {
+        if (!File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
         }
 
@@ -213,7 +213,7 @@ class MakeCrudCommand extends Command
     private function makeTest(string $name): void
     {
         $featureTo = base_path('tests/Feature');
-        if (! File::isDirectory($featureTo)) {
+        if (!File::isDirectory($featureTo)) {
             File::makeDirectory($featureTo, 0755, true);
         }
 
@@ -235,9 +235,8 @@ class MakeCrudCommand extends Command
                 ])
                 ->generate();
 
-
             $unitTo = base_path('tests/Unit');
-            if (! File::isDirectory($unitTo)) {
+            if (!File::isDirectory($unitTo)) {
                 File::makeDirectory($unitTo, 0755, true);
             }
 
