@@ -88,6 +88,8 @@ class MakeCrudCommandTest extends TestCase
      */
     public function test_crud_files_created_successfully_with_tests(): void
     {
+        config(['laravel-crod.are_using_pest' => false]);
+
         $this->artisan('crud:make', ['name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 5)
             ->expectsQuestion('Do you want something extra?', 0)

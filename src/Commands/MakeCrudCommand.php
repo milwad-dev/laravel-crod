@@ -212,16 +212,21 @@ class MakeCrudCommand extends Command
      */
     private function makeTest(string $name): void
     {
+        $featureTo = base_path('tests/Feature');
+        if (! File::isDirectory($featureTo)) {
+            File::makeDirectory($featureTo, 0755, true);
+        }
+
         if (config('laravel-crod.are_using_pest', false)) {
             LaravelStub::from(__DIR__.'/../Stubs/pest.stub')
-                ->to(base_path('tests/Feature'))
+                ->to($featureTo)
                 ->name("{$name}Test")
                 ->ext('php')
                 ->generate();
         } else {
             // Feature
             LaravelStub::from(__DIR__.'/../Stubs/feature-test.stub')
-                ->to(base_path('tests/Feature'))
+                ->to($featureTo)
                 ->name("{$name}Test")
                 ->ext('php')
                 ->replaces([
@@ -230,9 +235,15 @@ class MakeCrudCommand extends Command
                 ])
                 ->generate();
 
+
+            $unitTo = base_path('tests/Unit');
+            if (! File::isDirectory($unitTo)) {
+                File::makeDirectory($unitTo, 0755, true);
+            }
+
             // Unit
             LaravelStub::from(__DIR__.'/../Stubs/unit-test.stub')
-                ->to(base_path('tests/Unit'))
+                ->to($unitTo)
                 ->name("{$name}Test")
                 ->ext('php')
                 ->replaces([
