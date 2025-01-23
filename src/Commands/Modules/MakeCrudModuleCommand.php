@@ -4,6 +4,7 @@ namespace Milwad\LaravelCrod\Commands\Modules;
 
 use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
 
@@ -329,6 +330,11 @@ class MakeCrudModuleCommand extends Command
      */
     protected function getDestPath(string $name, string $path): string
     {
-        return base_path($this->module_namespace . "\\$name\\$path");
+        $to = base_path($this->module_namespace . "\\$name\\$path");
+        if (!File::isDirectory($to)) {
+            File::makeDirectory($to, 0755, true);
+        }
+
+        return $to;
     }
 }
