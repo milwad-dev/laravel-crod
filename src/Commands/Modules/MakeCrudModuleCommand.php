@@ -91,16 +91,22 @@ class MakeCrudModuleCommand extends Command
      */
     protected function makeMigration(string $name): void
     {
-        $migrationPath = config('laravel-crod.modules.migration_path', 'Database\Migrations');
-        $path = "$this->module_namespace\\$name\\$migrationPath";
-        if (!File::isDirectory(base_path($path))) {
-            File::makeDirectory(base_path($path), 0755, true);
+        $migrationPath = config('laravel-crod.modules.migration_path', 'Database/Migrations');
+        $relativePath = "Modules/$name/$migrationPath";
+        $fullPath = base_path($relativePath);
+
+        // Ensure the directory exists
+        if (!File::isDirectory($fullPath)) {
+            File::makeDirectory($fullPath, 0755, true);
         }
+
+        // Generate the migration name
         $currentNameWithCheckLatestLetter = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
+        // Call the make:migration Artisan command
         $this->call('make:migration', [
-            'name'     => 'create_'.$currentNameWithCheckLatestLetter.'_table',
-            '--path'   => $path,
+            'name'     => 'create_' . $currentNameWithCheckLatestLetter . '_table',
+            '--path'   => $relativePath,
             '--create' => true,
         ]);
     }
