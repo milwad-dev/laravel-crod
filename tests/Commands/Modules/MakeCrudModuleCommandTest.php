@@ -3,7 +3,6 @@
 namespace Milwad\LaravelCrod\Tests\Commands\Modules;
 
 use Milwad\LaravelCrod\Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 
 class MakeCrudModuleCommandTest extends TestCase
 {
@@ -15,7 +14,7 @@ class MakeCrudModuleCommandTest extends TestCase
         $this->artisan('crud:make-module', ['module_name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         $this->ensureCrudFileCreated();
     }
@@ -29,7 +28,7 @@ class MakeCrudModuleCommandTest extends TestCase
             ->expectsQuestion('Do you want something extra?', 1)
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         $this->ensureCrudFileCreated();
 
@@ -40,13 +39,13 @@ class MakeCrudModuleCommandTest extends TestCase
     /**
      * Test crud files created successfully with factory.
      */
-    public function crud_files_created_successfully_with_factory(): void
+    public function test_crud_files_created_successfully_with_factory(): void
     {
         $this->artisan('crud:make-module', ['module_name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 2)
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         $this->ensureCrudFileCreated();
 
@@ -57,14 +56,13 @@ class MakeCrudModuleCommandTest extends TestCase
     /**
      * Test crud files created successfully with repository.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_repository(): void
+    public function test_crud_files_created_successfully_with_repository(): void
     {
         $this->artisan('crud:make-module', ['module_name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 3)
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         $this->ensureCrudFileCreated();
 
@@ -75,14 +73,13 @@ class MakeCrudModuleCommandTest extends TestCase
     /**
      * Test crud files created successfully with service.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_service(): void
+    public function test_crud_files_created_successfully_with_service(): void
     {
         $this->artisan('crud:make-module', ['module_name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 4)
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         $this->ensureCrudFileCreated();
 
@@ -93,14 +90,13 @@ class MakeCrudModuleCommandTest extends TestCase
     /**
      * Test crud files created successfully with tests.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_tests(): void
+    public function test_crud_files_created_successfully_with_tests(): void
     {
         $this->artisan('crud:make-module', ['module_name' => 'Product'])
             ->expectsQuestion('Do you want something extra?', 5)
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         $this->ensureCrudFileCreated();
 
@@ -112,8 +108,7 @@ class MakeCrudModuleCommandTest extends TestCase
     /**
      * Test crud files created successfully with customize_from_config_file.
      */
-    #[Test]
-    public function crud_files_created_successfully_with_customize_from_config_file(): void
+    public function test_crud_files_created_successfully_with_customize_from_config_file(): void
     {
         config()->set([
             'laravel-crod.modules.module_namespace' => 'modules',
@@ -141,7 +136,7 @@ class MakeCrudModuleCommandTest extends TestCase
             ->expectsQuestion('Do you want something extra?', 5)
             ->expectsQuestion('Do you want something extra?', 0)
             ->assertSuccessful()
-            ->expectsOutput('Crud files successfully generated...');
+            ->expectsOutput('Crud files successfully generated for module Product');
 
         // Ensure model exists
         $this->assertFileExists(base_path('modules/Product/Models/Product.php'));

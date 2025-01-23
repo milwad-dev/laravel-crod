@@ -319,7 +319,7 @@ class MakeCrudModuleCommand extends Command
     /**
      * Get correct namespace.
      */
-    protected function getNamespace(string $name, mixed $path): string
+    protected function getNamespace(string $name, string $path): string
     {
         return sprintf("%s\%s\%s", $this->module_namespace, $name, $path);
     }
@@ -327,8 +327,8 @@ class MakeCrudModuleCommand extends Command
     /**
      * Get the destination path.
      */
-    protected function getDestPath(string $name, mixed $factoryPath): string
+    protected function getDestPath(string $name, string $path): string
     {
-        return $this->module_namespace . "\\$name\\$factoryPath";
+        return base_path($this->module_namespace . "\\$name\\$path");
     }
 }
