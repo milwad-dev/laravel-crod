@@ -67,7 +67,7 @@ class MakeCrudModuleCommandTest extends TestCase
         $this->ensureCrudFileCreated();
 
         // Ensure repository exists
-        $this->assertFileExists(base_path('Modules/Product/Repositories/ProductRepo.php'));
+        $this->assertFileExists(base_path('Modules/Product/Repositories/ProductRepository.php'));
     }
 
     /**
@@ -148,8 +148,8 @@ class MakeCrudModuleCommandTest extends TestCase
         $this->assertFileExists(base_path('modules/Product/Http/Controllers/Test/ProductController.php'));
 
         // Ensure requests exists
-        $this->assertFileExists(base_path('modules/Product/Http/Requests/Test/ProductStoreRequest.php'));
-        $this->assertFileExists(base_path('modules/Product/Http/Requests/Test/ProductUpdateRequest.php'));
+        $this->assertFileExists(base_path('modules/Product/Http/Requests/ProductStoreRequest.php'));
+        $this->assertFileExists(base_path('modules/Product/Http/Requests/ProductUpdateRequest.php'));
 
         // Ensure views exists
         $this->assertFileExists(base_path('modules/Product/Resources/Views/Test/index.blade.php'));
