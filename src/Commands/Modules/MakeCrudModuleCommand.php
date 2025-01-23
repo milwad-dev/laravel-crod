@@ -2,37 +2,44 @@
 
 namespace Milwad\LaravelCrod\Commands\Modules;
 
+use Binafy\LaravelStub\Facades\LaravelStub;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Milwad\LaravelCrod\Facades\LaravelCrodServiceFacade;
 use Milwad\LaravelCrod\Traits\CommonTrait;
-use Milwad\LaravelCrod\Traits\StubTrait;
 
 class MakeCrudModuleCommand extends Command
 {
-    use StubTrait;
     use CommonTrait;
 
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
     protected $signature = 'crud:make-module {module_name}';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Create crud files for module.';
 
-    private string $module_name_space;
+    /**
+     * The module namesapce
+     *
+     * @var string
+     */
+    protected string $module_namespace;
 
-    public Filesystem $files;
-
-    public function __construct(Filesystem $files)
+    /**
+     * Execute the console command.
+     */
+    public function handle(): void
     {
-        parent::__construct();
-        $this->files = $files;
-        $this->module_name_space = config('laravel-crod.modules.module_namespace', 'Modules');
-    }
-
-    public function handle()
-    {
-        $this->alert('Publishing crud files for module...');
-
         $name = $this->argument('module_name');
+
+        $this->alert(sprintf('Publishing crud files for module %s', $this->name));
 
         $this->makeModel($name);
         $this->makeMigration($name);
@@ -47,37 +54,34 @@ class MakeCrudModuleCommand extends Command
          */
         $this->extraOptionOperation($name);
 
-        $this->info('Crud files successfully generated...');
+        $this->info(sprintf('Crud files successfully generated for module %s', $name));
     }
 
     /**
-     *  Build model file with call command for module.
-     *
-     *
-     * @return void
+     * Create model class for module.
      */
-    private function makeModel(string $name)
+    protected function makeModel(string $name): void
     {
-        $model = config('laravel-crod.modules.model_path', 'Entities');
+        $modelPath = config('laravel-crod.modules.model_path', 'Entities');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$model",
-            $name,
-            '',
-            '/../Stubs/module/model.stub'
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/model.stub'))
+            ->to($this->getDestPath($name, $modelPath))
+            ->name($name)
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $modelPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build migration file with call command.
-     *
-     *
-     * @return void
+     * Create migration class for module.
      */
-    private function makeMigration(string $name)
+    protected function makeMigration(string $name): void
     {
         $migrationPath = config('laravel-crod.modules.migration_path', 'Database\Migrations');
-        $path = "$this->module_name_space\\$name\\$migrationPath";
+        $path = "$this->module_namespace\\$name\\$migrationPath";
         $currentNameWithCheckLatestLetter = LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name);
 
         $this->call('make:migration', [
@@ -88,238 +92,233 @@ class MakeCrudModuleCommand extends Command
     }
 
     /**
-     * Build controller file with call command for module.
-     *
-     *
-     * @return void
+     * Create controller class for module.
      */
-    private function makeController(string $name)
+    protected function makeController(string $name): void
     {
         $controllerPath = config('laravel-crod.modules.controller_path', 'Http\Controllers');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$controllerPath",
-            $name,
-            'Controller',
-            '/../Stubs/module/controller.stub'
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/controller.stub'))
+            ->to($this->getDestPath($name, $controllerPath))
+            ->name("{$name}Controller")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $controllerPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build request file with call command for module.
-     *
-     *
-     * @return void
+     * Create request class for module.
      */
-    private function makeRequest(string $name)
+    protected function makeRequest(string $name)
     {
         $requestPath = config('laravel-crod.modules.request_path', 'Http\Requests');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$requestPath",
-            $name,
-            'StoreRequest',
-            '/../Stubs/module/request.stub'
-        );
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$requestPath",
-            $name,
-            'UpdateRequest',
-            '/../Stubs/module/request.stub'
-        );
+        // Store
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+            ->to($this->getDestPath($name, $requestPath))
+            ->name("{$name}StoreReqeust")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $requestPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
+
+        // Update
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+            ->to($this->getDestPath($name, $requestPath))
+            ->name("{$name}UpdateRequest")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $requestPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build view file with call command for module.
-     *
-     *
-     * @return void
+     * Create views for module.
      */
-    private function makeView(string $name)
+    protected function makeView(string $name): void
     {
         $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
-        $pathSource = $this->module_name_space."\\$name\\$viewPath";
+        $pathSource = $this->getDestPath($name, $viewPath);
 
-        $this->makeStubFile(
-            $pathSource,
-            'index',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
-        $this->makeStubFile(
-            $pathSource,
-            'create',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
-        $this->makeStubFile(
-            $pathSource,
-            'edit',
-            '.blade',
-            '/../Stubs/blade.stub',
-            false,
-        );
+        // Index
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/blade.stub'))
+            ->to($pathSource)
+            ->name('index')
+            ->ext('blade.php')
+            ->generate();
+
+        // Create
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+            ->to($pathSource)
+            ->name('create')
+            ->ext('blade.php')
+            ->generate();
+
+        // Edit
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+            ->to($pathSource)
+            ->name('edit')
+            ->ext('blade.php')
+            ->generate();
     }
 
     /**
-     * Build provider for module.
-     *
-     *
-     * @return void
+     * Create provider class for module.
      */
-    private function makeProvider(string $name)
+    protected function makeProvider(string $name): void
     {
         $providerPath = config('laravel-crod.modules.provider_path', 'Providers');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$providerPath",
-            LaravelCrodServiceFacade::getCurrentNameWithCheckLatestLetter($name, false),
-            'ServiceProvider',
-            '/../Stubs/module/provider.stub',
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/provider.stub'))
+            ->to($this->getDestPath($name, $providerPath))
+            ->name("{$name}ServiceProvider")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $providerPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build route for module.
-     *
-     *
-     * @return void
+     * Create route for module.
      */
-    private function makeRoute(string $name)
+    protected function makeRoute(string $name): void
     {
         $routePath = config('laravel-crod.modules.route_path', 'Routes');
         $routeLatest = config('laravel-crod.route_namespace', '');
         $routeName = config('laravel-crod.route_name', 'web');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$routePath",
-            $routeName,
-            $routeLatest,
-            '/../Stubs/module/route.stub',
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/route.stub'))
+            ->to($this->getDestPath($name, $routePath))
+            ->name($routeName.$routeLatest)
+            ->ext('php')
+            ->generate();
     }
 
     /**
-     * Build service file with call command for module.
-     *
-     *
-     * @return void
+     * Create service class for module.
      */
-    private function makeService(string $name)
+    protected function makeService(string $name): void
     {
         $servicePath = config('laravel-crod.modules.service_path', 'Services');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$servicePath",
-            $name,
-            'Service',
-            '/../Stubs/module/service.stub'
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/service.stub'))
+            ->to($this->getDestPath($name, $servicePath))
+            ->name("{$name}Service")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $servicePath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build repository file with call command for module.
-     *
-     *
-     * @return void
+     * Create repository class for module.
      */
-    private function makeRepository(string $name)
+    protected function makeRepository(string $name): void
     {
         $repositoryPath = config('laravel-crod.modules.repository_path', 'Repositories');
+        $latestName = config('laravel-crod.repository_namespace', 'Repository');
 
-        $this->makeStubFile(
-            $this->module_name_space."\\$name\\$repositoryPath",
-            $name,
-            config('laravel-crod.repository_namespace', 'Repo'),
-            '/../Stubs/module/repo.stub'
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/repository.stub'))
+            ->to($this->getDestPath($name, $repositoryPath))
+            ->name("{$name}{$latestName}")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $repositoryPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build feature & unit test.
-     *
-     *
-     * @return void
+     * Create feature & unit test.
      */
-    private function makeTest(string $name)
+    protected function makeTest(string $name): void
     {
         $featureTestPath = config('laravel-crod.modules.feature_test_path', 'Tests\Feature');
         $unitTestPath = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
 
         if (config('laravel-crod.are_using_pest', false)) {
-            $this->makeStubFile(
-                $this->module_name_space."\\$name\\$featureTestPath",
-                $name,
-                'Test',
-                '/../Stubs/module/pest-test.stub'
-            );
+            LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/pest-test.stub'))
+                ->to($this->getDestPath($name, $featureTestPath))
+                ->name("{$name}Test")
+                ->ext('php')
+                ->generate();
         } else {
-            $this->makeStubFile(
-                $this->module_name_space."\\$name\\$featureTestPath",
-                $name,
-                'Test',
-                '/../Stubs/module/feature-test.stub'
-            );
-            $this->makeStubFile(
-                $this->module_name_space."\\$name\\$unitTestPath",
-                $name,
-                'Test',
-                '/../Stubs/module/unit-test.stub'
-            );
+            // Feature
+            LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/feature-test.stub'))
+                ->to($this->getDestPath($name, $featureTestPath))
+                ->name("{$name}Test")
+                ->ext('php')
+                ->generate();
+
+            LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/unit-test.stub'))
+                ->to($this->getDestPath($name, $unitTestPath))
+                ->name("{$name}Test")
+                ->ext('php')
+                ->generate();
         }
     }
 
     /**
-     * Build seeder file with call command.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create seeder class for module.
      */
-    private function makeSeeder(string $name)
+    protected function makeSeeder(string $name): void
     {
-        $filename = $name.'Seeder';
         $seederPath = config('laravel-crod.modules.seeder_path', 'Database\Seeders');
-        $correctPath = LaravelCrodServiceFacade::changeBackSlashToSlash($seederPath);
 
-        $this->callSilent('make:seeder', [
-            'name' => $filename,
-        ]);
-
-        try {
-            $filenameWithExt = "$filename.php";
-            $concurrentDirectory = base_path($this->module_name_space."/$name/$correctPath");
-
-            if (!mkdir($concurrentDirectory) && !is_dir($concurrentDirectory)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
-            }
-            rename(
-                database_path("seeders/$filenameWithExt"),
-                base_path($this->module_name_space."/$name/$correctPath/$filenameWithExt")
-            );
-        } catch (\Exception $e) {
-            $this->error($e->getMessage());
-        }
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/seeder.stub'))
+            ->to($this->getDestPath($name, $seederPath))
+            ->name("{$name}Seeder")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $seederPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
     }
 
     /**
-     * Build factory file with call command.
-     *
-     * @param string $name
-     *
-     * @return void
+     * Create factory class for module.
      */
-    private function makeFactory(string $name)
+    protected function makeFactory(string $name): void
     {
         $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
 
-        $this->makeStubFile(
-            base_path($this->module_name_space."\\$name\\$factoryPath"),
-            $name,
-            'Factory',
-            '/../Stubs/module/factory.stub'
-        );
+        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/factory.stub'))
+            ->to($this->getDestPath($name, $factoryPath))
+            ->name("{$name}Factory")
+            ->ext('php')
+            ->replaces([
+                '$NAMESPACE$'  => $this->getNamespace($name, $factoryPath),
+                '$CLASS_NAME$' => $name,
+            ])
+            ->generate();
+    }
+
+    /**
+     * Get correct namespace.
+     */
+    protected function getNamespace(string $name, mixed $path): string
+    {
+        return sprintf("%s\%s\%s", $this->module_namespace, $name, $path);
+    }
+
+    /**
+     * Get the destination path.
+     */
+    protected function getDestPath(string $name, mixed $factoryPath): string
+    {
+        return $this->module_namespace . "\\$name\\$factoryPath";
     }
 }
