@@ -4,7 +4,7 @@ namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
 
-class $CLASS_NAME$ServiceProvider extends ServiceProvider
+class $CLASS_NAME$ extends ServiceProvider
 {
     /**
      * Register any application services.

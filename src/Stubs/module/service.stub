@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-class $CLASS_NAME$Service
+class $CLASS_NAME$
 {
-
+    // Milwad Khosravi
 }
