@@ -33,6 +33,16 @@ class MakeCrudModuleCommand extends Command
     protected string $module_namespace;
 
     /**
+     * Create a new console command instance.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->module_namespace = config('laravel-crod.modules.module_namespace', 'Modules');
+    }
+
+    /**
      * Execute the console command.
      */
     public function handle(): void
