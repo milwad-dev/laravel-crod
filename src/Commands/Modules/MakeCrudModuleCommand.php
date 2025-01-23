@@ -98,7 +98,7 @@ class MakeCrudModuleCommand extends Command
         $this->call('make:migration', [
             'name'   => 'create_'.$currentNameWithCheckLatestLetter.'_table',
             '--path' => $path,
-            '--create',
+            '--create' => true,
         ]);
     }
 
@@ -330,6 +330,7 @@ class MakeCrudModuleCommand extends Command
      */
     protected function getDestPath(string $name, string $path): string
     {
+        $path = str_replace("\\", '/', $path);
         $to = base_path("$this->module_namespace/$name/$path");
         if (!File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
