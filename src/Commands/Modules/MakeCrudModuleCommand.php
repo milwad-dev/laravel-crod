@@ -27,7 +27,7 @@ class MakeCrudModuleCommand extends Command
     protected $description = 'Create crud files for module.';
 
     /**
-     * The module namesapce
+     * The module namesapce.
      *
      * @var string
      */
@@ -75,7 +75,7 @@ class MakeCrudModuleCommand extends Command
     {
         $modelPath = config('laravel-crod.modules.model_path', 'Entities');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/model.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/model.stub'))
             ->to($this->getDestPath($name, $modelPath))
             ->name($name)
             ->ext('php')
@@ -109,7 +109,7 @@ class MakeCrudModuleCommand extends Command
     {
         $controllerPath = config('laravel-crod.modules.controller_path', 'Http\Controllers');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/controller.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/controller.stub'))
             ->to($this->getDestPath($name, $controllerPath))
             ->name("{$name}Controller")
             ->ext('php')
@@ -128,7 +128,7 @@ class MakeCrudModuleCommand extends Command
         $requestPath = config('laravel-crod.modules.request_path', 'Http\Requests');
 
         // Store
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
             ->to($this->getDestPath($name, $requestPath))
             ->name("{$name}StoreReqeust")
             ->ext('php')
@@ -139,7 +139,7 @@ class MakeCrudModuleCommand extends Command
             ->generate();
 
         // Update
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
             ->to($this->getDestPath($name, $requestPath))
             ->name("{$name}UpdateRequest")
             ->ext('php')
@@ -159,21 +159,21 @@ class MakeCrudModuleCommand extends Command
         $pathSource = $this->getDestPath($name, $viewPath);
 
         // Index
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/blade.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/blade.stub'))
             ->to($pathSource)
             ->name('index')
             ->ext('blade.php')
             ->generate();
 
         // Create
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
             ->to($pathSource)
             ->name('create')
             ->ext('blade.php')
             ->generate();
 
         // Edit
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/request.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
             ->to($pathSource)
             ->name('edit')
             ->ext('blade.php')
@@ -187,7 +187,7 @@ class MakeCrudModuleCommand extends Command
     {
         $providerPath = config('laravel-crod.modules.provider_path', 'Providers');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/provider.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/provider.stub'))
             ->to($this->getDestPath($name, $providerPath))
             ->name("{$name}ServiceProvider")
             ->ext('php')
@@ -207,7 +207,7 @@ class MakeCrudModuleCommand extends Command
         $routeLatest = config('laravel-crod.route_namespace', '');
         $routeName = config('laravel-crod.route_name', 'web');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/route.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/route.stub'))
             ->to($this->getDestPath($name, $routePath))
             ->name($routeName.$routeLatest)
             ->ext('php')
@@ -221,7 +221,7 @@ class MakeCrudModuleCommand extends Command
     {
         $servicePath = config('laravel-crod.modules.service_path', 'Services');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/service.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/service.stub'))
             ->to($this->getDestPath($name, $servicePath))
             ->name("{$name}Service")
             ->ext('php')
@@ -240,7 +240,7 @@ class MakeCrudModuleCommand extends Command
         $repositoryPath = config('laravel-crod.modules.repository_path', 'Repositories');
         $latestName = config('laravel-crod.repository_namespace', 'Repository');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/repository.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/repository.stub'))
             ->to($this->getDestPath($name, $repositoryPath))
             ->name("{$name}{$latestName}")
             ->ext('php')
@@ -260,20 +260,20 @@ class MakeCrudModuleCommand extends Command
         $unitTestPath = config('laravel-crod.modules.unit_test_path', 'Tests\Unit');
 
         if (config('laravel-crod.are_using_pest', false)) {
-            LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/pest-test.stub'))
+            LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/pest-test.stub'))
                 ->to($this->getDestPath($name, $featureTestPath))
                 ->name("{$name}Test")
                 ->ext('php')
                 ->generate();
         } else {
             // Feature
-            LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/feature-test.stub'))
+            LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/feature-test.stub'))
                 ->to($this->getDestPath($name, $featureTestPath))
                 ->name("{$name}Test")
                 ->ext('php')
                 ->generate();
 
-            LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/unit-test.stub'))
+            LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/unit-test.stub'))
                 ->to($this->getDestPath($name, $unitTestPath))
                 ->name("{$name}Test")
                 ->ext('php')
@@ -288,7 +288,7 @@ class MakeCrudModuleCommand extends Command
     {
         $seederPath = config('laravel-crod.modules.seeder_path', 'Database\Seeders');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/seeder.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/seeder.stub'))
             ->to($this->getDestPath($name, $seederPath))
             ->name("{$name}Seeder")
             ->ext('php')
@@ -306,7 +306,7 @@ class MakeCrudModuleCommand extends Command
     {
         $factoryPath = config('laravel-crod.modules.factory_path', 'Database\Factories');
 
-        LaravelStub::from(realpath(__DIR__ . '/../../Stubs/module/factory.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/factory.stub'))
             ->to($this->getDestPath($name, $factoryPath))
             ->name("{$name}Factory")
             ->ext('php')
