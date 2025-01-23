@@ -330,7 +330,7 @@ class MakeCrudModuleCommand extends Command
      */
     protected function getDestPath(string $name, string $path): string
     {
-        $to = base_path($this->module_namespace."\\$name\\$path");
+        $to = base_path("$this->module_namespace/$name/$path");
         if (!File::isDirectory($to)) {
             File::makeDirectory($to, 0755, true);
         }
