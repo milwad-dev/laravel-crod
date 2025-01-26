@@ -124,7 +124,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $controllerPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}Controller",
             ])
             ->generate();
     }
@@ -143,7 +143,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $requestPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}StoreReqeust",
             ])
             ->generate();
 
@@ -154,7 +154,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $requestPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}UpdateRequest",
             ])
             ->generate();
     }
@@ -202,7 +202,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $providerPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}ServiceProvider",
             ])
             ->generate();
     }
@@ -236,7 +236,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $servicePath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}Service",
             ])
             ->generate();
     }
@@ -255,7 +255,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $repositoryPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}{$latestName}",
             ])
             ->generate();
     }
@@ -280,12 +280,20 @@ class MakeCrudModuleCommand extends Command
                 ->to($this->getDestPath($name, $featureTestPath))
                 ->name("{$name}Test")
                 ->ext('php')
+                ->replaces([
+                    '$NAMESPACE$'  => $this->getNamespace($name, $featureTestPath),
+                    '$CLASS_NAME$' => "{$name}Test",
+                ])
                 ->generate();
 
             LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/unit-test.stub'))
                 ->to($this->getDestPath($name, $unitTestPath))
                 ->name("{$name}Test")
                 ->ext('php')
+                ->replaces([
+                    '$NAMESPACE$'  => $this->getNamespace($name, $unitTestPath),
+                    '$CLASS_NAME$' => "{$name}Test",
+                ])
                 ->generate();
         }
     }
@@ -303,7 +311,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $seederPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}Seeder",
             ])
             ->generate();
     }
@@ -321,7 +329,7 @@ class MakeCrudModuleCommand extends Command
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $factoryPath),
-                '$CLASS_NAME$' => $name,
+                '$CLASS_NAME$' => "{$name}Factory",
             ])
             ->generate();
     }
