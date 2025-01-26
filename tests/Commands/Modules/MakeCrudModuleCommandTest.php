@@ -189,6 +189,7 @@ class MakeCrudModuleCommandTest extends TestCase
         $this->assertFileExists(base_path('Modules/Product/Http/Controllers/ProductController.php'));
 
         // Ensure requests exists
+        dd(File::directories(base_path('Modules/Product/Http/Requests')), File::files(base_path('Modules/Product/Http/Requests')));
         $this->assertFileExists(base_path('Modules/Product/Http/Requests/ProductStoreRequest.php'));
         $this->assertFileExists(base_path('Modules/Product/Http/Requests/ProductUpdateRequest.php'));
 
