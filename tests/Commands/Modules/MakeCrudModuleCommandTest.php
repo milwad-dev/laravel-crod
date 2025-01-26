@@ -2,6 +2,7 @@
 
 namespace Milwad\LaravelCrod\Tests\Commands\Modules;
 
+use Illuminate\Support\Facades\File;
 use Milwad\LaravelCrod\Tests\TestCase;
 
 class MakeCrudModuleCommandTest extends TestCase
@@ -195,6 +196,12 @@ class MakeCrudModuleCommandTest extends TestCase
         $this->assertFileExists(base_path('Modules/Product/Resources/Views/index.blade.php'));
         $this->assertFileExists(base_path('Modules/Product/Resources/Views/create.blade.php'));
         $this->assertFileExists(base_path('Modules/Product/Resources/Views/edit.blade.php'));
+
+        // Ensure provide exists
+        $this->assertFileExists(base_path('Modules/Product/Providers/ProductServiceProvider.php'));
+
+        // Ensure route exists
+        $this->assertFileExists(base_path('Modules/Product/Routes/web.php'));
     }
 
     /**

@@ -164,7 +164,7 @@ class MakeCrudModuleCommand extends Command
      */
     protected function makeView(string $name): void
     {
-        $viewPath = config('laravel-crod.modules.view_path', 'Resources/Views');
+        $viewPath = config('laravel-crod.modules.view_path', 'Resources\Views');
         $pathSource = $this->getDestPath($name, $viewPath);
 
         // Index
@@ -175,14 +175,14 @@ class MakeCrudModuleCommand extends Command
             ->generate();
 
         // Create
-        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/blade.stub'))
             ->to($pathSource)
             ->name('create')
             ->ext('blade.php')
             ->generate();
 
         // Edit
-        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
+        LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/blade.stub'))
             ->to($pathSource)
             ->name('edit')
             ->ext('blade.php')
