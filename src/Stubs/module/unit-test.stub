@@ -4,7 +4,7 @@ namespace $NAMESPACE$;
 
 use PHPUnit\Framework\TestCase;
 
-class $CLASS_NAME$Test extends TestCase
+class $CLASS_NAME$ extends TestCase
 {
     /**
      * A basic test example.
