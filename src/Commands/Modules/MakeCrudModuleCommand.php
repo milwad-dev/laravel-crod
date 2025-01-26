@@ -139,11 +139,11 @@ class MakeCrudModuleCommand extends Command
         // Store
         LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/request.stub'))
             ->to($this->getDestPath($name, $requestPath))
-            ->name("{$name}StoreReqeust")
+            ->name("{$name}StoreRequest")
             ->ext('php')
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $requestPath),
-                '$CLASS_NAME$' => "{$name}StoreReqeust",
+                '$CLASS_NAME$' => "{$name}StoreRequest",
             ])
             ->generate();
 
