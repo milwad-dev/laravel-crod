@@ -111,7 +111,7 @@ class MakeCrudModuleCommandTest extends TestCase
      */
     public function test_crud_files_created_successfully_with_customize_from_config_file(): void
     {
-        config()->set([
+        config([
             'laravel-crod.modules.module_namespace'  => 'modules',
             'laravel-crod.modules.model_path'        => 'Models',
             'laravel-crod.modules.migration_path'    => 'Database\Migrations\Test',
