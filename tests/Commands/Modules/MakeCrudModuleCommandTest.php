@@ -106,7 +106,6 @@ class MakeCrudModuleCommandTest extends TestCase
         $this->assertFileExists(base_path('Modules/Product/Tests/Unit/ProductTest.php'));
     }
 
-
     /**
      * Ensure the crud files successfully created.
      */
