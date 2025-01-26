@@ -105,7 +105,7 @@ class MakeCrudModuleCommand extends Command
 
         // Call the make:migration Artisan command
         $this->call('make:migration', [
-            'name'     => 'create_' . $currentNameWithCheckLatestLetter . '_table',
+            'name'     => 'create_'.$currentNameWithCheckLatestLetter.'_table',
             '--path'   => $relativePath,
             '--create' => true,
         ]);
