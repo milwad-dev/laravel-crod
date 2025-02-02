@@ -124,8 +124,8 @@ class MakeCrudModuleCommand extends Command
             ->name("{$name}Controller")
             ->ext('php')
             ->replaces([
-                '$NAMESPACE$'  => $this->getNamespace($name, $controllerPath),
-                '$CLASS_NAME$' => "{$name}Controller",
+                '$NAMESPACE$'         => $this->getNamespace($name, $controllerPath),
+                '$CLASS_NAME$'        => "{$name}Controller",
                 '$EXTEND_CONTROLLER$' => $currentController,
             ])
             ->generate();
