@@ -117,6 +117,7 @@ class MakeCrudModuleCommand extends Command
     protected function makeController(string $name): void
     {
         $controllerPath = config('laravel-crod.modules.controller_path', 'Http\Controllers');
+        $currentController = config('laravel-crod.main_controller', 'App\Http\Controllers\Controller');
 
         LaravelStub::from(realpath(__DIR__.'/../../Stubs/module/controller.stub'))
             ->to($this->getDestPath($name, $controllerPath))
@@ -125,6 +126,7 @@ class MakeCrudModuleCommand extends Command
             ->replaces([
                 '$NAMESPACE$'  => $this->getNamespace($name, $controllerPath),
                 '$CLASS_NAME$' => "{$name}Controller",
+                '$EXTEND_CONTROLLER$' => $currentController,
             ])
             ->generate();
     }

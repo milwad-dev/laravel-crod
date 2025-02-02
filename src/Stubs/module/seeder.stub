@@ -1,11 +1,11 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace {{ $NAMESPACE$ }};
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class $CLASS_NAME$ extends Seeder
+class {{ $CLASS_NAME$ }} extends Seeder
 {
     /**
      * Run the database seeds.
