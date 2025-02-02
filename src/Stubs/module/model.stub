@@ -1,11 +1,11 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace {{ $NAMESPACE$ }};
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class $CLASS_NAME$ extends Model
+class {{ $CLASS_NAME$ }} extends Model
 {
     use HasFactory;
 }
