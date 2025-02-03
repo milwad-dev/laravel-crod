@@ -8,8 +8,6 @@ trait CommonTrait
 {
     /**
      * Show extra option in CLI.
-     *
-     * @return array|string
      */
     private function extraOption(): string|array
     {
@@ -18,32 +16,28 @@ trait CommonTrait
 
     /**
      * Extra option operation.
-     *
-     * @param string $name_uc
-     *
-     * @return void
      */
-    public function extraOptionOperation(string $name_uc)
+    public function extraOptionOperation(string $name_uc): void
     {
         $selectOption = $this->extraOption();
 
-        if (OptionData::$options[$selectOption] === OptionData::SEEDER_OPTION) {
+        if ($selectOption === OptionData::SEEDER_OPTION) {
             $this->makeSeeder($name_uc);
             $this->extraOptionOperation($name_uc);
         }
-        if (OptionData::$options[$selectOption] === OptionData::FACTORY_OPTION) {
+        if ($selectOption === OptionData::FACTORY_OPTION) {
             $this->makeFactory($name_uc);
             $this->extraOptionOperation($name_uc);
         }
-        if (OptionData::$options[$selectOption] === OptionData::REPOSITORY_OPTION) {
+        if ($selectOption === OptionData::REPOSITORY_OPTION) {
             $this->makeRepository($name_uc);
             $this->extraOptionOperation($name_uc);
         }
-        if (OptionData::$options[$selectOption] === OptionData::SERVICE_OPTION) {
+        if ($selectOption === OptionData::SERVICE_OPTION) {
             $this->makeService($name_uc);
             $this->extraOptionOperation($name_uc);
         }
-        if (OptionData::$options[$selectOption] === OptionData::TEST_OPTION) {
+        if ($selectOption === OptionData::TEST_OPTION) {
             $this->makeTest($name_uc);
             $this->extraOptionOperation($name_uc);
         }
