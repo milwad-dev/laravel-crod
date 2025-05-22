@@ -10,7 +10,7 @@
 
 ***
 Laravel crod is a package for implementing CRUD faster and easier.
-You can quickly create controllers, models, migrations, services, repositories, views and requests.
+You can quickly create controllers, models, migrations, services, repositories, views, and requests.
 You can make it automatically fillable for models, query for repositories and services, make resource controllers, and have a lot of options.
 
 Docs: https://github.com/milwad-dev/laravel-crod/wiki
@@ -23,13 +23,14 @@ Docs: https://github.com/milwad-dev/laravel-crod/wiki
 - `Laravel framework: ^9`
 - `doctrine/dbal: ^3.6`
 
-| Crod | L7                 | L8                 | L9                 | L10                | L11                |
-|------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
-| 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| 1.4  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Crod | L7                 | L8                 | L9                 | L10                | L11                | L12                |
+|------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                | :x:                |
+| 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
+| 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
+| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
+| 1.4  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
+| 1.5  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 ## Installation
 
