@@ -74,25 +74,25 @@ php artisan crud:make Product
 
 When you execute this command, after creating the files, you will see a list of options that will create a series of additional files for you, which of course are optional, you can choose and if you need, it will create additional files for you such as `seeder`, `factory`, `repository`, etc.
 
-✅ After, you can see `Laravel Crod` creates crud files such as `Model`, `Controller`, `Form-Requests`, `Migrations` etc.
+✅ After, you can see `Laravel Crod` creates crud files such as `Model`, `Controller`, `Form-Requests`, `Migrations`, etc.
 
 ## CRUD Query
 
-If you run `crud:query` command, the result is:
+If you run the `crud:query` command, the result is:
 
-- Add `index`, `create`, `store`, `edit`, `update`, `destroy` function to your controller
-- Get all migration columns and move it to your model fillable
-- Add `index`, `findById`, `delete` functions to your repositories
+- Add `index`, `create`, `store`, `edit`, `update`, `destroy` functions to your controller
+- Get all migration columns and move them to your model fillable
+- Add `index`, `findById`, and `delete` functions to your repositories
 - Add `store`, `update` functions to your services
 - Add resource route (SOON)
 
-<strong>** You must run the migrate command, before `crud:query` command. ** </strong> <br>
+<strong>** You must run the migrate command before the `crud:query` command. ** </strong> <br>
 
 ```bash
 php artisan migrate
 ```
 
-For using automatic query, you can run below command:
+For using the automatic query, you can run below command:
 
 ```bash
 php artisan crud:query {table_name} {model} {--id-controller}
@@ -104,13 +104,13 @@ For example:
 php artisan crud:query products Product
 ```
 
-When you add `--id-controller` option, the `Laravel Crod` create crud functions without [Route Model Binding](https://laravel.com/docs/routing#route-model-binding) in controller.
+When you add `--id-controller` option, the `Laravel Crod` creates crud functions without [Route Model Binding](https://laravel.com/docs/routing#route-model-binding) in the controller.
 
 After you can see `Laravel Crod` added query to service, repository, controller, model, etc.
 
 ## CRUD for Module
 
-If you are using Modular Architecture, you are able to run `crud:make-module` command. This command create a new module and create the default crud files such as `Model`, `Controller`, `Migration`, etc:
+If you are using Modular Architecture, you can run the `crud:make-module` command. This command creates a new module and creates the default CRUD files such as `Model`, `Controller`, `Migration`, etc:
 
 ```bash
 php artisan crud:make-module {module_name}
@@ -126,8 +126,8 @@ When you execute this command, after creating the files, you will see a list of 
 
 ## CRUD Query for Module
 
-This command adds query and date to CRUD files for module.
-This command is similar to `crud:query` command, but this command is for module. if you have a modular you can write your module name and `Laravel Crod` find it automatically.
+This command adds a query and a date to the CRUD files for the module.
+This command is similar to the `crud:query` command, but this command is for the module. If you have a module, you can write your module name and `Laravel Crod` find it automatically.
 
 ** You must run your migration file **
 
@@ -147,15 +147,15 @@ OR
 php artisan crud:query-module products Product --id-controller
 ```
 
-When you add `--id-controller` option, the `Laravel Crod` create crud functions without [Route Model Binding](https://laravel.com/docs/routing#route-model-binding) in controller.
+When you add `--id-controller` option, the `Laravel Crod` creates crud functions without [Route Model Binding](https://laravel.com/docs/routing#route-model-binding) in the controller.
 
 After you can see `Laravel Crod` added query to service, repository, controller, model, ... for your module.
 
 ## Custom path
 
-You can custom file path in config file. ``````
+You can customize the file path in a config file. ``````
 
-With `Laravel Crod` config, you can customize the commands, for example you want to set the route file name.
+With `Laravel Crod` config, you can customize the commands, for example, you want to set the route file name.
 This config file exists in `config/laravel-crod.php`:
 
 ```php
@@ -263,7 +263,7 @@ contribute. [CONTRIBUTING](https://github.com/milwad-dev/laravel-crod/graphs/con
 
 ## Security
 
-If you've found a bug regarding security please mail [milwad.dev@gmail.com](mailto:milwad.dev@gmail.com) instead of
+If you've found a bug regarding security, please email [milwad.dev@gmail.com](mailto:milwad.dev@gmail.com) instead of
 using the issue tracker.
 
 ## Conclusion
