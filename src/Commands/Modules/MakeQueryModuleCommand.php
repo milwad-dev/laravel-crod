@@ -14,7 +14,12 @@ class MakeQueryModuleCommand extends Command
 
     protected $signature = 'crud:query-module {table_name} {model} {--id-controller}';
 
-    protected $description = 'Add query & data fast';
+    /**
+     * The console command description.
+     *
+     * @var string|null
+     */
+    protected $description = 'Generate methods for crud files.';
 
     public string $module_name_space;
 
