@@ -23,14 +23,15 @@ Docs: https://github.com/milwad-dev/laravel-crod/wiki
 - `Laravel framework: ^9`
 - `doctrine/dbal: ^3.6`
 
-| Crod | L7                 | L8                 | L9                 | L10                | L11                | L12                |
-|------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                | :x:                |
-| 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
-| 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
-| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
-| 1.4  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
-| 1.5  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Crod | L7                 | L8                 | L9                 | L10                | L11                | L12                | L13                |
+|------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 1.0  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                | :x:                | :x:                |
+| 1.1  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
+| 1.2  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
+| 1.3  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
+| 1.4  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
+| 1.5  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
+| 1.6  | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 ## Installation
 
